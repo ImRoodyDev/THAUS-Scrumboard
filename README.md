@@ -2,73 +2,72 @@
 
 <p align="center">
   <b>Chatbox</b> is a Java-based desktop application designed to <b>simplify the SCRUM process</b> inside an organization. <br />
-  It provides tools and an interface to streamline team communication, sprint tracking, and agile workflows.
+  It helps teams streamline agile workflows, sprint planning, and communication.
 </p>
 
 ---
 
-## 📦 Project Structure
+## 📁 Project Structure
 
-This project follows the standard Maven directory structure, which separates Java source code from resources.
+This project follows a standard Maven project layout. Here's a breakdown of the key folders and their purposes:
 
-<details>
-  <summary><b>▶️ <code>src/main/java/com.thaus.chatbox</code></b></summary>
+### 📂 `src/main/java/com.thaus.chatbox`
 
-- 📁 <b>animation</b>  
-  Contains UI animations to enhance the user experience, likely JavaFX-based effects.
+- **`animation/`**  
+  Contains JavaFX animations and effects to improve the visual interaction of the application.
 
-- 📁 <b>base</b>  
-  Abstract classes and foundational elements shared across the app.
+- **`base/`**  
+  Core or abstract classes shared throughout the app — useful for common behaviors and logic.
 
-- 📁 <b>classes</b>  
-  General Java classes, often used for core business logic or data modeling.
+- **`classes/`**  
+  Domain-related Java classes — likely includes models or plain Java objects (POJOs).
 
-- 📁 <b>components</b>  
-  Reusable UI components and elements, such as buttons, panels, or dialogs.
+- **`components/`**  
+  Contains modular, reusable Java components used across various UI parts of the application.
 
-- 📁 <b>controllers</b>  
-  MVC controllers managing user interactions and bridging logic between views and models.
+- **`controllers/`**  
+  MVC controller classes — handles events, interactions, and communication between views and logic.
 
-- 📁 <b>utils</b>  
-  Utility classes — helpful functions, converters, or static methods used throughout the app.
+- **`utils/`**  
+  Utility and helper classes — might include constants, formatters, and general-purpose methods.
 
-- 🧩 <b>HelloApplication.java</b>  
-  The main entry point of the application. Initializes and starts the JavaFX application.
+- **`HelloApplication.java`**  
+  Main entry point of the JavaFX application. Responsible for launching the app.
 
-- 📦 <b>module-info.java</b>  
-  Java module system definition, declaring dependencies and package exports.
-</details>
+- **`module-info.java`**  
+  Defines the Java module system structure — specifies exported packages and required modules.
 
-<details>
-  <summary><b>▶️ <code>src/main/resources</code></b></summary>
+---
 
-- 📁 <b>components</b>  
-  FXML files or config assets related to reusable UI pieces.
+### 📂 `src/main/resources`
 
-- 📁 <b>css</b>  
-  Stylesheets that define the UI’s look and feel (themes, layouts, colors).
+- **`components/`**  
+  Resource files (like FXMLs) for modular UI components.
 
-- 📁 <b>icons</b>  
-  SVG or PNG icons used for UI elements like buttons, menus, and headers.
+- **`css/`**  
+  Stylesheets used for theming and customizing UI with JavaFX CSS.
 
-- 📁 <b>images</b>  
-  Other image assets (e.g., logos, illustrations, etc.).
+- **`icons/`**  
+  Icons used across the app — for menus, buttons, and indicators.
 
-- 📁 <b>lib</b>  
-  Third-party libraries (usually `.jar` files) that are bundled with the project.
+- **`images/`**  
+  Image assets like logos, backgrounds, illustrations, etc.
 
-- 📁 <b>views</b>  
-  FXML files or other UI layout definitions used for various screens/views in the app.
-</details>
+- **`lib/`**  
+  Third-party `.jar` libraries manually included in the project.
+
+- **`views/`**  
+  FXML layout files for full screens and views (e.g., dashboard, sprint board, etc.).
 
 ---
 
 ## 🚀 Getting Started
 
-To run the project locally:
+To build and run the project locally:
 
 ```bash
 git clone https://github.com/your-username/chatbox.git
 cd chatbox
 ./mvnw clean install
 ./mvnw javafx:run
+```
