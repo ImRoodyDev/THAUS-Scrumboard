@@ -7,6 +7,9 @@ module com.thaus.chatbox {
 	requires com.dlsc.formsfx;
 	requires org.kordamp.bootstrapfx.core;
 
+	requires com.jfoenix;
+	requires MaterialFX;
+
 	opens com.thaus.chatbox to javafx.fxml;
 
 	exports com.thaus.chatbox;
