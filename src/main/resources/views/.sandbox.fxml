@@ -19,7 +19,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="app-root" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -361,7 +360,7 @@
                               </AnchorPane>
                               <AnchorPane prefWidth="200.0" styleClass="app-chat-bar-footer">
                                  <children>
-                                    <JFXButton graphicTextGap="20.0" ripplerFill="BLACK" styleClass="app-chat-bar-footer-btn" text="Een nieuw chatbox" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <JFXButton graphicTextGap="20.0" ripplerFill="BLACK" styleClass="app-chat-bar-footer-btn" text="Start een gesprek" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <graphic>
                                           <SVGPath content="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M7.194 6.766a1.7 1.7 0 0 0-.227-.272 1.5 1.5 0 0 0-.469-.324l-.008-.004A1.8 1.8 0 0 0 5.734 6C4.776 6 4 6.746 4 7.667c0 .92.776 1.666 1.734 1.666.343 0 .662-.095.931-.26-.137.389-.39.804-.81 1.22a.405.405 0 0 0 .011.59c.173.16.447.155.614-.01 1.334-1.329 1.37-2.758.941-3.706a2.5 2.5 0 0 0-.227-.4zM11 9.073c-.136.389-.39.804-.81 1.22a.405.405 0 0 0 .012.59c.172.16.446.155.613-.01 1.334-1.329 1.37-2.758.942-3.706a2.5 2.5 0 0 0-.228-.4 1.7 1.7 0 0 0-.227-.273 1.5 1.5 0 0 0-.469-.324l-.008-.004A1.8 1.8 0 0 0 10.07 6c-.957 0-1.734.746-1.734 1.667 0 .92.777 1.666 1.734 1.666.343 0 .662-.095.931-.26z" styleClass="icon" />
                                        </graphic>
@@ -397,7 +396,7 @@
                                           </HBox>
                                        </graphic>
                                     </JFXButton>
-                                    <JFXButton graphicTextGap="12.0" maxHeight="1.7976931348623157E308" text="Notifications">
+                                    <JFXButton graphicTextGap="12.0" maxHeight="1.7976931348623157E308" text="Notificaties">
                                        <graphic>
                                           <SVGPath content="m20.19 14.06-1.13-1.88c-.25-.41-.47-1.2-.47-1.68V8.63c0-3.63-2.95-6.58-6.57-6.58C8.39 2.06 5.44 5 5.44 8.63v1.86c0 .48-.22 1.27-.46 1.68l-1.13 1.88c-.43.73-.53 1.56-.26 2.28.27.73.88 1.31 1.68 1.57 1.08.36 2.17.62 3.28.81.11.02.22.03.33.05l.44.06c.26.04.52.07.79.09a20.187 20.187 0 0 0 3.79 0c.23-.02.46-.04.68-.07.18-.02.36-.04.54-.07.11-.01.22-.03.33-.05 1.12-.18 2.23-.46 3.31-.82a2.65 2.65 0 0 0 1.64-1.58c.28-.75.2-1.57-.21-2.26ZM12.75 10a.76.76 0 1 1-1.52 0V6.9a.76.76 0 1 1 1.52 0V10ZM14.83 20.01A3.014 3.014 0 0 1 12 22c-.79 0-1.57-.32-2.12-.89-.32-.3-.56-.7-.7-1.11.13.02.26.03.4.05.23.03.47.06.71.08.57.05 1.15.08 1.73.08.57 0 1.14-.03 1.7-.08.21-.02.42-.03.62-.06l.49-.06Z" styleClass="icon" />
                                        </graphic>
@@ -787,7 +786,7 @@
                               </ScrollPane>
                               <HBox alignment="CENTER_LEFT" fillHeight="false" styleClass="send-message-bar">
                                  <children>
-                                    <JFXTextArea focusColor="#ffffff00" promptText="Begin met het typen van uw bericht" styleClass="send-message-bar-input-fld" unFocusColor="#ffffff00" wrapText="true" HBox.hgrow="SOMETIMES">
+                                    <JFXTextArea focusColor="#ffffff00" promptText="Begin met het typen van uw bericht" styleClass="send-message-bar-input-fld" text="Typ een bericht" unFocusColor="#ffffff00" wrapText="true" HBox.hgrow="SOMETIMES">
                                        <font>
                                           <Font name="Arial" size="14.0" />
                                        </font>
