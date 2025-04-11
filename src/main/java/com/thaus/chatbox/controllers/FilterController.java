@@ -25,6 +25,8 @@ public class FilterController {
 		this.filterListeners = filterListeners;
 	}
 
+	// Initialize component
+	public void initialize() {}
 	// Get the list of currently applied filter types
 	public List<ChatType> appliedFilters() {
 		return filterButtons.stream()
@@ -64,6 +66,12 @@ public class FilterController {
 			removeFilterButton(filterButton);
 		});
 	}
+	// Open filter Context menu
+	public void enableContextMenu(boolean enable) {
+
+	}
+
+
 	// Remove a specific filter button
 	private void removeFilterButton(FilterButton filterButtonToRemove) {
 		if (filterButtonToRemove != null) {

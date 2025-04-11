@@ -151,6 +151,7 @@ public class SceneController {
 
 			} catch (Exception e) {
 				System.out.println("Error occurred loading stage: "+ screenName + " Message: " + e.getMessage());
+				e.printStackTrace();
 			}
 		}
 		);

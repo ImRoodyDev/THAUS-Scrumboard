@@ -25,12 +25,13 @@ public class SearchBar {
 		this.searchListeners = searchListeners;
 
 		// Weather to enable or disable the component
-		enableComponent(enable) ;
+		enableComponent(enable);
 	}
 
 	@FXML
-	private void initialize() {
+	public void initialize() {
 		initializeEvents();
+		System.out.println("SearchBar Initialized");
 	}
 
 	// Initialize components events
@@ -59,13 +60,14 @@ public class SearchBar {
 
 	// Function to enable and disable components
 	public void enableComponent(boolean enable){
+
 		// Check if the search bar is not null
-		if(searchBar != null){
-			assert searchBarBtn != null;
-			searchBarBtn.setDisable(!enable);
+		if(searchBar != null && searchBarBtn != null){
+ 			searchBarBtn.setDisable(!enable);
 			searchBar.setVisible(enable);
 			searchBar.setManaged(enable);
-		}{
+		}
+		else {
 			System.out.println("(SearchBar) Searchbar element is not found");
 		}
 	}
