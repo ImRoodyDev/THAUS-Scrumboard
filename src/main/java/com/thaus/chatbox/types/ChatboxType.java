@@ -2,15 +2,14 @@ package com.thaus.chatbox.types;
 
 import com.thaus.chatbox.interfaces.IMappedTypes;
 
-public enum ChatType implements IMappedTypes {
-	EPICS("Epics"),
-	USER_STORY("User story"),
-	SPRINTS("Sprints"),
-	GENERAL("General");
+public enum ChatboxType implements IMappedTypes {
+	TEAM("Teams"),
+ 	USER("Users"),
+	FRIEND("Friends"),;
 
 	private final String name;
 
-	ChatType(String name) {
+	ChatboxType(String name) {
 		this.name = name;
 	}
 

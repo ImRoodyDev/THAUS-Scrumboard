@@ -1,49 +1,77 @@
 package com.thaus.chatbox.components;
 
-import com.thaus.chatbox.controllers.FilterController;
-import com.thaus.chatbox.interfaces.FilterListeners;
-import com.thaus.chatbox.interfaces.SearchListeners;
-import com.thaus.chatbox.types.ChatType;
+import com.thaus.chatbox.controllers.ChatboxFilterController;
+import com.thaus.chatbox.interfaces.IChatboxFilterListener;
+import com.thaus.chatbox.interfaces.ICustomNode;
+import com.thaus.chatbox.interfaces.ISearchListeners;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import com.jfoenix.controls.JFXButton;
 
 import java.io.IOException;
 
-public class Sidebar extends AnchorPane {
-
+public class Sidebar extends AnchorPane implements ICustomNode {
 	// Toggle searchbar element
 	private boolean isSearchOpen = false;
 	// Toggle filters pop up
 	private boolean isFilterOpen = false;
+	// Event listener for the Chatbox filter
+	private IChatboxFilterListener filterListener;
+	// Event listener for the chatbox search
+	private ISearchListeners searchListeners;
+
 
 	// Search bar controller
+	@FXML
 	private SearchBar searchBar;
 	// Filter controller
-	private FilterController filterController;
+	private ChatboxFilterController filterController;
 
 	// Sidebar components
+	@FXML
+	private FlowPane filtersFlowPane;
+	@FXML
+	private VBox separatorBar;
 	@FXML
 	private JFXButton filterBtn;
 	@FXML
 	private JFXButton searchBtn;
 	@FXML
-	private ScrollPane chatboxScrollPane;
+	private ScrollPane chatboxsScrollPane;
 	@FXML
-	private VBox chatboxScrollContent;
+	private VBox chatboxsScrollContent;
 	@FXML
 	private JFXButton newChatboxBtn;
 
 	// Default constructor needed for JavaFX
 	public Sidebar() {
-		loadFXML();
+		initializeFXML();
 	}
+	// Constructor for manually loading the sidebar
+	public Sidebar(IChatboxFilterListener filterListener, ISearchListeners searchListeners) {
+		initializeFXML();
+		this.filterListener = filterListener;
+		this.searchListeners = searchListeners;
+		initializeSearchBar();
+		initializeFilters();
+  	}
 
-	private void loadFXML() {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/side-bar.fxml"));
+	@FXML
+	public void initialize() {
+		// Initialize buttons
+		initializeButtons();
+
+		// Initialize Chatbox
+		initializeChatboxs();
+	}
+ 	@Override
+	public void initializeFXML() {
+		// Load component
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/sidebar.fxml"));
 		loader.setRoot(this);
 		loader.setController(this);
 		try {
@@ -52,54 +80,48 @@ public class Sidebar extends AnchorPane {
 			throw new RuntimeException("Failed to load Sidebar FXML", e);
 		}
 	}
-
-	// @FXML
-	public void initializeww() {
-		// Initialize the searchbar controller
-		searchBar = new SearchBar(isSearchOpen, new SearchListeners() {
-			@Override
-			public void onSubmit(String text) {
-				System.out.println("(SideBar) searched: " + text);
-			}
-
-			@Override
-			public void onTextChanged(String text) {
-
-			}
-		});
-		searchBar.initialize();
-
-		// Initialize filter controller
-		filterController = new FilterController(new FilterListeners() {
-			@Override
-			public void onFilterApplied(ChatType type) {
-				System.out.println("(SideBar) filter applied: " + type);
-			}
-
-			@Override
-			public void onFilterRemoved(ChatType type) {
-				System.out.println("(SideBar) filter removed: " + type);
-			}
-
-			@Override
-			public void onAllFiltersRemoved() {
-				System.out.println("(SideBar) filters removed");
-			}
-		});
-		filterController.initialize();
-
-		// Initialize buttons
-		initializeButtons();
-
-		System.out.println("Sidebar initialized");
+	// Initialize Filter controller
+	public void initializeListeners(IChatboxFilterListener filterListener, ISearchListeners searchListeners) {
+		this.filterListener = filterListener;
+		this.searchListeners = searchListeners;
+		initializeSearchBar();
+		initializeFilters();
+	}
+	// Chatboxs scroll content
+	public VBox getChatboxsScrollContent() {
+		return chatboxsScrollContent;
 	}
 
+
+	// Initialize filter bar
+	private void initializeFilters() {
+		// Initialize filter controller
+		filterController = new ChatboxFilterController(filtersFlowPane, filterListener , true);
+	}
+	// Initialize searchbar
+	private void initializeSearchBar() {
+		searchBar = new SearchBar(isSearchOpen, searchListeners);
+
+		// Add element in the separator bar
+		if(separatorBar != null) {
+			separatorBar.getChildren().add(searchBar);
+		}
+		else {
+			System.out.println("(SideBar) separatorBar is null");
+		}
+	}
+	// Initialize buttons
 	private void initializeButtons() {
 		// Initialize filter button
 		filterBtn.setOnAction(_ ->toggleFilter() );
 
 		// Initialize search button
 		searchBtn.setOnAction(_ ->toggleSearch() );
+	}
+	// Initialize chatbox
+	private void initializeChatboxs() {
+		// Clear chatbox content remove template
+		chatboxsScrollContent.getChildren().clear();
 	}
 	// Toggle search bar
 	private void toggleSearch(){
@@ -111,4 +133,5 @@ public class Sidebar extends AnchorPane {
 		isFilterOpen = !isFilterOpen;
 		filterController.enableContextMenu(isFilterOpen);
 	}
+
 }

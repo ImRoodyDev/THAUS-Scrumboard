@@ -1,36 +1,40 @@
 package com.thaus.chatbox.controllers;
 
+import com.thaus.chatbox.components.ChatFilterButton;
+import com.thaus.chatbox.components.ChatboxFilterButton;
+import com.thaus.chatbox.interfaces.IChatFilterListener;
+import com.thaus.chatbox.interfaces.IChatboxFilterListener;
+import com.thaus.chatbox.types.ChatType;
+import com.thaus.chatbox.types.ChatboxType;
+import javafx.scene.layout.FlowPane;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.thaus.chatbox.components.FilterButton;
-import com.thaus.chatbox.interfaces.FilterListeners;
-import com.thaus.chatbox.types.ChatType;
-import javafx.fxml.FXML;
-import javafx.scene.layout.FlowPane;
-
-public class FilterController {
+public class ChatboxFilterController {
 	// Array of Filter button
-	private final ArrayList<FilterButton> filterButtons = new ArrayList<>();
+	private final ArrayList<ChatboxFilterButton> filterButtons = new ArrayList<>();
 	// Filter Listener
-	private final FilterListeners filterListeners;
-
-	// Filter Components
-	@FXML
-	private FlowPane filtersFlowPane;
+	private final IChatboxFilterListener filterListeners;
+	// Filter flow pane
+	private final FlowPane filtersFlowPane;
 
 	// Constructor
-	public FilterController(FilterListeners filterListeners) {
+	public ChatboxFilterController(FlowPane filtersFlowPane, IChatboxFilterListener filterListeners) {
 		this.filterListeners = filterListeners;
+		this.filtersFlowPane = filtersFlowPane;
+	}
+	public ChatboxFilterController(FlowPane filtersFlowPane, IChatboxFilterListener filterListeners, boolean forceClean) {
+		this.filterListeners = filterListeners;
+		this.filtersFlowPane = filtersFlowPane;
+		filtersFlowPane.getChildren().clear();
 	}
 
-	// Initialize component
-	public void initialize() {}
 	// Get the list of currently applied filter types
-	public List<ChatType> appliedFilters() {
+	public List<ChatboxType> appliedFilters() {
 		return filterButtons.stream()
-				.map(FilterButton::getType)
+				.map(ChatboxFilterButton::getType)
 				.collect(Collectors.toList());
 	}
 	// Remove all filters
@@ -41,7 +45,7 @@ public class FilterController {
 		filterListeners.onAllFiltersRemoved();
 	}
 	// Add filter
-	public void applyFilter(ChatType filter) {
+	public void applyFilter(ChatboxType filter) {
 		// Check if the filter is already applied
 		if (filterButtons.stream().anyMatch(button -> button.getType() == filter)) {
 			System.out.println("Filter already applied!");
@@ -49,7 +53,7 @@ public class FilterController {
 		}
 
 		// Create a Filter button
-		FilterButton filterButton = new FilterButton(filter);
+		ChatboxFilterButton filterButton = new ChatboxFilterButton(filter);
 
 		// Add filter buttons in array
 		filterButtons.add(filterButton);
@@ -71,9 +75,8 @@ public class FilterController {
 
 	}
 
-
 	// Remove a specific filter button
-	private void removeFilterButton(FilterButton filterButtonToRemove) {
+	private void removeFilterButton(ChatboxFilterButton filterButtonToRemove) {
 		if (filterButtonToRemove != null) {
 			filtersFlowPane.getChildren().remove(filterButtonToRemove.onDestroy());
 			filterButtons.remove(filterButtonToRemove);

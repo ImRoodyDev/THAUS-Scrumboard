@@ -1,6 +1,6 @@
 package com.thaus.chatbox.interfaces;
 
-public interface SearchListeners {
+public interface ISearchListeners {
   void onSubmit(String text);
   void onTextChanged(String text);
 }

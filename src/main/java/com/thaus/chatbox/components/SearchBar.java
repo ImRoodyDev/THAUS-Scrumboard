@@ -1,26 +1,31 @@
 package com.thaus.chatbox.components;
 
 import com.jfoenix.controls.JFXButton;
-import com.thaus.chatbox.interfaces.SearchListeners;
+import com.thaus.chatbox.interfaces.ICustomNode;
+import com.thaus.chatbox.interfaces.ISearchListeners;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
-public class SearchBar {
+import java.io.IOException;
+
+public class SearchBar extends HBox implements ICustomNode {
 	// Searched text
 	private String text;
 	// Searchbar listener
-	private final SearchListeners searchListeners;
+	private final ISearchListeners searchListeners;
 
 	// Searchbar components
-	@FXML
-	private HBox searchBar;
 	@FXML
 	private TextField searchBarTextField;
 	@FXML
 	private JFXButton searchBarBtn;
 
-	SearchBar(boolean enable, SearchListeners searchListeners) {
+	SearchBar(boolean enable, ISearchListeners searchListeners) {
+		// Initialize fxml
+		initializeFXML();
+
 		// Apply the search listener
 		this.searchListeners = searchListeners;
 
@@ -31,8 +36,34 @@ public class SearchBar {
 	@FXML
 	public void initialize() {
 		initializeEvents();
-		System.out.println("SearchBar Initialized");
 	}
+	@Override
+	public void initializeFXML() {
+		// Load component
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/search-bar.fxml"));
+		loader.setRoot(this);
+		loader.setController(this);
+		try {
+			loader.load();
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to load Searchbar FXML", e);
+		}
+	}
+	// Function to enable and disable components
+	public void enableComponent(boolean enable){
+		// Check if the search bar is not null
+		if(searchBarBtn != null){
+			// searchBarBtn.setDisable(!enable);
+			this.setVisible(enable);
+			this.setManaged(enable);
+		}
+		else {
+			System.out.println("(SearchBar) Searchbar element is not found");
+		}
+	}
+	// Get search text
+	public String getText() {return text;}
+
 
 	// Initialize components events
 	private void initializeEvents(){
@@ -46,31 +77,13 @@ public class SearchBar {
 			searchBarBtn.setOnAction(_ -> onSubmit());
 		}
 	}
-
 	// Listen event for the text field component
 	private void onTextChange(String text) {
 		this.text = text;
 		searchListeners.onTextChanged(text);
 	}
-
 	// Listen event for the onSubmit event
 	private void onSubmit() {
 		searchListeners.onSubmit(this.text);
 	}
-
-	// Function to enable and disable components
-	public void enableComponent(boolean enable){
-
-		// Check if the search bar is not null
-		if(searchBar != null && searchBarBtn != null){
- 			searchBarBtn.setDisable(!enable);
-			searchBar.setVisible(enable);
-			searchBar.setManaged(enable);
-		}
-		else {
-			System.out.println("(SearchBar) Searchbar element is not found");
-		}
-	}
-	// Get search text
-	public String getText() {return text;}
 }
