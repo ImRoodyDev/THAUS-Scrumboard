@@ -239,7 +239,7 @@
 }
 .send-message-bar-input-fld .prompt-container   {
     fx-alignment: center-left;
-    -fx-opacity: 0;
+  /*  -fx-opacity: 0;*/
 }
 .app-message-bar-send-btn {
     -fx-pref-width: 40px;
