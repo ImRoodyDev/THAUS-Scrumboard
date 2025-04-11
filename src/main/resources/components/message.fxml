@@ -1,57 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import java.net.URL?>
-<?import javafx.scene.control.ContextMenu?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<JFXButton fx:id="chatboxBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" ripplerFill="BLACK" styleClass="app-chatbox" text="Chatbox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-	<graphic>
-		<HBox alignment="CENTER_LEFT" styleClass="app-chatbox-ctn">
+<HBox maxWidth="1.7976931348623157E308" styleClass="app-user-message" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<Circle radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="app-chatbox-profile" />
+		<VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-user-message-ctn">
 			<children>
-				<AnchorPane>
-					<children>
-						<Circle fx:id="chatboxCircle" radius="24.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="app-chatbox-profile" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-						<Pane layoutX="24.0" layoutY="24.0" prefHeight="0.0" prefWidth="13.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="-3.0">
-							<children>
-								<Label fx:id="chatboxUnreadLabel" graphicTextGap="0.0" styleClass="app-chatbox-unread-txt" text="20000">
-									<font>
-										<Font name="System Bold" size="10.0" />
-									</font>
-								</Label>
-							</children>
-						</Pane>
-					</children>
-				</AnchorPane>
-				<Label fx:id="chatboxLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="app-chatbox-text" text="Team 1 Chatbox" wrapText="true" HBox.hgrow="ALWAYS">
+				<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
 					<font>
-						<Font name="Arial Bold" size="12.0" />
+						<Font name="Arial Bold Italic" size="13.0" />
 					</font>
 				</Label>
-				<JFXButton fx:id="chatboxMenu" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" ripplerFill="#10b981" styleClass="app-chatbox-btn" text="Menu">
-					<graphic>
-						<SVGPath content="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" styleClass="icon" />
-					</graphic>
-               <contextMenu>
-                  <ContextMenu fx:id="appChatContextMenu" anchorLocation="CONTENT_BOTTOM_RIGHT" styleClass="app-chatbox-menu">
-                    <items>
-                      <MenuItem mnemonicParsing="false" styleClass="app-chatbox-menu" text="Delete" />
-                    </items>
-                  </ContextMenu>
-               </contextMenu>
-				</JFXButton>
+				<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;&#10;Instead of using a factor, I'm now directly animating the arc length value in pixels&#10;This provides more precise control over the animation&#10;Using withTiming for smooth transitions between min and max lengths&#10;&#10;&#10;Used a fixed reference point:&#10;&#10;The startPoint is calculated based on the 12 o'clock position (0.25 * circumference)&#10;This keeps one end of the arc fixed while the other end grows/shrinks&#10;&#10;&#10;Adjusted timing:&#10;&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion&#10;&#10;&#10;Added cleanup in the useEffect return function">
+					<font>
+						<Font name="Arial" size="13.0" />
+					</font>
+				</Text>
 			</children>
-		</HBox>
-	</graphic>
+			<opaqueInsets>
+				<Insets />
+			</opaqueInsets>
+			<HBox.margin>
+				<Insets />
+			</HBox.margin>
+		</VBox>
+	</children>
    <stylesheets>
       <URL value="@../css/default.css" />
       <URL value="@../css/views.css" />
    </stylesheets>
-</JFXButton>
+</HBox>

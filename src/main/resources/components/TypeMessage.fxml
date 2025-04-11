@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER_LEFT" fillHeight="false" styleClass="send-message-bar" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <JFXTextArea focusColor="#ffffff00" promptText="Typ een bericht" styleClass="send-message-bar-input-fld" unFocusColor="#ffffff00" wrapText="true" HBox.hgrow="SOMETIMES">
+            <font>
+                <Font name="Arial" size="14.0" />
+            </font>
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </JFXTextArea>
+        <JFXButton buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="34.0" ripplerFill="BLACK" styleClass="app-message-bar-send-btn" text="Button" textOverrun="CLIP">
+            <graphic>
+                <SVGPath content="m7.4 6.32 8.49-2.83c3.81-1.27 5.88.81 4.62 4.62l-2.83 8.49c-1.9 5.71-5.02 5.71-6.92 0l-.84-2.52-2.52-.84c-5.71-1.9-5.71-5.01 0-6.92ZM10.11 13.65l3.58-3.59" fill="WHITE" styleClass="icon" />
+            </graphic>
+        </JFXButton>
+    </children>
+   <stylesheets>
+      <URL value="@../css/default.css" />
+      <URL value="@../css/views.css" />
+   </stylesheets>
+</HBox>
