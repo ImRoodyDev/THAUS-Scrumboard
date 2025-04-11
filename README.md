@@ -71,3 +71,15 @@ cd chatbox
 ./mvnw clean install
 ./mvnw javafx:run
 ```
+
+## Resolving JFoenix Compatibility Issues: Module Access Restrictions
+
+If you encounter errors related to module access restrictions and JFoenix compatibility, you can resolve this by adding specific JVM arguments to your runtime configuration. This grants the necessary reflection permissions for JFoenix to function correctly.
+
+### Solution 1: Adding VM Arguments
+
+To address this issue, add the following JVM arguments to your runtime configuration:
+
+```bash
+--add-opens java.base/java.lang.reflect=com.jfoenix
+--add-opens javafx.controls/javafx.scene.control=com.jfoenix

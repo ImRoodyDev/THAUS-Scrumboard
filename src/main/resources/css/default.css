@@ -1,0 +1,66 @@
+* {
+    -theme-color: #10b981;
+    -theme-color-700 : #14532d;
+}
+
+.app-root {
+    -fx-background-color:black;
+}
+
+.yellow {
+    -fx-background-color:#fbbf24 !important;
+}
+.yellow .icon {
+    -fx-fill: white !important;
+}
+
+
+/*#region ScrollBar Default style */
+  .scroll-bar:vertical{
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+
+    -fx-pref-width: 8px;
+    -fx-min-width:8px;
+}
+  .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+
+    -fx-pref-height: 8px;
+    -fx-min-height: 8px;
+}
+
+/* Hide track, buttons, and other elements */
+  .scroll-bar:vertical .track,
+  .scroll-bar:horizontal .track,
+ .scroll-bar .increment-button,
+ .scroll-bar .decrement-button,
+  .scroll-bar .increment-arrow,
+  .scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+    -fx-opacity: 0;
+}
+
+/* Style the thumb */
+ .scroll-bar:vertical .thumb,
+ .scroll-bar:horizontal .thumb {
+    -fx-background-color: white;
+    -fx-background-radius:9999;
+    -fx-opacity: 0.7;
+}
+
+/* Hover effect for thumb */
+  .scroll-bar:vertical .thumb:hover,
+  .scroll-bar:horizontal .thumb:hover {
+    -fx-opacity: 1.0;
+}
+
+
+/*#endregion */
+
+
