@@ -1,4 +1,4 @@
 package com.thaus.chatbox.components;
 
-public class Message {
+public class MessageComponent {
 }

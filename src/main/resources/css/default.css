@@ -1,15 +1,21 @@
 * {
     -theme-color: #10b981;
-    -theme-color-700 : #14532d;
+    -theme-color-700: #14532d;
 }
 
+/*#region App default*/
 .app-root {
-    -fx-background-color:black;
+    -fx-background-color: black;
+}
+
+.red {
+    -fx-background-color: #e11d48 !important;
 }
 
 .yellow {
-    -fx-background-color:#fbbf24 !important;
+    -fx-background-color: #fbbf24 !important;
 }
+
 .yellow .icon {
     -fx-fill: white !important;
 }
@@ -21,16 +27,135 @@
     -fx-min-height: 0;
 }
 
+/*#endregion */
+
+/*#region Custom Field*/
+.custom-field .icon-ptn {
+    -fx-view-order: -1;
+    -fx-translate-x: 50;
+    -fx-fill: black;
+}
+
+.custom-field .circle-filed {
+    -fx-padding: 14;
+    -fx-background-radius: 99999;
+    -fx-background-color: -theme-color;
+}
+
+.custom-field .circle-filed {
+    -fx-padding: 12;
+    -fx-background-radius: 99999;
+    -fx-background-color: -theme-color;
+}
+
+.custom-field .icon {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.custom-field .icon.group {
+    -fx-scale-x: 0.8 !important;
+    -fx-scale-y: 0.8 !important;
+}
+
+.custom-field .field {
+    -fx-background-color: white;
+    -fx-view-order: 0;
+    -fx-border-width: 0;
+
+    -fx-min-width: 140px;
+    -fx-min-height: 50px;
+
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+
+    -fx-padding: 12px 60px;
+    -fx-background-radius: 9999;
+}
+
+/*#endregion */
+
+/*#region Custom Combobox */
+.combo-box .list-cell {
+    -fx-alignment: center; /* Centers text in each cell of the dropdown */
+}
+
+.combo-box .label {
+    -fx-alignment: center; /* Centers the selected item text in the combo box display */
+}
+
+.combo-bx {
+    -fx-font-size: 14;
+    -fx-font-family: Arial;
+    -fx-font-weight: 700;
+
+    -fx-padding: 8 12;
+
+    -fx-background-color: white;
+    -fx-background-radius: 99999;
+    -fx-border-radius: 99999;
+    -fx-border-color: #4d4d4d;
+
+    -jfx-focus-color: transparent; /* Remove focus underline color */
+    -jfx-unfocus-color: transparent; /* Remove unfocused underline color */
+}
+
+.combo-bx .text-field {
+    -fx-alignment: center;
+}
+
+.combo-bx > .prompt-container {
+    -fx-alignment: center;
+    -fx-translate-x: -4;
+}
+
+.combo-bx .prompt-container .text {
+    -fx-fill: transparent;
+}
+
+.jfx-combo-box {
+    -fx-text-fill: white !important;
+}
+
+.jfx-combo-box .cell {
+    -fx-text-fill: white !important;
+}
+
+/* This styles the dropdown list items */
+.jfx-combo-box .list-cell {
+    -fx-text-fill: white !important;
+}
+
+.combo-bx .arrow-button {
+    -fx-padding: 0 !important;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-radius: 18;
+    -fx-border-radius: 18;
+    -fx-border-color: transparent;
+
+    -fx-translate-y: 2;
+}
+
+.combo-bx .list-view:vertical {
+    -fx-padding: 22 0;
+    -fx-background-color: #18181b;
+}
+
+/*#endregion */
+
 /*#region ScrollBar Default style */
-  .scroll-bar:vertical{
+.scroll-bar:vertical {
     -fx-background-color: transparent;
     -fx-background-radius: 0;
     -fx-padding: 0;
 
     -fx-pref-width: 8px;
-    -fx-min-width:8px;
+    -fx-min-width: 8px;
 }
-  .scroll-bar:horizontal {
+
+.scroll-bar:horizontal {
     -fx-background-color: transparent;
     -fx-background-radius: 0;
     -fx-padding: 0;
@@ -40,12 +165,12 @@
 }
 
 /* Hide track, buttons, and other elements */
-  .scroll-bar:vertical .track,
-  .scroll-bar:horizontal .track,
- .scroll-bar .increment-button,
- .scroll-bar .decrement-button,
-  .scroll-bar .increment-arrow,
-  .scroll-bar .decrement-arrow {
+.scroll-bar:vertical .track,
+.scroll-bar:horizontal .track,
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button,
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
     -fx-background-color: transparent;
     -fx-background-radius: 0;
     -fx-padding: 0;
@@ -53,16 +178,16 @@
 }
 
 /* Style the thumb */
- .scroll-bar:vertical .thumb,
- .scroll-bar:horizontal .thumb {
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
     -fx-background-color: white;
-    -fx-background-radius:9999;
+    -fx-background-radius: 9999;
     -fx-opacity: 0.7;
 }
 
 /* Hover effect for thumb */
-  .scroll-bar:vertical .thumb:hover,
-  .scroll-bar:horizontal .thumb:hover {
+.scroll-bar:vertical .thumb:hover,
+.scroll-bar:horizontal .thumb:hover {
     -fx-opacity: 1.0;
 }
 

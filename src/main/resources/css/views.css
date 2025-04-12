@@ -359,6 +359,34 @@
 
 
 .app-create-chat-ptn {
+    -fx-min-width: 300;
     -fx-padding: 12px;
-    -fx-spacing: 0;
+    -fx-spacing: 18;
 }
+
+.app-create-chat-field {
+
+}
+
+.app-create-chat-field .field {
+    -fx-background-color: #171717 !important;
+}
+
+.app-create-chat-ptn .btn {
+    -fx-pref-width: 120px;
+    -fx-padding: 12;
+    -fx-background-radius: 99999px;
+    -fx-background-color: -theme-color;
+}
+
+.app-create-chat-ptn .btn.cancel {
+    -fx-text-fill: white;
+    -fx-background-color: #737373;
+}
+
+.app-create-chat-ptn .combo-bx {
+    -fx-background-color: #27272a !important;
+    -fx-border-color: #fff !important;
+    -fx-border-width: 1.5;
+}
+

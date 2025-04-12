@@ -4,13 +4,21 @@ import com.thaus.chatbox.interfaces.IMappedTypes;
 
 public enum ChatboxType implements IMappedTypes {
 	TEAM("Teams"),
- 	USER("Users"),
-	FRIEND("Friends"),;
+	USER("User");
 
 	private final String name;
 
 	ChatboxType(String name) {
 		this.name = name;
+	}
+
+	public static ChatboxType fromName(String name) {
+		for (ChatboxType type : values()) {
+			if (type.getName().equals(name)) {
+				return type;
+			}
+		}
+		throw new IllegalArgumentException("No enum found with name: " + name);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.thaus.chatbox.components;
 
+import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.controllers.ChatboxFilterController;
 import com.thaus.chatbox.interfaces.IChatboxFilterListener;
 import com.thaus.chatbox.interfaces.ICustomNode;
@@ -10,11 +11,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-import com.jfoenix.controls.JFXButton;
 
 import java.io.IOException;
 
-public class Sidebar extends AnchorPane implements ICustomNode {
+public class SidebarComponent extends AnchorPane implements ICustomNode {
 	// Toggle searchbar element
 	private boolean isSearchOpen = false;
 	// Toggle filters pop up
@@ -23,14 +23,12 @@ public class Sidebar extends AnchorPane implements ICustomNode {
 	private IChatboxFilterListener filterListener;
 	// Event listener for the chatbox search
 	private ISearchListeners searchListeners;
-
-
-	// Search bar controller
-	@FXML
-	private SearchBar searchBar;
 	// Filter controller
 	private ChatboxFilterController filterController;
 
+	// Search bar controller
+	@FXML
+	private SearchBarComponent searchBar;
 	// Sidebar components
 	@FXML
 	private FlowPane filtersFlowPane;
@@ -48,14 +46,15 @@ public class Sidebar extends AnchorPane implements ICustomNode {
 	private JFXButton newChatboxBtn;
 
 	// Default constructor needed for JavaFX
-	public Sidebar() {
+	public SidebarComponent() {
 		initializeFXML();
 	}
+
 	// Constructor for manually loading the sidebar
-	public Sidebar(IChatboxFilterListener filterListener, ISearchListeners searchListeners) {
+	public SidebarComponent(IChatboxFilterListener filterListener, ISearchListeners searchListeners) {
 		initializeFXML();
 		initializeListeners(filterListener, searchListeners);
-  	}
+	}
 
 	@FXML
 	public void initialize() {
@@ -65,7 +64,8 @@ public class Sidebar extends AnchorPane implements ICustomNode {
 		// Initialize Chatbox
 		initializeChatboxs();
 	}
- 	@Override
+
+	@Override
 	public void initializeFXML() {
 		// Load component
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/sidebar.fxml"));
@@ -77,6 +77,7 @@ public class Sidebar extends AnchorPane implements ICustomNode {
 			throw new RuntimeException("Failed to load Sidebar FXML", e);
 		}
 	}
+
 	// Initialize Filter controller
 	public void initializeListeners(IChatboxFilterListener filterListener, ISearchListeners searchListeners) {
 		this.filterListener = filterListener;
@@ -84,49 +85,63 @@ public class Sidebar extends AnchorPane implements ICustomNode {
 		initializeSearchBar();
 		initializeFilters();
 	}
+
 	// Chatboxs scroll content
 	public VBox getChatboxsScrollContent() {
 		return chatboxsScrollContent;
 	}
 
+	// Set action on create chat
+	public void onCreateChatbox(Runnable action) {
+		newChatboxBtn.setOnAction(event -> action.run());
+	}
+
+	// Getter for the New chatbox button
+	public JFXButton getNewChatboxButton() {
+		return this.newChatboxBtn;
+	}
 
 	// Initialize filter bar
 	private void initializeFilters() {
 		// Initialize filter controller
-		filterController = new ChatboxFilterController(filtersFlowPane, filterListener , true);
+		filterController = new ChatboxFilterController(filtersFlowPane, filterListener, true);
 	}
+
 	// Initialize searchbar
 	private void initializeSearchBar() {
-		searchBar = new SearchBar(isSearchOpen, searchListeners);
+		searchBar = new SearchBarComponent(isSearchOpen, searchListeners);
 
 		// Add element in the separator bar
-		if(separatorBar != null) {
+		if (separatorBar != null) {
 			separatorBar.getChildren().add(searchBar);
-		}
-		else {
+		} else {
 			System.out.println("(SideBar) separatorBar is null");
 		}
 	}
+
 	// Initialize buttons
 	private void initializeButtons() {
 		// Initialize filter button
-		filterBtn.setOnAction(_ ->toggleFilter() );
+		filterBtn.setOnAction(_ -> toggleFilter());
 
 		// Initialize search button
-		searchBtn.setOnAction(_ ->toggleSearch() );
+		searchBtn.setOnAction(_ -> toggleSearch());
 	}
+
 	// Initialize chatbox
 	private void initializeChatboxs() {
 		// Clear chatbox content remove template
 		chatboxsScrollContent.getChildren().clear();
 	}
+
 	// Toggle search bar
-	private void toggleSearch(){
+	private void toggleSearch() {
 		isSearchOpen = !isSearchOpen;
 		searchBar.enableComponent(isSearchOpen);
 	}
+
 	// Toggle Filter pop up
-	private void toggleFilter(){
+	private void toggleFilter() {
 		isFilterOpen = !isFilterOpen;
 		filterController.enableContextMenu(isFilterOpen);
 	}

@@ -10,19 +10,19 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
-public class SearchBar extends HBox implements ICustomNode {
-	// Searched text
-	private String text;
+public class SearchBarComponent extends HBox implements ICustomNode {
 	// Searchbar listener
 	private final ISearchListeners searchListeners;
-
+	// Searched text
+	private String text;
 	// Searchbar components
 	@FXML
 	private TextField searchBarTextField;
 	@FXML
 	private JFXButton searchBarBtn;
 
-	SearchBar(boolean enable, ISearchListeners searchListeners) {
+	// Constructor
+	SearchBarComponent(boolean enable, ISearchListeners searchListeners) {
 		// Initialize fxml
 		initializeFXML();
 
@@ -37,6 +37,7 @@ public class SearchBar extends HBox implements ICustomNode {
 	public void initialize() {
 		initializeEvents();
 	}
+
 	@Override
 	public void initializeFXML() {
 		// Load component
@@ -49,39 +50,44 @@ public class SearchBar extends HBox implements ICustomNode {
 			throw new RuntimeException("Failed to load Searchbar FXML", e);
 		}
 	}
+
 	// Function to enable and disable components
-	public void enableComponent(boolean enable){
+	public void enableComponent(boolean enable) {
 		// Check if the search bar is not null
-		if(searchBarBtn != null){
+		if (searchBarBtn != null) {
 			// searchBarBtn.setDisable(!enable);
 			this.setVisible(enable);
 			this.setManaged(enable);
-		}
-		else {
+		} else {
 			System.out.println("(SearchBar) Searchbar element is not found");
 		}
 	}
+
 	// Get search text
-	public String getText() {return text;}
+	public String getText() {
+		return text;
+	}
 
 
 	// Initialize components events
-	private void initializeEvents(){
+	private void initializeEvents() {
 		// Check if the search bar is not null
 		if (searchBarTextField != null) {
 			searchBarTextField.textProperty().addListener((_, _, newValue) -> onTextChange(newValue));
 		}
 
 		// Initialize the search button to fire onSubmit
-		if(searchBarBtn != null){
+		if (searchBarBtn != null) {
 			searchBarBtn.setOnAction(_ -> onSubmit());
 		}
 	}
+
 	// Listen event for the text field component
 	private void onTextChange(String text) {
 		this.text = text;
 		searchListeners.onTextChanged(text);
 	}
+
 	// Listen event for the onSubmit event
 	private void onSubmit() {
 		searchListeners.onSubmit(this.text);
