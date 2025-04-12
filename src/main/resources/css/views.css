@@ -1,47 +1,54 @@
-
 /*#region App Chat Side bar */
 .app-chats-sidebar {
-    -fx-background-color:transparent;
-    -fx-border-color:  transparent #0c0a09 transparent transparent  ; /* top right bottom left */
+    -fx-background-color: transparent;
+    -fx-border-color: transparent #0c0a09 transparent transparent; /* top right bottom left */
     -fx-border-width: 2px;
-    -fx-border-style:solid;
+    -fx-border-style: solid;
 }
+
 .app-chat-bar-header {
     -fx-padding: 12px 20px;
 }
- .app-chat-bar-header-ctn {
+
+.app-chat-bar-header-ctn {
     -fx-spacing: 12px;
 }
+
 .app-chat-bar-header-p-icon {
     -fx-fill: -theme-color;
     -fx-scale-y: 1.3;
     -fx-scale-x: 1.3;
 }
 
-.app-chats-ptn{
-    -fx-padding:0 0 0 0;
+.app-chats-ptn {
+    -fx-padding: 0 0 0 0;
 }
-.app-chat-bar-separator{
+
+.app-chat-bar-separator {
     -fx-padding: 0 8;
     -fx-spacing: 6px;
 }
+
 .app-chat-bar-line {
     -fx-pref-height: 2.5;
     -fx-background-color: #262626;
     -fx-background-radius: 9999px;
 
 }
+
 .app-chat-bar-separator-filters {
     -fx-hgap: 4;
     -fx-vgap: 4;
 }
-.app-chat-bar-separator-filters-btn{
+
+.app-chat-bar-separator-filters-btn {
     -fx-text-fill: white;
     -fx-padding: 8 12;
     -fx-background-color: #0f766e;
     -fx-border-radius: 99999;
     -fx-background-radius: 99999;
 }
+
 .app-chat-bar-separator-filters-btn .icon {
     -fx-fill: white !important;
     -fx-scale-y: 0.85;
@@ -50,40 +57,47 @@
 
 .search-bar {
     -fx-max-height: 50px;
-    -fx-background-color:  #171717;
+    -fx-background-color: #171717;
     -fx-padding: 4px 8px;
     -fx-background-radius: 99999px;
 }
+
 .search-bar-field {
-    -fx-padding : 8px;
+    -fx-padding: 8px;
     -fx-text-fill: white;
     -fx-background-color: transparent;
 
 }
-.search-bar-field .scroll-pane{
+
+.search-bar-field .scroll-pane {
 }
-.search-bar-field .prompt-container   {
+
+.search-bar-field .prompt-container {
     fx-alignment: center-left;
     -fx-opacity: 0;
 }
+
 .search-bar-btn {
     -fx-pref-width: 30px;
     -fx-pref-height: 30px;
     -fx-background-color: -theme-color;
-    -fx-background-radius:  999999;
+    -fx-background-radius: 999999;
 }
+
 .search-bar-btn .icon {
     -fx-scale-x: 0.75;
     -fx-scale-y: 0.75;
 }
 
 .app-chats-scroll {
-    -fx-padding:0 0 0 0;
-    -fx-background-color:transparent;
+    -fx-padding: 0 0 0 0;
+    -fx-background-color: transparent;
 }
+
 .app-chats-scroll .viewport {
-    -fx-background-color:transparent;
+    -fx-background-color: transparent;
 }
+
 .app-chats-scroll-ctn {
     -fx-padding: 12 12;
     -fx-spacing: 6px;
@@ -95,15 +109,19 @@
     -fx-background-color: #18181b;
     -fx-background-radius: 12px;
 }
+
 .app-chatbox-ctn {
     -fx-spacing: 12px;
 }
+
 .app-chatbox-profile {
     -fx-fill: white;
 }
-.app-chatbox-text{
-    -fx-text-fill:white ;
+
+.app-chatbox-text {
+    -fx-text-fill: white;
 }
+
 .app-chatbox-unread-txt {
     -fx-padding: 2 4;
     -fx-graphic-text-gap: 4;
@@ -118,20 +136,23 @@
     -fx-border-width: 0.5;
 
 }
+
 .app-chatbox-btn {
     -fx-pref-width: 40px;
     -fx-pref-height: 40px;
-    -fx-padding:0px;
+    -fx-padding: 0px;
     -fx-background-radius: 99999px;
 
-    -jfx-ripple-fill:  -theme-color;
+    -jfx-ripple-fill: -theme-color;
 }
+
 .app-chatbox-btn .icon {
     -fx-fill: white;
     -fx-scale-x: 1.5;
     -fx-scale-y: 1.5;
 }
-.app-chatbox-btn:openvertically .arrow-button{
+
+.app-chatbox-btn:openvertically .arrow-button {
     -fx-pref-width: 0;
     -fx-pref-height: 0;
     -fx-opacity: 0;
@@ -139,18 +160,41 @@
     -fx-scale-y: 0;
     -fx-scale-x: 0;
 }
+
 .app-chatbox-menu {
     -fx-padding: 12;
     -fx-background-color: black;
     -fx-background-radius: 12;
 }
 
+.organisation-icon-ptn {
+    -fx-opacity: 0;
+
+    -fx-pref-width: 24;
+    -fx-pref-height: 24;
+
+    -fx-padding: 4;
+    -fx-background-color: #14532d;
+    -fx-background-radius: 99999;
+}
+
+.teams .organisation-icon-ptn {
+    -fx-opacity: 1;
+}
+
+.organisation-icon-ptn .icon {
+    -fx-fill: white;
+    -fx-scale-x: 0.7;
+    -fx-scale-y: 0.7;
+}
+
 .app-chat-bar-footer {
     -fx-padding: 12px;
 }
+
 .app-chat-bar-footer-btn {
     -fx-min-height: 60px;
-    -fx-text-fill : black;
+    -fx-text-fill: black;
 
     -fx-padding: 14px;
     -fx-graphic-text-gap: 20px;
@@ -158,6 +202,7 @@
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
 }
+
 .app-chat-bar-footer-btn .icon {
     -fx-scale-x: 1.5;
     -fx-scale-y: 1.5;
@@ -168,39 +213,44 @@
 /*#region App Messages Box */
 .app-chat-ptn {
     -fx-padding: 12px;
-    -fx-spacing:0;
+    -fx-spacing: 0;
 }
 
 .app-chat-header {
     -fx-padding: 12px;
-    -fx-background-color:  #171717;
+    -fx-background-color: #171717;
     -fx-background-radius: 12px;
 }
+
 .app-chat-header-btn {
     -fx-pref-width: 36px;
-    -fx-pref-height:  36px;
+    -fx-pref-height: 36px;
     -fx-min-width: 36px;
-    -fx-min-height:  36px;
+    -fx-min-height: 36px;
     -fx-background-color: -theme-color;
-    -fx-background-radius:  999999;
+    -fx-background-radius: 999999;
 }
+
 .app-chat-header-btn.white {
-    -fx-background-color:  #ffffff;
+    -fx-background-color: #ffffff;
 }
+
 .app-chat-header-btn.white .icon {
     -fx-fill: black;
 }
 
 .messages-scroll {
-    -fx-background-color:transparent;
+    -fx-background-color: transparent;
     -fx-background-radius: 12px;
     -fx-background-insets: 12px;
 }
+
 .messages-scroll .viewport {
     -fx-background-color: transparent;
     -fx-background-radius: 12px;
     -fx-background-insets: 12px;
 }
+
 .messages-scroll-ctn {
     -fx-spacing: 20;
     -fx-padding: 40 8 0 0;
@@ -209,48 +259,58 @@
 .app-user-message {
     -fx-spacing: 8px;
 }
+
 .app-user-message.from-me {
     -fx-alignment: top-right;
 }
+
 .app-user-message-ctn {
     -fx-spacing: 8;
     -fx-padding: 20 20;
     -fx-background-radius: 12;
     -fx-background-color: #171717;
- }
+}
+
 .app-user-message-label {
     -fx-fill: -theme-color;
     -fx-text-fill: -theme-color;
 }
+
 .app-user-message-txt {
 }
 
 .send-message-bar {
     -fx-max-height: 60px;
-    -fx-background-color:  #171717;
+    -fx-background-color: #171717;
     -fx-padding: 4px 8px;
     -fx-background-radius: 99999px;
 }
+
 .send-message-bar-input-fld {
-    -fx-padding : 8px;
+    -fx-padding: 8px;
     -fx-text-fill: white;
 }
-.send-message-bar-input-fld .scroll-pane{
+
+.send-message-bar-input-fld .scroll-pane {
 }
-.send-message-bar-input-fld .prompt-container   {
+
+.send-message-bar-input-fld .prompt-container {
     fx-alignment: center-left;
-  /*  -fx-opacity: 0;*/
+    /*  -fx-opacity: 0;*/
 }
+
 .app-message-bar-send-btn {
     -fx-pref-width: 40px;
     -fx-pref-height: 40px;
     -fx-background-color: -theme-color;
-    -fx-background-radius:  999999;
+    -fx-background-radius: 999999;
 }
+
 .app-message-bar-send-btn .icon {
     -fx-scale-x: 0.75;
     -fx-scale-y: 0.75;
 }
+
 /*#endregion */
 
 /*#region App Screen Header */
@@ -259,17 +319,20 @@
     -fx-spacing: 8;
     -fx-background-color: #0c0a09;
 }
-.app-screen-header-tab-ctn{
+
+.app-screen-header-tab-ctn {
     -fx-spacing: 12px;
+    -fx-padding: 12 0;
 }
 
 .app-screen-header-tab-btn-long {
     -fx-background-color: -theme-color;
     -fx-background-radius: 99999;
 }
+
 .app-screen-header-tab-btn-long-ctn {
     -fx-spacing: 12px;
-    -fx-padding: 0 12 0 0 ;
+    -fx-padding: 0 12 0 0;
 }
 
 .app-screen-header-tab-btn {
@@ -278,13 +341,15 @@
     -fx-border-radius: 99999;
     -fx-background-radius: 99999;
 }
+
 .app-screen-header-tab-btn.yellow .icon {
     -fx-fill: black !important;
 }
 
-.app-screen-header-ctrl-btn{
+.app-screen-header-ctrl-btn {
 
 }
+
 .app-screen-header-ctrl-btn .icon {
     -fx-scale-x: 1.5;
     -fx-scale-y: 1.5;
@@ -292,3 +357,8 @@
 
 /*#endregion */
 
+
+.app-create-chat-ptn {
+    -fx-padding: 12px;
+    -fx-spacing: 0;
+}

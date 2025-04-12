@@ -54,10 +54,7 @@ public class Sidebar extends AnchorPane implements ICustomNode {
 	// Constructor for manually loading the sidebar
 	public Sidebar(IChatboxFilterListener filterListener, ISearchListeners searchListeners) {
 		initializeFXML();
-		this.filterListener = filterListener;
-		this.searchListeners = searchListeners;
-		initializeSearchBar();
-		initializeFilters();
+		initializeListeners(filterListener, searchListeners);
   	}
 
 	@FXML

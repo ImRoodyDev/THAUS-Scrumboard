@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import java.net.URL?>
-<?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.SVGPath?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<JFXButton fx:id="chatboxBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" ripplerFill="BLACK" styleClass="app-chatbox" text="Chatbox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<JFXButton fx:id="chatboxBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" ripplerFill="BLACK" styleClass="app-chatbox" text="Chatbox" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 	<graphic>
 		<HBox alignment="CENTER_LEFT" styleClass="app-chatbox-ctn">
 			<children>
@@ -21,21 +16,26 @@
 						<Circle fx:id="chatboxCircle" radius="24.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="app-chatbox-profile" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 						<Pane layoutX="24.0" layoutY="24.0" prefHeight="0.0" prefWidth="13.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="-3.0">
 							<children>
-								<Label fx:id="chatboxUnreadLabel" graphicTextGap="0.0" styleClass="app-chatbox-unread-txt" text="20000">
+								<Label fx:id="unreadLabel" graphicTextGap="0.0" styleClass="app-chatbox-unread-txt" text="20000">
 									<font>
 										<Font name="System Bold" size="10.0" />
 									</font>
 								</Label>
+                        <VBox alignment="CENTER" fillWidth="false" layoutX="-28.0" layoutY="31.0" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="organisation-icon-ptn">
+                           <children>
+                              <SVGPath content="M3 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h3v-3.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V16h3a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1zm1 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5M4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5m2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5m2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5" styleClass="icon" />
+                           </children>
+                        </VBox>
 							</children>
 						</Pane>
 					</children>
 				</AnchorPane>
-				<Label fx:id="chatboxLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="app-chatbox-text" text="Team 1 Chatbox" wrapText="true" HBox.hgrow="ALWAYS">
+				<Label fx:id="nameLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="app-chatbox-text" text="Team 1 Chatbox" wrapText="true" HBox.hgrow="ALWAYS">
 					<font>
 						<Font name="Arial Bold" size="12.0" />
 					</font>
 				</Label>
-				<JFXButton fx:id="chatboxMenu" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" ripplerFill="#10b981" styleClass="app-chatbox-btn" text="Menu">
+				<JFXButton fx:id="contextMenuButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" ripplerFill="#10b981" styleClass="app-chatbox-btn" text="Menu">
 					<graphic>
 						<SVGPath content="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" styleClass="icon" />
 					</graphic>
