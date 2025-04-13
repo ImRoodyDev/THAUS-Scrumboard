@@ -73,6 +73,11 @@
     -fx-background-radius: 9999;
 }
 
+.field .text {
+    -fx-text-fill: white;
+}
+
+
 /*#endregion */
 
 /*#region Custom Combobox */

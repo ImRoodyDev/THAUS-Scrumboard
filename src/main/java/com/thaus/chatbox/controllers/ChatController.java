@@ -1,33 +1,84 @@
 package com.thaus.chatbox.controllers;
 
 import com.thaus.chatbox.components.ChatboxButton;
-import com.thaus.chatbox.interfaces.IChatListener;
 import com.thaus.chatbox.types.ChatboxType;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class ChatController {
-	// Chatbox listener
-	private IChatListener chatListener;
-	// Selected Chatbox id
-	private String selectedChatboxId;
-	// Array of all the chatbox that the user can see
-	private ArrayList<ChatboxButton> chatboxButtons = new ArrayList<>();
+	// Change to ObservableList
+	private final ObservableList<ChatboxButton> allChatboxes = FXCollections.observableArrayList();
+
+	// Selected chat
+	private String selectedChatId;
+	// Action on chatboxSelectionAction
+	private Runnable onChatSelectionAction;
+	// Set listChangeLister for the observable list
+	private ListChangeListener<ChatboxButton> listener;
 
 
-	public ChatController(IChatListener listener) {
-		this.chatListener = listener;
+	// Initialize chat controller listener
+	public void initialize(ListChangeListener<ChatboxButton> listener) {
+		this.listener = listener;
+		allChatboxes.addListener((ListChangeListener<ChatboxButton>) listener);
 	}
 
-	public void loadChatbox() {
-
+	// Get controller get chatboxs button
+	public ObservableList<ChatboxButton> getChatboxButtons() {
+		return allChatboxes;
 	}
 
+	// Get selected chatbox id
+	public String getSelectedChatId() {
+		return this.selectedChatId;
+	}
+
+	// Create a new chatbox
 	public void createNewChatbox(ChatboxType type, String name) {
 		System.out.println("New chat: " + name + " is group: " + type.getName());
-		/*ChatboxButton newChatboxButton = new ChatboxButton(ChatboxType.)
+		ChatboxButton newChatboxButton = new ChatboxButton(type, "0", name, true, 10);
+		allChatboxes.addFirst(newChatboxButton);
+		newChatboxButton.onClickHandle(this::onChatboxSelected);
+	}
 
-		chatListener.newChatbox();*/
+	// Apply filter to search chatboxes
+	public void filterChatboxes(Set<ChatboxType> filters) {
+		ArrayList<ChatboxButton> filtered = (ArrayList<ChatboxButton>) allChatboxes.stream()
+				.filter(b -> filters.contains(b.getType()))
+				.toList();
+	}
+
+	// Search for chatboxes/messages which will return the chatboxes
+	public void searchChatboxes(String query) {
+		ArrayList<ChatboxButton> results = (ArrayList<ChatboxButton>) allChatboxes.stream()
+				.filter(b -> b.getName().contains(query))
+				.toList();
+	}
+
+	// On chatbox selected
+	private void onChatboxSelected(String id) {
+		selectedChatId = id;
+		if (onChatSelectionAction != null) onChatSelectionAction.run();
+		System.out.println("Selected chat: " + selectedChatId);
+	}
+
+	// Chat controller action events
+	public void setOnClickChatboxAction(Runnable action) {
+		onChatSelectionAction = action;
+	}
+
+	public void removeChatboxesListener() {
+		allChatboxes.removeListener(listener);
+		listener = null;
+		onChatSelectionAction = null;
+	}
+
+
+	public void sendGeneralMessage(String chatboxId, String text) {
 	}
 }
 

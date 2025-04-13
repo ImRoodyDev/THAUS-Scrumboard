@@ -13,10 +13,10 @@ public class ChatboxButton extends JFXButton implements ICustomNode {
 	private final String id;
 	// Type of the chatbox
 	private final ChatboxType type;
-	// Name of the chatbox
-	private String name;
 	// Is owner of the chatbox
 	private final boolean isOwner;
+	// Name of the chatbox
+	private String name;
 	// Count of unread messages
 	private int unread = 0;
 	// Menu is open
@@ -24,6 +24,7 @@ public class ChatboxButton extends JFXButton implements ICustomNode {
 
 	// Events
 	private Runnable onDelete;
+	private OnClickHandle onClickHandle;
 
 	@FXML
 	private Label nameLabel;
@@ -33,7 +34,9 @@ public class ChatboxButton extends JFXButton implements ICustomNode {
 	private JFXButton contextMenuButton;
 
 	// Constructor
-	public ChatboxButton(ChatboxType type,String id, String name, boolean isOwner, int unread) {
+	public ChatboxButton(ChatboxType type, String id, String name, boolean isOwner, int unread) {
+		initializeFXML();
+
 		this.type = type;
 		this.id = id;
 		this.name = name;
@@ -43,7 +46,7 @@ public class ChatboxButton extends JFXButton implements ICustomNode {
 		// Add styling class of the type
 		nameLabel.setText(name);
 		unreadLabel.setText(String.valueOf(unread));
-		this.getStyleClass().add(type.name().toLowerCase());
+		this.getStyleClass().add(type.getName().toLowerCase());
 	}
 
 	@Override
@@ -58,13 +61,29 @@ public class ChatboxButton extends JFXButton implements ICustomNode {
 			throw new RuntimeException("Failed to load Sidebar FXML", e);
 		}
 	}
+
 	// Events on new unread
-	public void updateUnread(int number ){
+	public void updateUnread(int number) {
 		unreadLabel.setText(String.valueOf(number));
 	}
+
 	// Set on delete action
-	public void onDeleteAction( Runnable onDelete ){
+	public void onDeleteAction(Runnable onDelete) {
 		this.onDelete = onDelete;
+	}
+
+	// Get type of the chatbox
+	public ChatboxType getType() {
+		return type;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void onClickHandle(OnClickHandle handle) {
+		onClickHandle = handle;
+		this.setOnAction(_ -> onClickHandle.handle(id));
 	}
 
 	// Toggle contextmenu
@@ -72,9 +91,17 @@ public class ChatboxButton extends JFXButton implements ICustomNode {
 		isMenuOpen = !isMenuOpen;
 
 	}
-	private void onDelete(){
-		if(onDelete != null){
+
+	private void onDelete() {
+		if (onDelete != null) {
 			onDelete.run();
 		}
+	}
+
+	public interface OnClickHandle {
+
+		public void handle(String id);
+
+		// 	public void handle(String id, ChatboxType type);
 	}
 }

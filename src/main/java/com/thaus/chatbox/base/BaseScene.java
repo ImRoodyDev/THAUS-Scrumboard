@@ -1,21 +1,19 @@
 package com.thaus.chatbox.base;
 
+import com.thaus.chatbox.controllers.ChatController;
 import com.thaus.chatbox.controllers.SceneController;
 import com.thaus.chatbox.interfaces.IBaseScene;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public abstract class BaseScene implements IBaseScene {
+	// Apply clipping to the parent AnchorPane
+	Rectangle clip = new Rectangle();
 	private double xOffset = 0;
 	private double yOffset = 0;
-
 	// Scene FXML Elements
 	@FXML
 	private AnchorPane root;
@@ -27,17 +25,15 @@ public abstract class BaseScene implements IBaseScene {
 	private Button toggleMaximizeButton;
 	@FXML
 	private Button toggleMinimizeButton;
-	// Apply clipping to the parent AnchorPane
-	Rectangle clip = new Rectangle();
 
 	// Initialize automatically
-	public void initialize(){
+	public void initialize() {
 		initializeBaseButtons();
 		initializeDefaultStyling();
- 	}
+	}
 
 	// Base scene buttons
-	private void initializeBaseButtons(){
+	private void initializeBaseButtons() {
 		// Close stage button
 		if (closeWindowButton != null) {
 			closeWindowButton.setOnAction(_ -> closeWindow()); // Attach close event
@@ -68,8 +64,9 @@ public abstract class BaseScene implements IBaseScene {
 		}
 
 	}
+
 	// Apply default styling to the window
-	private void initializeDefaultStyling(){
+	private void initializeDefaultStyling() {
 		if (root != null) {
 			clip.widthProperty().bind(root.widthProperty());
 			clip.heightProperty().bind(root.heightProperty());
@@ -83,32 +80,42 @@ public abstract class BaseScene implements IBaseScene {
 
 
 	// On Stage drag
-	private final void onScreenDrag(double x , double y) {
+	private final void onScreenDrag(double x, double y) {
 		SceneController.getPrimaryStage().setX(x);
 		SceneController.getPrimaryStage().setY(y);
 	}
+
 	// Toggle stage fullscreen
 	private final void toggleMaximize() {
 		SceneController.toggleMaximize();
 
-		if(SceneController.isMaximized()){
+		if (SceneController.isMaximized()) {
 			// Add border radius to the stage root element
 			clip.setArcWidth(0);
 			clip.setArcHeight(0);
 			root.setClip(clip);
-		}else {
+		} else {
 			// Add border radius to the stage root element
 			clip.setArcWidth(36);
 			clip.setArcHeight(36);
 			root.setClip(clip);
 		}
 	}
+
 	// Minimize stage
 	private final void minimize() {
 		SceneController.minimize();
 	}
+
 	// Close stage
 	private void closeWindow() {
-		 SceneController.closeStage();
+		SceneController.closeStage();
 	}
+
+
+	protected ChatController getChatController() {
+		return SceneController.getChatController();
+	}
+
+
 }

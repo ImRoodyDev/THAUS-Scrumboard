@@ -27,6 +27,10 @@ public class SceneController {
 	// Current view index
 	private static String currentView = "";
 
+	// Central controller
+	private static ChatController chatController;
+	private static AuthenticationController authenticationController;
+
 	// Constructor that receives the Stage from App.java
 	public SceneController(Stage stage) {
 		if (stage == null) {
@@ -40,6 +44,16 @@ public class SceneController {
 		System.out.println("Scene controller created");
 	}
 
+	// Function to get the chat Controller
+	public static ChatController getChatController() {
+		return chatController;
+	}
+
+	// Function to set the chat Controller
+	public void setChatController(ChatController controller) {
+		chatController = controller;
+	}
+
 	// Load the scenes and cache it
 	private static Scene loadScene(ScreenName sceneName) throws IOException {
 		// Loader for FXML
@@ -51,7 +65,7 @@ public class SceneController {
 		switch (sceneName) {
 			case Home:
 				root = new FXMLLoader(SceneController.class.getResource("/views/home.fxml"));
- 
+
 				// Load the FXML and set the scene
 				scene = new Scene(root.load(), Color.TRANSPARENT);
 

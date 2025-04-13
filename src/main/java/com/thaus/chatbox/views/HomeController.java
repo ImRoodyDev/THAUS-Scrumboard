@@ -1,26 +1,20 @@
 package com.thaus.chatbox.views;
 
 import com.thaus.chatbox.base.BaseScene;
-import com.thaus.chatbox.components.ChatboxButton;
-import com.thaus.chatbox.components.CreateChatMenuComponent;
-import com.thaus.chatbox.components.SidebarComponent;
-import com.thaus.chatbox.components.WelcomeComponent;
-import com.thaus.chatbox.controllers.ChatController;
-import com.thaus.chatbox.interfaces.IChatListener;
+import com.thaus.chatbox.components.*;
 import com.thaus.chatbox.interfaces.IChatboxFilterListener;
 import com.thaus.chatbox.interfaces.ISearchListeners;
 import com.thaus.chatbox.types.ChatboxType;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 public class HomeController extends BaseScene {
-
 	// Components inside the home fxml
 	@FXML
 	private BorderPane borderPane;
@@ -30,20 +24,14 @@ public class HomeController extends BaseScene {
 	// Custom Components
 	private SidebarComponent sidebar;
 
-	// Controllers
-	private ChatController chatController;
-
 	// Page values
 	private HomeTab currentTab;
-	private Object currentContentController;
-
 
 	// This method will be automatically called after the FXML is loaded
 	@Override
 	public void initialize() {
 		super.initialize();
 		initializeSidebar();
-		initializeChatController();
 		System.out.println("Initialize Home controller's");
 
 		// Going to the current page
@@ -51,15 +39,15 @@ public class HomeController extends BaseScene {
 	}
 
 	@Override
-	public void onClose() {
-
+	public void onOpen() {
+		// Clear listener
+		initializeChatController();
 	}
 
 	@Override
-	public void onOpen() {
-
+	public void onClose() {
+		getChatController().removeChatboxesListener();
 	}
-
 
 	// Initialize sidebar component
 	private void initializeSidebar() {
@@ -68,7 +56,7 @@ public class HomeController extends BaseScene {
 				new IChatboxFilterListener() {
 					@Override
 					public void onFilterApplied(ChatboxType type) {
-
+						getChatController().filterChatboxes(Collections.singleton(type));
 					}
 
 					@Override
@@ -84,72 +72,37 @@ public class HomeController extends BaseScene {
 				new ISearchListeners() {
 					@Override
 					public void onSubmit(String text) {
-
+						getChatController().searchChatboxes(text);
 					}
 
 					@Override
 					public void onTextChanged(String text) {
-
+						System.out.println("Search Text changed to " + text);
 					}
 				}
 		);
 
+		// On create chat new chat button
+		sidebar.onCreateChatbox(() -> switchTab(HomeTab.NEW_CHAT));
+
 		// Append in viewport
 		borderPane.setLeft(sidebar);
-
-
-		// On create chat new chat button
-		sidebar.onCreateChatbox(() -> {
-			switchTab(HomeTab.NEW_CHAT);
-		});
 	}
 
 	// Initialize chat controller
 	private void initializeChatController() {
-		// Create the chat controller listener
-		IChatListener chatListener = new IChatListener() {
-			@Override
-			public void initializeChatboxs(ArrayList<ChatboxButton> chatboxButtons) {
-				// Add the initializeChatboxs
-				VBox chatboxContentArea = sidebar.getChatboxsScrollContent();
+		// Get the observableList of the chatboxes
+		ObservableList<ChatboxButton> buttons = getChatController().getChatboxButtons();
 
-				// Add it in the chatbox
-				chatboxContentArea.getChildren().addAll(chatboxButtons);
-			}
+		// Initialize UI with current state
+		VBox contentArea = sidebar.getChatboxsScrollContent();
+		contentArea.getChildren().setAll(buttons);
 
-			@Override
-			public void newChatbox(ChatboxButton chatboxButton) {
-				// Add the initializeChatboxs
-				VBox chatboxContentArea = sidebar.getChatboxsScrollContent();
-
-				// Add it in the chatbox
-				chatboxContentArea.getChildren().addFirst(chatboxButton);
-			}
-
-			@Override
-			public void deleteChatbox(ChatboxButton chatboxButton) {
-				// Add the initializeChatboxs
-				VBox chatboxContentArea = sidebar.getChatboxsScrollContent();
-
-				// Add it in the chatbox
-				chatboxContentArea.getChildren().remove(chatboxButton);
-			}
-
-			@Override
-			public void onChatboxsUpdated(ArrayList<ChatboxButton> chatboxButtons) {
-				// Add the initializeChatboxs
-				VBox chatboxContentArea = sidebar.getChatboxsScrollContent();
-
-				// Clear the current contentArea
-				chatboxContentArea.getChildren().clear();
-
-				// Add it in the chatbox
-				chatboxContentArea.getChildren().addAll(chatboxButtons);
-			}
-		};
-
-		// Create the chat controller with the listener
-		chatController = new ChatController(chatListener);
+		// Initialize chat controller listener
+		getChatController().initialize(_ -> {
+			contentArea.getChildren().setAll(buttons);
+		});
+		getChatController().setOnClickChatboxAction(() -> switchTab(HomeTab.CHAT));
 	}
 
 	// Switch to tab in the home page
@@ -162,50 +115,50 @@ public class HomeController extends BaseScene {
 		try {
 			// Loader for FXML
 			Node newContent = null;
-			FXMLLoader root;
 
 			switch (tabName) {
 				case WELCOME:
-					WelcomeComponent welcomeComponent = new WelcomeComponent("Hello Roody");
-					newContent = welcomeComponent;
+					newContent = new WelcomeComponent("Hello Roody");
 					break;
 				case NEW_CHAT:
 					CreateChatMenuComponent createChatMenu = new CreateChatMenuComponent();
 
 					// On cancel menu
-					createChatMenu.setOnCancelAction(() -> {
-						switchTab(HomeTab.WELCOME);
-					});
+					createChatMenu.setOnCancelAction(() -> switchTab(HomeTab.WELCOME));
 
 					// Cn submit to create a new chatbox
 					createChatMenu.setOnActionSubmit((ChatboxType type, String name) -> {
-						chatController.createNewChatbox(type, name);
+						getChatController().createNewChatbox(type, name);
+						switchTab(HomeTab.WELCOME);
 					});
 
 					// Add it to the temporary content
 					newContent = createChatMenu;
 					break;
 				case CHAT:
-
+					ChatComponent chatComponent = new ChatComponent(getChatController());
+					newContent = chatComponent;
 					break;
 			}
 
 			if (newContent != null) {
+				// Clear contents and add new
 				viewportContainer.getChildren().clear();
 				viewportContainer.getChildren().add(newContent);
+
+				// Set anchor position
 				AnchorPane.setTopAnchor(newContent, 0.0);
 				AnchorPane.setBottomAnchor(newContent, 0.0);
 				AnchorPane.setLeftAnchor(newContent, 0.0);
 				AnchorPane.setRightAnchor(newContent, 0.0);
+				currentTab = tabName;
+				System.out.println("Switching tab: " + tabName);
 			}
-			currentTab = tabName;
-			System.out.println("Switching tab: " + tabName);
 		} catch (Exception e) {
 			System.err.println("Error loading tab: " + tabName);
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
-
 
 	// Type of Tabs in home page
 	public enum HomeTab {

@@ -370,6 +370,7 @@
 
 .app-create-chat-field .field {
     -fx-background-color: #171717 !important;
+    -fx-text-fill: white !important;
 }
 
 .app-create-chat-ptn .btn {
