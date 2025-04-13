@@ -18,10 +18,10 @@ public class WelcomeComponent extends AnchorPane implements ICustomNode {
 
 	// Cache font to avoid repeated loading
 	private static Font customFont;
+	// Controller values
+	private final String welcomeText;
 	@FXML
 	private VBox textContainer;
-	// Controller values
-	private String welcomeText;
 
 	// Constructor
 	public WelcomeComponent(String text) {
@@ -31,10 +31,6 @@ public class WelcomeComponent extends AnchorPane implements ICustomNode {
 
 	@FXML
 	public void initialize() {
-		// Load UI first
-		Text placeholder = new Text(welcomeText);
-		textContainer.getChildren().add(placeholder);
-
 		// Load font asynchronously to avoid blocking UI
 		Platform.runLater(this::initializeFont);
 	}
@@ -61,8 +57,7 @@ public class WelcomeComponent extends AnchorPane implements ICustomNode {
 			text.setFill(gradient);
 
 			// Clear previous placeholder and add styled text
-			textContainer.getChildren().clear();
-			textContainer.getChildren().add(text);
+			textContainer.getChildren().addFirst(text);
 		} catch (Exception e) {
 			// Fallback if font loading fails
 			System.err.println("Error loading custom font: " + e.getMessage());
@@ -82,16 +77,3 @@ public class WelcomeComponent extends AnchorPane implements ICustomNode {
 		}
 	}
 }
-
-
-/*
-		// Make the text thicker with stroke
-		text.setStroke(javafx.scene.paint.Color.web("#0d9668")); // Slightly darker than your theme color
-		text.setStrokeWidth(0.5);
-		text.setStrokeType(StrokeType.OUTSIDE); // Makes it expand outward
-*/
-		/*
-		// Add a glow effect to enhance thickness appearance
-		Glow glow = new Glow();
-		glow.setLevel(0.3);
-		text.setEffect(glow);*/

@@ -9,7 +9,7 @@
 <?import java.lang.*?>
 <?import java.net.URL?>
 <fx:root xmlns:fx="http://javafx.com/fxml/1" styleClass="app-chat-ptn" type="VBox"
-         xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.thaus.chatbox.components.ChatComponent">
+         xmlns="http://javafx.com/javafx/23.0.1">
 	<stylesheets>
 		<URL value="@../css/default.css"/>
 		<URL value="@../css/views.css"/>

@@ -8,6 +8,7 @@ public enum ChatType implements IMappedTypes {
 	SPRINTS("Sprints"),
 	GENERAL("General");
 
+	// Constructed enum nae
 	private final String name;
 
 	ChatType(String name) {
