@@ -11,7 +11,8 @@ public class Chat {
 	private String createdAt;
 	private boolean isOwner;
 	private ObservableList<Message> messages;
-	private ObservableList<ChatFeature> features;
+	private ObservableList<Feature> features;
+
 
 	public Chat(String chatId, String chatName, boolean isOwner, String createdAt) {
 		this.chatId = chatId;
@@ -25,7 +26,7 @@ public class Chat {
 		this.messages = FXCollections.observableArrayList(messages);
 	}
 
-	public void initializeFeatures(ArrayList<ChatFeature> features) {
+	public void initializeFeatures(ArrayList<Feature> features) {
 		this.features = FXCollections.observableArrayList(features);
 	}
 
@@ -33,20 +34,20 @@ public class Chat {
 		return messages;
 	}
 
-	public ObservableList<ChatFeature> getFeatures() {
+	public ObservableList<Feature> getFeatures() {
 		return features;
 	}
 
 	public void createFeature(String featureName) {
-		ChatFeature feature = new ChatFeature(featureName);
+		Feature feature = new Feature(this.chatId, featureName);
 		features.add(feature);
 	}
 
-	public void removeFeature(ChatFeature feature) {
+	public void removeFeature(Feature feature) {
 		features.remove(feature);
 	}
 
-	public void editFeature(ChatFeature feature) {
+	public void editFeature(Feature feature) {
 		int index = features.indexOf(feature);
 		if (index != -1) {
 			features.set(index, feature);

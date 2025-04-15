@@ -2,7 +2,7 @@ package com.thaus.chatbox.components.views;
 
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Chat;
-import com.thaus.chatbox.classes.ChatFeature;
+import com.thaus.chatbox.classes.Feature;
 import com.thaus.chatbox.components.tabs.ChatEpics;
 import com.thaus.chatbox.components.tabs.ChatFeatures;
 import com.thaus.chatbox.components.tabs.ChatGeneral;
@@ -129,7 +129,7 @@ public class ChatWindowController extends VBox implements ICustomNode {
 				case FEATURES:
 					ChatFeatures chatFeatures = new ChatFeatures(currentChat);
 					onWindowSwitch = chatFeatures::cleanup;
-					chatFeatures.setOnFeatureClickHandler((ChatFeature feature) -> {
+					chatFeatures.setOnFeatureClickHandler((Feature feature) -> {
 						switchWindow(ExtraWindowType.EPICS, feature);
 					});
 					newComponent = chatFeatures;
@@ -160,7 +160,7 @@ public class ChatWindowController extends VBox implements ICustomNode {
 	}
 
 
-	private void switchWindow(ExtraWindowType windowType, ChatFeature feature) {
+	private void switchWindow(ExtraWindowType windowType, Object object) {
 		if (this.currentWindowType == windowType) {
 			System.out.println("You are already at the: " + windowType.name());
 			return;
@@ -178,15 +178,18 @@ public class ChatWindowController extends VBox implements ICustomNode {
 
 			switch (windowType) {
 				case USER_STORY:
-					ChatUserStories chatUserStories = new ChatUserStories(feature);
+					ChatUserStories chatUserStories = new ChatUserStories(object);
 					onWindowSwitch = chatUserStories::cleanup;
 					newComponent = chatUserStories;
 					chatType.setText(ChatType.USER_STORY.getName());
 					break;
 				case EPICS:
-					ChatEpics chatEpics2 = new ChatEpics(feature);
-					onWindowSwitch = chatEpics2::cleanup;
-					newComponent = chatEpics2;
+					ChatEpics chatEpics = new ChatEpics(object);
+					onWindowSwitch = chatEpics::cleanup;
+					chatEpics.setOnEpicClickHandler((epic -> {
+						switchWindow(ExtraWindowType.USER_STORY, epic);
+					}));
+					newComponent = chatEpics;
 					chatType.setText(ChatType.EPICS.getName());
 
 					break;

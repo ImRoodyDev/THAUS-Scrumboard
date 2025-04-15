@@ -1,7 +1,7 @@
 package com.thaus.chatbox.components.interactive;
 
 import com.jfoenix.controls.JFXButton;
-import com.thaus.chatbox.classes.Feature;
+import com.thaus.chatbox.classes.UserStory;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
@@ -9,16 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 
-public class FeatureButton extends HBox implements ICustomNode {
+public class UserStoryButton extends HBox implements ICustomNode {
 
-	// Privates
-	private final Feature chatFeature;
 	@FXML
 	private Label nameLabel;
-	@FXML
-	private Label epicsLabel;
-	@FXML
-	private Label userStoryLabel;
 	@FXML
 	private Label unreadLabel;
 	@FXML
@@ -27,25 +21,20 @@ public class FeatureButton extends HBox implements ICustomNode {
 	private JFXButton contextMenuButton;
 	@FXML
 	private ContextMenu contextMenu;
+
+	//
+	private UserStory userStory;
 	private Runnable onClickHandler;
 	private Runnable onDeleteHandler;
 
-	// Constructor
-	public FeatureButton(Feature chatFeature) {
-		this.chatFeature = chatFeature;
-
-		// Initialize the button with the name and id
-		initializeFXML("/components/interactive/feature.fxml");
-		initializeMenu();
+	public UserStoryButton(UserStory userStory) {
+		this.userStory = userStory;
+		initializeFXML("/components/interactive/user-story.fxml");
 	}
 
-	@FXML
 	public void initialize() {
 		// Initialize the button with the name and id
-		this.epicsLabel.setText(String.valueOf(chatFeature.getEpicsCount()));
-		this.userStoryLabel.setText(String.valueOf(chatFeature.getUserStoryCount()));
-		this.unreadLabel.setText(String.valueOf(chatFeature.getUnreadCount()));
-		this.nameLabel.setText(chatFeature.getName());
+		nameLabel.setText(userStory.getName());
 
 		// Set up the button actions
 		button.setOnAction(event -> {
@@ -86,5 +75,4 @@ public class FeatureButton extends HBox implements ICustomNode {
 	public void setOnClickHandler(Runnable onClickHandler) {
 		this.onClickHandler = onClickHandler;
 	}
-
 }

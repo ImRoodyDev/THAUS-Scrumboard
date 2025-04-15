@@ -2,7 +2,7 @@ package com.thaus.chatbox.components.tabs;
 
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Chat;
-import com.thaus.chatbox.classes.ChatFeature;
+import com.thaus.chatbox.classes.Feature;
 import com.thaus.chatbox.components.interactive.FeatureButton;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.collections.ListChangeListener;
@@ -25,10 +25,10 @@ public class ChatFeatures extends VBox implements ICustomNode {
 	@FXML
 	private VBox viewContainer;
 	private OnFeatureClickHandler onFeatureClickHandler;
-	private final ListChangeListener<ChatFeature> chatFeatureListChangeListener = change -> {
+	private final ListChangeListener<Feature> chatFeatureListChangeListener = change -> {
 		while (change.next()) {
 			if (change.wasAdded()) {
-				for (ChatFeature feature : change.getAddedSubList()) {
+				for (Feature feature : change.getAddedSubList()) {
 					createFeatureComponent(feature);
 				}
 			}
@@ -47,7 +47,7 @@ public class ChatFeatures extends VBox implements ICustomNode {
 	}
 
 	// Initialize the feature list
-	public void initializeFeatures() {
+	private void initializeFeatures() {
 		// Check if features is null or empty
 		if (currentChat.getFeatures() == null || currentChat.getFeatures().isEmpty()) {
 			return;
@@ -58,6 +58,11 @@ public class ChatFeatures extends VBox implements ICustomNode {
 
 		// Add the listener to the features list
 		currentChat.getFeatures().addListener(chatFeatureListChangeListener);
+
+		// Add each feature to the view container
+		for (Feature feature : currentChat.getFeatures()) {
+			createFeatureComponent(feature);
+		}
 
 		// Add the create button action
 		createButton.setOnAction(_ -> createFeature());
@@ -76,7 +81,7 @@ public class ChatFeatures extends VBox implements ICustomNode {
 		textField.clear();
 	}
 
-	private void createFeatureComponent(ChatFeature feature) {
+	private void createFeatureComponent(Feature feature) {
 		// Check if the text field is empty
 		if (textField.getText().isEmpty()) {
 			return;
@@ -105,7 +110,7 @@ public class ChatFeatures extends VBox implements ICustomNode {
 	}
 
 	public interface OnFeatureClickHandler {
-		void onFeatureClick(ChatFeature feature);
+		void onFeatureClick(Feature feature);
 	}
 
 }
