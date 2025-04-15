@@ -14,7 +14,7 @@ public class ChatGeneral extends VBox implements ICustomNode {
 
 	// General components
 	@FXML
-	private JFXButton sendMessage;
+	private JFXButton sendMessageBtn;
 	@FXML
 	private JFXTextArea textArea;
 	@FXML
@@ -45,10 +45,12 @@ public class ChatGeneral extends VBox implements ICustomNode {
 		messageContainer.getChildren().clear();
 
 		// Initialize existing messages
-		chat.getMessages().forEach(this::addMessageToContainer);
+		chat.getMessages().forEach((message) -> {
+			addMessageToContainer(message);
+		});
 
 		// Set up send button action
-		sendMessage.setOnAction(event -> sendMessage());
+		sendMessageBtn.setOnAction(_ -> sendMessage());
 	}
 
 	private void addMessageToContainer(Message message) {

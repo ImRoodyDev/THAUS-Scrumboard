@@ -9,7 +9,7 @@ public class UserStory {
 	private String id;
 	private String name;
 	private String description;
-	private ObservableList<Message> messages;
+	private ObservableList<Message> messages = javafx.collections.FXCollections.observableArrayList();
 
 	private int unreadCount;
 

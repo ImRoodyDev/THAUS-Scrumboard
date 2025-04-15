@@ -13,8 +13,8 @@ public class Chat {
 	private int unreadCount;
 	private boolean isOwner;
 	private ChatboxType type;
-	private ObservableList<Message> messages;
-	private ObservableList<Feature> features;
+	private ObservableList<Message> messages = FXCollections.observableArrayList();
+	private ObservableList<Feature> features = FXCollections.observableArrayList();
 
 	public Chat(String chatName, ChatboxType type) {
 		this.chatName = chatName;

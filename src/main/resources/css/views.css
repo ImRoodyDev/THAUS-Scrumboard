@@ -168,6 +168,10 @@
     -fx-alignment: top-right;
 }
 
+.app-user-message.from-me .app-chatbox-profile {
+    -fx-opacity: 0;
+}
+
 .app-user-message-ctn {
     -fx-spacing: 8;
     -fx-padding: 20 20;

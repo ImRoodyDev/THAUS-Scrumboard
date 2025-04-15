@@ -11,7 +11,7 @@ public class Feature {
 	private int unreadCount = 0;
 	private int epicsCount = 0;
 	private int userStoryCount = 0;
-	private ObservableList<Epic> epics;
+	private ObservableList<Epic> epics = javafx.collections.FXCollections.observableArrayList();
 
 	public Feature(String id, String name, String description, String status, int unread, int epicsCount, int userStoryCount) {
 		this.id = id;

@@ -12,7 +12,7 @@ public class Epic {
 	private int unreadCount = 0;
 	private int userStoryCount = 0;
 
-	private ObservableList<UserStory> userStories;
+	private ObservableList<UserStory> userStories = javafx.collections.FXCollections.observableArrayList();
 
 	public Epic(String id, String name, String description, String status, int unread, int userStoryCount) {
 		this.id = id;

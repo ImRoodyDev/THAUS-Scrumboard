@@ -8,20 +8,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<HBox xmlns:fx="http://javafx.com/fxml/1" maxWidth="1.7976931348623157E308" styleClass="app-user-message"
-      xmlns="http://javafx.com/javafx/17.0.12">
+<fx:root xmlns:fx="http://javafx.com/fxml/1" type="HBox" maxWidth="1.7976931348623157E308" styleClass="app-user-message"
+         xmlns="http://javafx.com/javafx/17.0.12">
 	<children>
 		<Circle fx:id="profile" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0"
 		        styleClass="app-chatbox-profile"/>
 		<VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-user-message-ctn">
 			<children>
-				<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label"
-				       text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+				<Label fx:id="label" contentDisplay="CENTER" maxWidth="1.7976931348623157E308"
+				       styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
 					<font>
 						<Font name="Arial Bold Italic" size="13.0"/>
 					</font>
 				</Label>
-				<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt"
+				<Text fx:id="content" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+				      styleClass="app-user-message-txt"
 				      text="Directly animated the arc length in pixels:&#10;&#10;Instead of using a factor, I'm now directly animating the arc length value in pixels&#10;This provides more precise control over the animation&#10;Using withTiming for smooth transitions between min and max lengths&#10;&#10;&#10;Used a fixed reference point:&#10;&#10;The startPoint is calculated based on the 12 o'clock position (0.25 * circumference)&#10;This keeps one end of the arc fixed while the other end grows/shrinks&#10;&#10;&#10;Adjusted timing:&#10;&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion&#10;&#10;&#10;Added cleanup in the useEffect return function">
 					<font>
 						<Font name="Arial" size="13.0"/>
@@ -40,4 +41,4 @@
 		<URL value="@../../css/default.css"/>
 		<URL value="@../../css/views.css"/>
 	</stylesheets>
-</HBox>
+</fx:root>
