@@ -132,7 +132,7 @@ public class HomeController extends BaseScene {
 
 			switch (tabName) {
 				case WELCOME:
-					newContent = new WelcomeComponent("Hello Roody");
+					newContent = new WelcomeComponent("Hello " + getAuthenticationController().getUsername());
 					break;
 				case NEW_CHAT:
 					GroupCreate createChatMenu = new GroupCreate();

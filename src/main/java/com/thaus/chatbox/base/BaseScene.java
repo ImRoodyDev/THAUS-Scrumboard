@@ -1,5 +1,6 @@
 package com.thaus.chatbox.base;
 
+import com.thaus.chatbox.controllers.AuthenticationController;
 import com.thaus.chatbox.controllers.ChatController;
 import com.thaus.chatbox.controllers.SceneController;
 import com.thaus.chatbox.interfaces.IBaseScene;
@@ -117,5 +118,7 @@ public abstract class BaseScene implements IBaseScene {
 		return SceneController.getChatController();
 	}
 
-
+	protected AuthenticationController getAuthenticationController() {
+		return SceneController.getAuthenticationController();
+	}
 }

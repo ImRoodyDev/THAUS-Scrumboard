@@ -2,11 +2,8 @@ package com.thaus.chatbox.types;
 
 public enum ScreenName {
 	Home("Home"),
-	Setting("Setting"),
-	Login("Login"),
-	Register("Register");
-
-
+	Authentication("Authentication");
+	
 	private final String displayName;
 
 	ScreenName(String displayName) {

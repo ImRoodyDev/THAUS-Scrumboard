@@ -2,8 +2,9 @@ package com.thaus.chatbox.controllers;
 
 
 import com.thaus.chatbox.base.BaseScene;
-import com.thaus.chatbox.types.ScreenName;
 import com.thaus.chatbox.components.views.HomeController;
+import com.thaus.chatbox.components.views.LoginRegisterController;
+import com.thaus.chatbox.types.ScreenName;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,8 +23,6 @@ public class SceneController {
 	private static Stage primaryStage;
 	// Scene is maximized
 	private static boolean isMaximize = false;
-	// Scene is minimized
-	private static boolean isMinimize = false;
 	// Current view index
 	private static String currentView = "";
 
@@ -54,6 +53,16 @@ public class SceneController {
 		chatController = controller;
 	}
 
+	// Function to get the authentication Controller
+	public static AuthenticationController getAuthenticationController() {
+		return authenticationController;
+	}
+
+	// Function to set the authentication Controller
+	public void setAuthenticationController(AuthenticationController controller) {
+		authenticationController = controller;
+	}
+
 	// Load the scenes and cache it
 	private static Scene loadScene(ScreenName sceneName) throws IOException {
 		// Loader for FXML
@@ -74,6 +83,14 @@ public class SceneController {
 
 				scene.getProperties().put("controller", homeController);
 				break;
+			case Authentication:
+				root = new FXMLLoader(SceneController.class.getResource("/components/views/login-register.fxml"));
+				// Load the FXML and set the scene
+				scene = new Scene(root.load(), Color.TRANSPARENT);
+				// Access the AppController and set the SceneController
+				LoginRegisterController loginRegisterController = root.getController();
+				scene.getProperties().put("controller", loginRegisterController);
+				break;
 			default:
 				throw new IllegalArgumentException("Scene not found: " + sceneName);
 		}
@@ -92,15 +109,10 @@ public class SceneController {
 		return SceneController.isMaximize;
 	}
 
-	// Get isMinimized
-	public static boolean isMinimized() {
-		return SceneController.isMinimize;
-	}
-
 	// Minimize stage
 	public static void minimize() {
 		primaryStage.setIconified(true);
-		isMinimize = true;
+
 	}
 
 	// Maximize stage
@@ -133,7 +145,6 @@ public class SceneController {
 						// Get current sceneBaseController
 						BaseScene sceneBaseController = (BaseScene) currentScene.getProperties().get("controller");
 
-
 						// Set it into the stage
 						SceneController.primaryStage.setScene(currentScene);
 						SceneController.primaryStage.show();
@@ -144,8 +155,8 @@ public class SceneController {
 
 
 					} catch (Exception e) {
-						System.out.println("Error occurred loading stage: " + screenName + " Message: " + e.getMessage());
-						e.printStackTrace();
+						System.out.println("Error occurred loading stage: " + screenName.getDisplayName());
+						// e.printStackTrace();
 					}
 				}
 		);
@@ -168,14 +179,11 @@ public class SceneController {
 		this.preloadScenes();
 
 		// Go to the main app if logged in (but for now leave it at true)
-		SceneController.switchStage(ScreenName.Home);
-		/**
-		 if (UserManager.isLoggedIn()) {
-		 this.switchToScene("Dashboard");
-		 } else {
-		 this.switchToScene("App");
-
-		 }*/
+		if (authenticationController.isLoggedIn()) {
+			SceneController.switchStage(ScreenName.Home);
+		} else {
+			SceneController.switchStage(ScreenName.Authentication);
+		}
 	}
 
 	// Preloading the scene and add it in the cache for fast scene loading
