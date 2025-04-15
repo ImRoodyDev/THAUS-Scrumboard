@@ -1,7 +1,7 @@
-package com.thaus.chatbox.components.interactive;
+package com.thaus.chatbox.components.interactive.buttons;
 
 import com.jfoenix.controls.JFXButton;
-import com.thaus.chatbox.classes.Epic;
+import com.thaus.chatbox.classes.UserStory;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
@@ -10,13 +10,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 
-public class EpicButton extends HBox implements ICustomNode {
-	private final Epic featureEpic;
-	// FXML components
+public class UserStoryButton extends HBox implements ICustomNode {
+
 	@FXML
 	private Label nameLabel;
-	@FXML
-	private Label userStoryLabel;
 	@FXML
 	private Label unreadLabel;
 	@FXML
@@ -25,21 +22,28 @@ public class EpicButton extends HBox implements ICustomNode {
 	private JFXButton contextMenuButton;
 	@FXML
 	private ContextMenu contextMenu;
+
+	//
+	private UserStory userStory;
 	private Runnable onClickHandler;
 	private Runnable onDeleteHandler;
 
-	public EpicButton(Epic featureEpic) {
-		this.featureEpic = featureEpic;
-		initializeFXML("/components/interactive/epic.fxml");
-		initializeMenu();
+	public UserStoryButton(UserStory userStory) {
+		this.userStory = userStory;
+		initializeFXML("/components/interactive/user-story.fxml");
 	}
 
-	@FXML
 	public void initialize() {
 		// Initialize the button with the name and id
-		this.userStoryLabel.setText("User stories: " + String.valueOf(featureEpic.getUserStoryCount()));
-		this.unreadLabel.setText(String.valueOf(featureEpic.getUnreadCount()));
-		this.nameLabel.setText(featureEpic.getName());
+		nameLabel.setText(userStory.getName());
+
+		// Set the unread count
+		if (unreadLabel != null) {
+			unreadLabel.setText(String.valueOf(userStory.getUnreadCount()));
+			unreadLabel.setVisible(userStory.getUnreadCount() > 0);
+			unreadLabel.setManaged(userStory.getUnreadCount() > 0);
+
+		}
 
 		// Set up the button actions
 		button.setOnAction(event -> {
@@ -47,10 +51,8 @@ public class EpicButton extends HBox implements ICustomNode {
 				onClickHandler.run();
 			}
 		});
-	}
 
-	public Epic getEpic() {
-		return featureEpic;
+		initializeMenu();
 	}
 
 	private void initializeMenu() {
@@ -67,13 +69,16 @@ public class EpicButton extends HBox implements ICustomNode {
 				}
 			});
 
-			// Open item action
 			contextMenuButton.setOnAction(event -> {
 				if (contextMenu != null) {
 					contextMenu.show(contextMenuButton, Side.BOTTOM, 0, 0);
 				}
 			});
 		}
+	}
+
+	public UserStory getUserStory() {
+		return userStory;
 	}
 
 	public void setOnDeleteHandler(Runnable onDeleteHandler) {
@@ -83,5 +88,4 @@ public class EpicButton extends HBox implements ICustomNode {
 	public void setOnClickHandler(Runnable onClickHandler) {
 		this.onClickHandler = onClickHandler;
 	}
-
 }

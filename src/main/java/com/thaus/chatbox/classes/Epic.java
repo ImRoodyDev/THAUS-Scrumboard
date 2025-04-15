@@ -29,6 +29,7 @@ public class Epic {
 		this.status = "New";
 		this.unreadCount = 0;
 		this.userStoryCount = 0;
+	 
 	}
 
 	public String getId() {

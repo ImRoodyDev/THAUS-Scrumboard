@@ -2,8 +2,9 @@ package com.thaus.chatbox.components.tabs;
 
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Epic;
+import com.thaus.chatbox.classes.Feature;
 import com.thaus.chatbox.classes.UserStory;
-import com.thaus.chatbox.components.interactive.UserStoryButton;
+import com.thaus.chatbox.components.interactive.buttons.UserStoryButton;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -11,12 +12,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class ChatUserStories extends VBox implements ICustomNode {
-	private final Epic currentEpicUserStory;
+public class GroupUserStories extends VBox implements ICustomNode {
+	private final Epic currentUserStoryEpic;
+	private final Feature currentUserStoryFeature;
+
 	@FXML
-	private Label nameLabel;
+	private Label featureLabel;
 	@FXML
-	private Label userStoryLabel;
+	private Label epicLabel;
 	@FXML
 	private TextField textField;
 	@FXML
@@ -52,9 +55,10 @@ public class ChatUserStories extends VBox implements ICustomNode {
 	};
 
 	// Constructor
-	public ChatUserStories(Epic epic) {
-		this.currentEpicUserStory = epic;
-		initializeFXML("/components/tabs/chat-stories.fxml");
+	public GroupUserStories(Epic epic, Feature feature) {
+		this.currentUserStoryEpic = epic;
+		this.currentUserStoryFeature = feature;
+		initializeFXML("/components/tabs/group-stories.fxml");
 	}
 
 	@FXML
@@ -64,33 +68,32 @@ public class ChatUserStories extends VBox implements ICustomNode {
 	}
 
 	private void initializeLabels() {
-		this.nameLabel.setText(currentEpicUserStory.getName());
-		this.userStoryLabel.setText(String.valueOf(currentEpicUserStory.getUserStoryCount()));
-
+		// Set the feature label
+		this.featureLabel.setText(currentUserStoryFeature.getName());
+		this.epicLabel.setText(currentUserStoryEpic.getName());
 	}
 
 	private void initializeUserStory() {
 		// Check if user stories is null or empty
-		if (currentEpicUserStory.getUserStories() == null || currentEpicUserStory.getUserStories().isEmpty()) {
+		if (currentUserStoryEpic.getUserStories() == null || currentUserStoryEpic.getUserStories().isEmpty()) {
 			dialog.setVisible(true);
 		} else {
-			if (viewContainer.getChildren().contains(dialog)) {
-				viewContainer.getChildren().remove(dialog);
-			}
+			viewContainer.getChildren().remove(dialog);
 		}
 
 		// Add event listener to the array
-		currentEpicUserStory.getUserStories().addListener(chatUserStoryListChangeListener);
+		currentUserStoryEpic.getUserStories().addListener(chatUserStoryListChangeListener);
 
 		// Clear the view container and add each user story to it
 		viewContainer.getChildren().clear();
 
-		for (UserStory userStory : currentEpicUserStory.getUserStories()) {
+		for (UserStory userStory : currentUserStoryEpic.getUserStories()) {
 			createUserStoryComponent(userStory);
 		}
 
 		// Add the create button action
 		createButton.setOnAction(_ -> createUserStory());
+
 	}
 
 	private void createUserStory() {
@@ -99,7 +102,7 @@ public class ChatUserStories extends VBox implements ICustomNode {
 			return;
 		}
 
-		currentEpicUserStory.createUserStory(textField.getText());
+		currentUserStoryEpic.createUserStory(textField.getText());
 
 		// Clear the text field
 		textField.clear();
@@ -111,15 +114,13 @@ public class ChatUserStories extends VBox implements ICustomNode {
 
 	public void cleanup() {
 		// Remove the listener from the user stories list
-		if (currentEpicUserStory.getUserStories() != null) {
-			currentEpicUserStory.getUserStories().removeListener(chatUserStoryListChangeListener);
+		if (currentUserStoryEpic.getUserStories() != null) {
+			currentUserStoryEpic.getUserStories().removeListener(chatUserStoryListChangeListener);
 		}
 	}
 
 	private void createUserStoryComponent(UserStory userStory) {
-		if (viewContainer.getChildren().contains(dialog)) {
-			viewContainer.getChildren().remove(dialog);
-		}
+		viewContainer.getChildren().remove(dialog);
 
 		UserStoryButton userStoryButton = new UserStoryButton(userStory);
 
@@ -128,14 +129,12 @@ public class ChatUserStories extends VBox implements ICustomNode {
 				onUserStoryClickHandler.onUserStoryClick(userStory);
 			}
 		});
-		userStoryButton.setOnDeleteHandler(() -> currentEpicUserStory.deleteUserStory(userStory));
 
-
+		userStoryButton.setOnDeleteHandler(() -> currentUserStoryEpic.deleteUserStory(userStory));
 		viewContainer.getChildren().add(userStoryButton);
 	}
 
 	public interface OnUserStoryClickHandler {
 		void onUserStoryClick(UserStory userStory);
 	}
-
 }

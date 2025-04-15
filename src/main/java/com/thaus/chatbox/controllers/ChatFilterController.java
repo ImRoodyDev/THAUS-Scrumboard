@@ -1,6 +1,6 @@
 package com.thaus.chatbox.controllers;
 
-import com.thaus.chatbox.components.interactive.ChatFilterButton;
+import com.thaus.chatbox.components.interactive.buttons.ChatFilterButton;
 import com.thaus.chatbox.interfaces.IChatFilterListener;
 import com.thaus.chatbox.types.ChatType;
 import javafx.scene.layout.FlowPane;

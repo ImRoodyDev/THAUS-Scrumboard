@@ -1,13 +1,11 @@
 package com.thaus.chatbox.components.views;
 
 import com.jfoenix.controls.JFXButton;
-import com.thaus.chatbox.classes.Chat;
 import com.thaus.chatbox.classes.Epic;
 import com.thaus.chatbox.classes.Feature;
-import com.thaus.chatbox.components.tabs.ChatEpics;
-import com.thaus.chatbox.components.tabs.ChatFeatures;
-import com.thaus.chatbox.components.tabs.ChatGeneral;
-import com.thaus.chatbox.components.tabs.ChatUserStories;
+import com.thaus.chatbox.classes.Group;
+import com.thaus.chatbox.classes.UserStory;
+import com.thaus.chatbox.components.tabs.*;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import com.thaus.chatbox.types.ChatThreadType;
 import com.thaus.chatbox.types.ChatType;
@@ -22,26 +20,28 @@ import javafx.scene.layout.VBox;
 
 public class ChatWindowController extends VBox implements ICustomNode {
 	// Current
-	private final Chat currentChat;
+	private final Group currentChat;
 
 	// Components
 	public AnchorPane windowContainer;
 	public Label chatType;
 	public Label chatLabel;
 	public MenuButton tabsMenu;
-
 	public JFXButton addButton;
 	public JFXButton searchButton;
 
 	// Component controls values
 	private Object currentWindowType;
 	private Runnable onWindowSwitch;
-	private MenuItem featureMenu;
-	// private Menu epicsMenu;
-	// private Menu userStoryMenu;
+
+	// Holders
+	private Feature currentFeature;
+	private Epic currentEpic;
+	private UserStory currentUserStory;
+
 
 	// Constructor
-	public ChatWindowController(Chat chat) {
+	public ChatWindowController(Group chat) {
 		this.currentChat = chat;
 		initializeFXML("/components/tabs/chat-window.fxml");
 		// Initialize the chat window
@@ -73,31 +73,9 @@ public class ChatWindowController extends VBox implements ICustomNode {
 		ObservableList<MenuItem> tabMenuChildren = tabsMenu.getItems();
 
 		for (ChatThreadType chatThreadType : ChatThreadType.values()) {
-			if (chatThreadType == ChatThreadType.FEATURES) {
-				// Create another menu
-				featureMenu = new MenuItem(chatThreadType.getName());
-				featureMenu.setOnAction(event -> switchWindow(chatThreadType));
-
-				// epicsMenu = new Menu(ChatType.EPICS.getName());
-				// userStoryMenu = new Menu(ChatType.USER_STORY.getName());
-
-				// Add action event on the menu button
-				//epicsMenu.setOnAction(event -> switchWindow(ExtraWindowType.EPICS,currentChat.));
-				//userStoryMenu.setOnAction(event -> switchWindow(ExtraWindowType.USER_STORY));
-
-				// Form the menu
-				// epicsMenu.getItems().add(userStoryMenu);
-				// featureMenu.getItems().add(epicsMenu);
-				tabMenuChildren.add(featureMenu);
-				return;
-			} else {
-				MenuItem menuItem = new MenuItem(chatThreadType.getName());
-				menuItem.setOnAction(event -> {
-					System.out.println("Selected : " + chatThreadType.getName());
-					switchWindow(chatThreadType);
-				});
-				tabMenuChildren.add(menuItem);
-			}
+			MenuItem menuItem = new MenuItem(chatThreadType.getName());
+			menuItem.setOnAction(event -> switchWindow(chatThreadType));
+			tabMenuChildren.add(menuItem);
 		}
 	}
 
@@ -120,16 +98,36 @@ public class ChatWindowController extends VBox implements ICustomNode {
 			switch (windowType) {
 				case GENERAL:
 					ChatGeneral chatGeneral = new ChatGeneral(currentChat);
+
+					// Setup controller values
 					onWindowSwitch = chatGeneral::cleanup;
 					newComponent = chatGeneral;
+					searchButton.setVisible(true);
+					searchButton.setManaged(true);
 					break;
 				case FEATURES:
-					ChatFeatures chatFeatures = new ChatFeatures(currentChat);
-					onWindowSwitch = chatFeatures::cleanup;
-					chatFeatures.setOnFeatureClickHandler((Feature feature) -> {
+					GroupFeatures groupFeatures = new GroupFeatures(currentChat);
+					groupFeatures.setOnFeatureClickHandler((Feature feature) -> {
 						switchWindow(ExtraWindowType.EPICS, feature);
 					});
-					newComponent = chatFeatures;
+
+					// Setup controller values
+					newComponent = groupFeatures;
+					onWindowSwitch = groupFeatures::cleanup;
+					searchButton.setVisible(false);
+					searchButton.setManaged(false);
+					break;
+				case SPRINTS:
+					GroupSprints groupSprints = new GroupSprints(currentChat);
+					groupSprints.setOnSprintClickHandler((sprint) -> {
+						switchWindow(ExtraWindowType.SPRINT_CHAT, sprint);
+					});
+
+					// Setup controller values
+					onWindowSwitch = groupSprints::cleanup;
+					newComponent = groupSprints;
+					searchButton.setVisible(false);
+					searchButton.setManaged(false);
 					break;
 			}
 
@@ -175,28 +173,34 @@ public class ChatWindowController extends VBox implements ICustomNode {
 
 			switch (windowType) {
 				case USER_STORY:
-					ChatUserStories chatUserStories = new ChatUserStories((Epic) object);
-					chatUserStories.setOnUserStoryClickHandler((userStory -> {
+					GroupUserStories groupUserStories = new GroupUserStories((Epic) object, currentFeature);
+					groupUserStories.setOnUserStoryClickHandler((userStory -> {
+						currentEpic = (Epic) object;
 						switchWindow(ExtraWindowType.STORY_CHAT, userStory);
 					}));
 
 					// Setup controller values
-					onWindowSwitch = chatUserStories::cleanup;
-					newComponent = chatUserStories;
+					newComponent = groupUserStories;
+					onWindowSwitch = groupUserStories::cleanup;
 					chatType.setText(ChatType.USER_STORY.getName());
 					break;
 				case EPICS:
-					ChatEpics chatEpics = new ChatEpics((Feature) object);
-					chatEpics.setOnEpicClickHandler((epic -> {
+					GroupEpics groupEpics = new GroupEpics((Feature) object);
+					groupEpics.setOnEpicClickHandler((epic -> {
+						currentFeature = (Feature) object;
 						switchWindow(ExtraWindowType.USER_STORY, epic);
 					}));
 
 					// Setup controller values
-					onWindowSwitch = chatEpics::cleanup;
-					newComponent = chatEpics;
+					newComponent = groupEpics;
+					onWindowSwitch = groupEpics::cleanup;
 					chatType.setText(ChatType.EPICS.getName());
 					break;
 				case STORY_CHAT:
+					UserStoryChat chatUserStory = new UserStoryChat(currentEpic, currentFeature, (UserStory) object);
+
+					onWindowSwitch = chatUserStory::cleanup;
+					newComponent = chatUserStory;
 					break;
 			}
 
@@ -215,17 +219,22 @@ public class ChatWindowController extends VBox implements ICustomNode {
 				// Set the window type
 				currentWindowType = windowType;
 				System.out.println("Switching tab: " + windowType);
+			} else {
+				// Clear contents and add new
+				windowContainer.getChildren().clear();
 			}
 
 		} catch (Exception e) {
 			System.out.println("Failed to switch window: Epics");
+			// e.printStackTrace();
 		}
 	}
 
 	private enum ExtraWindowType {
 		USER_STORY,
 		EPICS,
-		STORY_CHAT;
+		STORY_CHAT,
+		SPRINT_CHAT;
 	}
 
 }

@@ -1,7 +1,7 @@
-package com.thaus.chatbox.components.interactive;
+package com.thaus.chatbox.components.interactive.buttons;
 
 import com.jfoenix.controls.JFXButton;
-import com.thaus.chatbox.classes.UserStory;
+import com.thaus.chatbox.classes.Feature;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
@@ -10,10 +10,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 
-public class UserStoryButton extends HBox implements ICustomNode {
+public class FeatureButton extends HBox implements ICustomNode {
 
+	// Privates
+	private final Feature chatFeature;
 	@FXML
 	private Label nameLabel;
+	@FXML
+	private Label epicsLabel;
+	@FXML
+	private Label userStoryLabel;
 	@FXML
 	private Label unreadLabel;
 	@FXML
@@ -22,20 +28,25 @@ public class UserStoryButton extends HBox implements ICustomNode {
 	private JFXButton contextMenuButton;
 	@FXML
 	private ContextMenu contextMenu;
-
-	//
-	private UserStory userStory;
 	private Runnable onClickHandler;
 	private Runnable onDeleteHandler;
 
-	public UserStoryButton(UserStory userStory) {
-		this.userStory = userStory;
-		initializeFXML("/components/interactive/user-story.fxml");
+	// Constructor
+	public FeatureButton(Feature chatFeature) {
+		this.chatFeature = chatFeature;
+
+		// Initialize the button with the name and id
+		initializeFXML("/components/interactive/feature.fxml");
+		initializeMenu();
 	}
 
+	@FXML
 	public void initialize() {
 		// Initialize the button with the name and id
-		nameLabel.setText(userStory.getName());
+		this.epicsLabel.setText("Epics: " + String.valueOf(chatFeature.getEpicsCount()));
+		this.userStoryLabel.setText("User stories: " + String.valueOf(chatFeature.getUserStoryCount()));
+		this.unreadLabel.setText(String.valueOf(chatFeature.getUnreadCount()));
+		this.nameLabel.setText(chatFeature.getName());
 
 		// Set up the button actions
 		button.setOnAction(event -> {
@@ -43,9 +54,6 @@ public class UserStoryButton extends HBox implements ICustomNode {
 				onClickHandler.run();
 			}
 		});
-
-
-		initializeMenu();
 
 	}
 
@@ -63,7 +71,6 @@ public class UserStoryButton extends HBox implements ICustomNode {
 				}
 			});
 
-
 			contextMenuButton.setOnAction(event -> {
 				if (contextMenu != null) {
 					contextMenu.show(contextMenuButton, Side.BOTTOM, 0, 0);
@@ -72,8 +79,8 @@ public class UserStoryButton extends HBox implements ICustomNode {
 		}
 	}
 
-	public UserStory getUserStory() {
-		return userStory;
+	public Feature getFeature() {
+		return chatFeature;
 	}
 
 	public void setOnDeleteHandler(Runnable onDeleteHandler) {
@@ -83,4 +90,5 @@ public class UserStoryButton extends HBox implements ICustomNode {
 	public void setOnClickHandler(Runnable onClickHandler) {
 		this.onClickHandler = onClickHandler;
 	}
+
 }

@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<fx:root alignment="CENTER" prefHeight="720.0" prefWidth="1280.0" type="VBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+	<stylesheets>
+		<URL value="@../../css/default.css" />
+		<URL value="@../../css/views.css" />
+	</stylesheets>
+	<children>
+		<HBox alignment="CENTER" spacing="12.0">
+			<children>
+				<HBox layoutX="554.0" layoutY="10.0">
+					<children>
+						<VBox alignment="CENTER" styleClass="icon-ptn">
+							<children>
+								<SVGPath content="M 0.988281 17.074219 C 0.328125 17.199219 -0.105469 17.839844 0.0234375 18.5 C 0.132812 19.082031 0.644531 19.488281 1.214844 19.488281 C 1.292969 19.488281 1.371094 19.480469 1.445312 19.464844 L 6.460938 18.5 C 6.746094 18.445312 7 18.292969 7.183594 18.0625 L 9.335938 15.351562 L 8.617188 14.984375 C 8.085938 14.714844 7.714844 14.230469 7.589844 13.640625 L 5.558594 16.199219 Z M 0.988281 17.074219 M 21.507812 3.824219 C 21.507812 2.351562 20.3125 1.15625 18.839844 1.15625 C 17.367188 1.15625 16.171875 2.351562 16.171875 3.824219 C 16.171875 5.296875 17.367188 6.492188 18.839844 6.492188 C 20.3125 6.492188 21.507812 5.296875 21.507812 3.824219 Z M 21.507812 3.824219M 13.019531 3.15625 C 12.738281 2.867188 12.476562 2.753906 12.191406 2.753906 C 12.085938 2.753906 11.984375 2.769531 11.871094 2.792969 L 7.292969 3.878906 C 6.660156 4.03125 6.269531 4.664062 6.417969 5.296875 C 6.546875 5.835938 7.027344 6.203125 7.5625 6.203125 C 7.652344 6.203125 7.746094 6.191406 7.835938 6.167969 L 11.738281 5.246094 C 11.988281 5.527344 13.257812 6.902344 13.488281 7.144531 C 11.875 8.871094 10.265625 10.59375 8.652344 12.320312 C 8.625 12.347656 8.601562 12.375 8.582031 12.402344 C 8.109375 13.003906 8.253906 13.945312 8.960938 14.300781 L 9.820312 14.738281 L 13.90625 16.824219 L 11.339844 20.984375 C 10.988281 21.558594 11.164062 22.304688 11.738281 22.660156 C 11.9375 22.785156 12.15625 22.84375 12.375 22.84375 C 12.78125 22.84375 13.183594 22.636719 13.414062 22.265625 L 16.671875 16.984375 C 16.851562 16.691406 16.902344 16.339844 16.808594 16.011719 C 16.714844 15.683594 16.488281 15.410156 16.183594 15.257812 L 12.832031 13.554688 L 16.355469 9.785156 L 19.011719 12.039062 C 19.230469 12.226562 19.503906 12.316406 19.773438 12.316406 C 20.058594 12.316406 20.347656 12.210938 20.574219 12.003906 L 23.625 9.160156 C 24.101562 8.71875 24.128906 7.972656 23.683594 7.496094 C 23.453125 7.25 23.136719 7.125 22.824219 7.125 C 22.539062 7.125 22.25 7.226562 22.023438 7.4375 L 19.742188 9.5625 C 19.738281 9.5625 14.019531 4.183594 13.019531 3.15625 Z M 13.019531 3.15625" fill="WHITE" styleClass="icon" />
+							</children>
+						</VBox>
+						<Label fx:id="sprintLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="text" text="Sprint 1" wrapText="true">
+							<font>
+								<Font name="Arial Bold" size="12.0" />
+							</font>
+						</Label>
+					</children>
+					<styleClass>
+						<String fx:value="rounded-label-ft" />
+						<String fx:value="epic" />
+					</styleClass>
+				</HBox>
+			</children>
+			<VBox.margin>
+				<Insets top="6.0" />
+			</VBox.margin>
+		</HBox>
+		<AnchorPane fx:id="dynamicContainer" />
+		<AnchorPane fx:id="windowContainer" layoutX="10.0" layoutY="52.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+			<children>
+				<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="app-chat-general" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+					<children>
+						<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="142.0" prefWidth="432.0" styleClass="messages-scroll" VBox.vgrow="ALWAYS">
+							<content>
+								<VBox fx:id="messageContainer" maxWidth="1.7976931348623157E308" styleClass="messages-scroll-ctn">
+									<children>
+										<HBox maxWidth="1.7976931348623157E308" styleClass="app-user-message">
+											<children>
+												<Circle radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="app-chatbox-profile" />
+												<VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-user-message-ctn">
+													<children>
+														<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+															<font>
+																<Font name="Arial Bold Italic" size="13.0" />
+															</font>
+														</Label>
+														<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;&#10;Instead of using a factor, I'm now directly animating the arc length value in pixels&#10;This provides more precise control over the animation&#10;Using withTiming for smooth transitions between min and max lengths&#10;&#10;&#10;Used a fixed reference point:&#10;&#10;The startPoint is calculated based on the 12 o'clock position (0.25 * circumference)&#10;This keeps one end of the arc fixed while the other end grows/shrinks&#10;&#10;&#10;Adjusted timing:&#10;&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion&#10;&#10;&#10;Added cleanup in the useEffect return function">
+															<font>
+																<Font name="Arial" size="13.0" />
+															</font>
+														</Text>
+													</children>
+													<opaqueInsets>
+														<Insets />
+													</opaqueInsets>
+													<HBox.margin>
+														<Insets />
+													</HBox.margin>
+												</VBox>
+											</children>
+										</HBox>
+										<HBox maxWidth="1.7976931348623157E308">
+											<children>
+												<VBox alignment="CENTER_LEFT" cacheShape="false" maxWidth="1.7976931348623157E308">
+													<children>
+														<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+															<font>
+																<Font name="Arial Bold Italic" size="13.0" />
+															</font>
+														</Label>
+														<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;Adjusted timing:&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion">
+															<font>
+																<Font name="Arial" size="13.0" />
+															</font>
+														</Text>
+													</children>
+													<opaqueInsets>
+														<Insets />
+													</opaqueInsets>
+													<HBox.margin>
+														<Insets />
+													</HBox.margin>
+													<styleClass>
+														<String fx:value="app-user-message-ctn" />
+														<String fx:value="from-me" />
+													</styleClass>
+												</VBox>
+											</children>
+											<styleClass>
+												<String fx:value="app-user-message" />
+												<String fx:value="from-me" />
+											</styleClass>
+										</HBox>
+										<HBox maxWidth="1.7976931348623157E308" styleClass="app-user-message">
+											<children>
+												<Circle radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="app-chatbox-profile" />
+												<VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-user-message-ctn">
+													<children>
+														<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+															<font>
+																<Font name="Arial Bold Italic" size="13.0" />
+															</font>
+														</Label>
+														<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;&#10;Instead of using a factor, I'm now directly animating the arc length value in pixels&#10;This provides more precise control over the animation&#10;Using withTiming for smooth transitions between min and max lengths&#10;&#10;&#10;Used a fixed reference point:&#10;&#10;The startPoint is calculated based on the 12 o'clock position (0.25 * circumference)&#10;This keeps one end of the arc fixed while the other end grows/shrinks&#10;&#10;&#10;Adjusted timing:&#10;&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion&#10;&#10;&#10;Added cleanup in the useEffect return function">
+															<font>
+																<Font name="Arial" size="13.0" />
+															</font>
+														</Text>
+													</children>
+													<opaqueInsets>
+														<Insets />
+													</opaqueInsets>
+													<HBox.margin>
+														<Insets />
+													</HBox.margin>
+												</VBox>
+											</children>
+										</HBox>
+										<HBox maxWidth="1.7976931348623157E308" styleClass="app-user-message">
+											<children>
+												<Circle radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="app-chatbox-profile" />
+												<VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-user-message-ctn">
+													<children>
+														<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+															<font>
+																<Font name="Arial Bold Italic" size="13.0" />
+															</font>
+														</Label>
+														<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;&#10;Instead of using a factor, I'm now directly animating the arc length value in pixels&#10;This provides more precise control over the animation&#10;Using withTiming for smooth transitions between min and max lengths&#10;&#10;&#10;Used a fixed reference point:&#10;&#10;The startPoint is calculated based on the 12 o'clock position (0.25 * circumference)&#10;This keeps one end of the arc fixed while the other end grows/shrinks&#10;&#10;&#10;Adjusted timing:&#10;&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion&#10;&#10;&#10;Added cleanup in the useEffect return function">
+															<font>
+																<Font name="Arial" size="13.0" />
+															</font>
+														</Text>
+													</children>
+													<opaqueInsets>
+														<Insets />
+													</opaqueInsets>
+													<HBox.margin>
+														<Insets />
+													</HBox.margin>
+												</VBox>
+											</children>
+										</HBox>
+										<HBox maxWidth="1.7976931348623157E308" styleClass="app-user-message">
+											<children>
+												<Circle radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="app-chatbox-profile" />
+												<VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-user-message-ctn">
+													<children>
+														<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+															<font>
+																<Font name="Arial Bold Italic" size="13.0" />
+															</font>
+														</Label>
+														<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;&#10;Instead of using a factor, I'm now directly animating the arc length value in pixels&#10;This provides more precise control over the animation&#10;Using withTiming for smooth transitions between min and max lengths&#10;&#10;&#10;Used a fixed reference point:&#10;&#10;The startPoint is calculated based on the 12 o'clock position (0.25 * circumference)&#10;This keeps one end of the arc fixed while the other end grows/shrinks&#10;&#10;&#10;Adjusted timing:&#10;&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion&#10;&#10;&#10;Added cleanup in the useEffect return function">
+															<font>
+																<Font name="Arial" size="13.0" />
+															</font>
+														</Text>
+													</children>
+													<opaqueInsets>
+														<Insets />
+													</opaqueInsets>
+													<HBox.margin>
+														<Insets />
+													</HBox.margin>
+												</VBox>
+											</children>
+										</HBox>
+										<HBox maxWidth="1.7976931348623157E308" styleClass="app-user-message">
+											<children>
+												<Circle radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="app-chatbox-profile" />
+												<VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-user-message-ctn">
+													<children>
+														<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+															<font>
+																<Font name="Arial Bold Italic" size="13.0" />
+															</font>
+														</Label>
+														<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;&#10;Instead of using a factor, I'm now directly animating the arc length value in pixels&#10;This provides more precise control over the animation&#10;Using withTiming for smooth transitions between min and max lengths&#10;&#10;&#10;Used a fixed reference point:&#10;&#10;The startPoint is calculated based on the 12 o'clock position (0.25 * circumference)&#10;This keeps one end of the arc fixed while the other end grows/shrinks&#10;&#10;&#10;Adjusted timing:&#10;&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion&#10;&#10;&#10;Added cleanup in the useEffect return function">
+															<font>
+																<Font name="Arial" size="13.0" />
+															</font>
+														</Text>
+													</children>
+													<opaqueInsets>
+														<Insets />
+													</opaqueInsets>
+													<HBox.margin>
+														<Insets />
+													</HBox.margin>
+												</VBox>
+											</children>
+										</HBox>
+										<HBox maxWidth="1.7976931348623157E308" styleClass="app-user-message">
+											<children>
+												<Circle radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="app-chatbox-profile" />
+												<VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-user-message-ctn">
+													<children>
+														<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+															<font>
+																<Font name="Arial Bold Italic" size="13.0" />
+															</font>
+														</Label>
+														<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;&#10;Instead of using a factor, I'm now directly animating the arc length value in pixels&#10;This provides more precise control over the animation&#10;Using withTiming for smooth transitions between min and max lengths&#10;&#10;&#10;Used a fixed reference point:&#10;&#10;The startPoint is calculated based on the 12 o'clock position (0.25 * circumference)&#10;This keeps one end of the arc fixed while the other end grows/shrinks&#10;&#10;&#10;Adjusted timing:&#10;&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion&#10;&#10;&#10;Added cleanup in the useEffect return function">
+															<font>
+																<Font name="Arial" size="13.0" />
+															</font>
+														</Text>
+													</children>
+													<opaqueInsets>
+														<Insets />
+													</opaqueInsets>
+													<HBox.margin>
+														<Insets />
+													</HBox.margin>
+												</VBox>
+											</children>
+										</HBox>
+										<HBox maxWidth="1.7976931348623157E308">
+											<children>
+												<VBox alignment="CENTER_LEFT" cacheShape="false" maxWidth="1.7976931348623157E308">
+													<children>
+														<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+															<font>
+																<Font name="Arial Bold Italic" size="13.0" />
+															</font>
+														</Label>
+														<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;Adjusted timing:&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion">
+															<font>
+																<Font name="Arial" size="13.0" />
+															</font>
+														</Text>
+													</children>
+													<opaqueInsets>
+														<Insets />
+													</opaqueInsets>
+													<HBox.margin>
+														<Insets />
+													</HBox.margin>
+													<styleClass>
+														<String fx:value="app-user-message-ctn" />
+														<String fx:value="from-me" />
+													</styleClass>
+												</VBox>
+											</children>
+											<styleClass>
+												<String fx:value="app-user-message" />
+												<String fx:value="from-me" />
+											</styleClass>
+										</HBox>
+										<HBox maxWidth="1.7976931348623157E308" styleClass="app-user-message">
+											<children>
+												<Circle radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="app-chatbox-profile" />
+												<VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-user-message-ctn">
+													<children>
+														<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+															<font>
+																<Font name="Arial Bold Italic" size="13.0" />
+															</font>
+														</Label>
+														<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;&#10;Instead of using a factor, I'm now directly animating the arc length value in pixels&#10;This provides more precise control over the animation&#10;Using withTiming for smooth transitions between min and max lengths&#10;&#10;&#10;Used a fixed reference point:&#10;&#10;The startPoint is calculated based on the 12 o'clock position (0.25 * circumference)&#10;This keeps one end of the arc fixed while the other end grows/shrinks&#10;&#10;&#10;Adjusted timing:&#10;&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion&#10;&#10;&#10;Added cleanup in the useEffect return function">
+															<font>
+																<Font name="Arial" size="13.0" />
+															</font>
+														</Text>
+													</children>
+													<opaqueInsets>
+														<Insets />
+													</opaqueInsets>
+													<HBox.margin>
+														<Insets />
+													</HBox.margin>
+												</VBox>
+											</children>
+										</HBox>
+										<HBox maxWidth="1.7976931348623157E308" styleClass="app-user-message">
+											<children>
+												<Circle radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="app-chatbox-profile" />
+												<VBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-user-message-ctn">
+													<children>
+														<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+															<font>
+																<Font name="Arial Bold Italic" size="13.0" />
+															</font>
+														</Label>
+														<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;&#10;Instead of using a factor, I'm now directly animating the arc length value in pixels&#10;This provides more precise control over the animation&#10;Using withTiming for smooth transitions between min and max lengths&#10;&#10;&#10;Used a fixed reference point:&#10;&#10;The startPoint is calculated based on the 12 o'clock position (0.25 * circumference)&#10;This keeps one end of the arc fixed while the other end grows/shrinks&#10;&#10;&#10;Adjusted timing:&#10;&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion&#10;&#10;&#10;Added cleanup in the useEffect return function">
+															<font>
+																<Font name="Arial" size="13.0" />
+															</font>
+														</Text>
+													</children>
+													<opaqueInsets>
+														<Insets />
+													</opaqueInsets>
+													<HBox.margin>
+														<Insets />
+													</HBox.margin>
+												</VBox>
+											</children>
+										</HBox>
+										<HBox maxWidth="1.7976931348623157E308">
+											<children>
+												<VBox alignment="CENTER_LEFT" cacheShape="false" maxWidth="1.7976931348623157E308">
+													<children>
+														<Label contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="app-user-message-label" text="User ( 123234441) 12/4/2024 8:15" textFill="WHITE">
+															<font>
+																<Font name="Arial Bold Italic" size="13.0" />
+															</font>
+														</Label>
+														<Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="app-user-message-txt" text="Directly animated the arc length in pixels:&#10;Adjusted timing:&#10;Set the growing and shrinking phases to 750ms each (total 1500ms per cycle)&#10;Used Easing.inOut(Easing.quad) for a more natural motion">
+															<font>
+																<Font name="Arial" size="13.0" />
+															</font>
+														</Text>
+													</children>
+													<opaqueInsets>
+														<Insets />
+													</opaqueInsets>
+													<HBox.margin>
+														<Insets />
+													</HBox.margin>
+													<styleClass>
+														<String fx:value="app-user-message-ctn" />
+														<String fx:value="from-me" />
+													</styleClass>
+												</VBox>
+											</children>
+											<styleClass>
+												<String fx:value="app-user-message" />
+												<String fx:value="from-me" />
+											</styleClass>
+										</HBox>
+									</children>
+								</VBox>
+							</content>
+						</ScrollPane>
+						<HBox alignment="CENTER_LEFT" fillHeight="false" styleClass="send-message-bar">
+							<children>
+								<JFXTextArea fx:id="textArea" focusColor="#ffffff00" promptText="Typ een bericht" styleClass="send-message-bar-input-fld" unFocusColor="#ffffff00" wrapText="true" HBox.hgrow="SOMETIMES">
+									<font>
+										<Font name="Arial" size="14.0" />
+									</font>
+									<HBox.margin>
+										<Insets />
+									</HBox.margin>
+								</JFXTextArea>
+								<JFXButton fx:id="sendMessageBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" ellipsisString="" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="34.0" ripplerFill="BLACK" styleClass="app-message-bar-send-btn" text="Button" textOverrun="CLIP">
+									<graphic>
+										<SVGPath content="m7.4 6.32 8.49-2.83c3.81-1.27 5.88.81 4.62 4.62l-2.83 8.49c-1.9 5.71-5.02 5.71-6.92 0l-.84-2.52-2.52-.84c-5.71-1.9-5.71-5.01 0-6.92ZM10.11 13.65l3.58-3.59" fill="WHITE" styleClass="icon" />
+									</graphic>
+								</JFXButton>
+							</children>
+						</HBox>
+					</children>
+					<stylesheets>
+						<URL value="@../../css/default.css" />
+						<URL value="@../../css/views.css" />
+					</stylesheets>
+				</VBox>
+			</children>
+		</AnchorPane>
+	</children>
+</fx:root>

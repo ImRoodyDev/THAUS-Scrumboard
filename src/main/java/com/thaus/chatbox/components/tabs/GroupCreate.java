@@ -10,7 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class CreateChatComponent extends VBox implements ICustomNode {
+public class GroupCreate extends VBox implements ICustomNode {
 	private final int groupNameFieldIndex = 2;
 	private final int userNameFieldIndex = 3;
 	private final ObservableList<Node> children = this.getChildren();
@@ -32,7 +32,7 @@ public class CreateChatComponent extends VBox implements ICustomNode {
 	private OnActionSubmitHandler onActionSubmit;
 	private Runnable onCancelAction;
 
-	public CreateChatComponent() {
+	public GroupCreate() {
 		initializeFXML("/components/tabs/create-chat.fxml");
 	}
 

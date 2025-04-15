@@ -31,6 +31,8 @@ module com.thaus.chatbox {
 	opens com.thaus.chatbox.interfaces to javafx.fxml;
 	exports com.thaus.chatbox.components.informative;
 	opens com.thaus.chatbox.components.informative to javafx.fxml;
+	exports com.thaus.chatbox.components.interactive.buttons;
+	opens com.thaus.chatbox.components.interactive.buttons to javafx.fxml;
 
 
 }

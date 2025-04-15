@@ -1,10 +1,10 @@
 package com.thaus.chatbox.components.views;
 
 import com.thaus.chatbox.base.BaseScene;
-import com.thaus.chatbox.classes.Chat;
-import com.thaus.chatbox.components.interactive.ChatboxButton;
+import com.thaus.chatbox.classes.Group;
 import com.thaus.chatbox.components.interactive.SidebarComponent;
-import com.thaus.chatbox.components.tabs.CreateChatComponent;
+import com.thaus.chatbox.components.interactive.buttons.ChatboxButton;
+import com.thaus.chatbox.components.tabs.GroupCreate;
 import com.thaus.chatbox.components.tabs.WelcomeComponent;
 import com.thaus.chatbox.interfaces.IChatboxFilterListener;
 import com.thaus.chatbox.interfaces.ISearchListeners;
@@ -30,10 +30,10 @@ public class HomeController extends BaseScene {
 
 
 	// ListChangeListener for chat
-	private ListChangeListener<Chat> chatListChangeListener = change -> {
+	private ListChangeListener<Group> chatListChangeListener = change -> {
 		while (change.next()) {
 			if (change.wasAdded()) {
-				for (Chat chat : change.getAddedSubList()) {
+				for (Group chat : change.getAddedSubList()) {
 					ChatboxButton chatboxButton = sidebar.createChatboxs(chat);
 
 					// Handle click action on chatbox
@@ -58,7 +58,7 @@ public class HomeController extends BaseScene {
 			}
 
 			if (change.wasRemoved()) {
-				for (Chat chat : change.getRemoved()) {
+				for (Group chat : change.getRemoved()) {
 					sidebar.removeChatbox(chat); // Ensure this method removes the chat UI
 				}
 			}
@@ -130,7 +130,7 @@ public class HomeController extends BaseScene {
 	// Initialize chat controller
 	private void initializeChats() {
 		// Get the observableList of the chatboxes
-		ObservableList<Chat> chats = getChatController().getChats();
+		ObservableList<Group> chats = getChatController().getChats();
 
 		// Initialize UI with current state
 		VBox chatsContentArea = sidebar.getChatboxsScrollContent();
@@ -140,7 +140,7 @@ public class HomeController extends BaseScene {
 		getChatController().setChatListListener(chatListChangeListener);
 
 		// Get available chat
-		for (Chat chat : getChatController().getChats()) {
+		for (Group chat : getChatController().getChats()) {
 			sidebar.createChatboxs(chat);
 		}
 
@@ -165,7 +165,7 @@ public class HomeController extends BaseScene {
 					newContent = new WelcomeComponent("Hello Roody");
 					break;
 				case NEW_CHAT:
-					CreateChatComponent createChatMenu = new CreateChatComponent();
+					GroupCreate createChatMenu = new GroupCreate();
 
 					// On cancel menu
 					createChatMenu.setOnCancelAction(() -> switchTab(HomeTab.WELCOME));

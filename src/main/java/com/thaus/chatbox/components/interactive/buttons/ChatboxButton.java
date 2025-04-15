@@ -1,7 +1,7 @@
-package com.thaus.chatbox.components.interactive;
+package com.thaus.chatbox.components.interactive.buttons;
 
 import com.jfoenix.controls.JFXButton;
-import com.thaus.chatbox.classes.Chat;
+import com.thaus.chatbox.classes.Group;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
@@ -11,7 +11,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 
 public class ChatboxButton extends HBox implements ICustomNode {
-	private final Chat chat;
+	private final Group chat;
 
 	// Menu is open
 	private boolean isMenuOpen = false;
@@ -36,9 +36,9 @@ public class ChatboxButton extends HBox implements ICustomNode {
 	private MenuItem clearMenuItem;
 
 	// Constructor
-	public ChatboxButton(Chat chat) {
+	public ChatboxButton(Group chat) {
 		this.chat = chat;
-		initializeFXML("/components/tabs/chatbox.fxml");
+		initializeFXML("/components/tabs/group-box.fxml");
 	}
 
 	@FXML
@@ -70,6 +70,8 @@ public class ChatboxButton extends HBox implements ICustomNode {
 		}
 		if (unreadLabel != null) {
 			unreadLabel.setText(String.valueOf(chat.getUnreadCount()));
+
+			unreadLabel.setVisible(chat.getUnreadCount() > 0);
 		}
 		this.getStyleClass().add(chat.getType().getName().toLowerCase());
 	}
@@ -90,15 +92,15 @@ public class ChatboxButton extends HBox implements ICustomNode {
 		}
 	}
 
-	public Chat getChat() {
+	public Group getChat() {
 		return chat;
 	}
 
 	public interface OnClickHandle {
-		public void handle(Chat chat);
+		public void handle(Group chat);
 	}
 
 	public interface OnDeleteHandle {
-		public void handle(Chat chat);
+		public void handle(Group chat);
 	}
 }

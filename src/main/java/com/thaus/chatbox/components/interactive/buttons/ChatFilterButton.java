@@ -1,4 +1,4 @@
-package com.thaus.chatbox.components.interactive;
+package com.thaus.chatbox.components.interactive.buttons;
 
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.types.ChatType;

@@ -3,8 +3,8 @@ package com.thaus.chatbox.types;
 import com.thaus.chatbox.interfaces.IMappedTypes;
 
 public enum ChatboxType implements IMappedTypes {
-	TEAM("Teams"),
-	USER("User");
+	TEAM("Team"),
+	USER("Organisation");
 
 	private final String name;
 

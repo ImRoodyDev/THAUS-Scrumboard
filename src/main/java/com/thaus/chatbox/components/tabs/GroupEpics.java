@@ -3,7 +3,7 @@ package com.thaus.chatbox.components.tabs;
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Epic;
 import com.thaus.chatbox.classes.Feature;
-import com.thaus.chatbox.components.interactive.EpicButton;
+import com.thaus.chatbox.components.interactive.buttons.EpicButton;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -11,14 +11,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class ChatEpics extends VBox implements ICustomNode {
+public class GroupEpics extends VBox implements ICustomNode {
 	private final Feature currentChatFeature;
+
 	@FXML
-	private Label nameLabel;
-	@FXML
-	private Label epicsLabel;
-	@FXML
-	private Label userStoryLabel;
+	private Label featureLabel;
 	@FXML
 	private TextField textField;
 	@FXML
@@ -53,15 +50,23 @@ public class ChatEpics extends VBox implements ICustomNode {
 	};
 
 	// Constructor
-	public ChatEpics(Feature chatFeature) {
+	public GroupEpics(Feature chatFeature) {
 		this.currentChatFeature = chatFeature;
-		initializeFXML("/components/tabs/chat-epics.fxml");
+		initializeFXML("/components/tabs/group-epics.fxml");
 	}
 
 	@FXML
 	public void initialize() {
+		// Initialize labels
+		initializeLabels();
 		// Initialize the chat epics component
 		initializeEpics();
+	}
+
+	// Initialize labels
+	private void initializeLabels() {
+		this.featureLabel.setText(currentChatFeature.getName());
+		this.featureLabel.setText(currentChatFeature.getName());
 	}
 
 	// Initialize the Epics list
@@ -107,6 +112,7 @@ public class ChatEpics extends VBox implements ICustomNode {
 		if (viewContainer.getChildren().contains(dialog)) {
 			viewContainer.getChildren().remove(dialog);
 		}
+
 		// Create a new epic component and add it to the view container
 		EpicButton epicButton = new EpicButton(epic);
 		epicButton.setOnClickHandler(() -> {

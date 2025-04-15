@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
-public class Chat {
+public class Group {
 	private String chatId;
 	private String chatName;
 	private String createdAt;
@@ -15,13 +15,32 @@ public class Chat {
 	private ChatboxType type;
 	private ObservableList<Message> messages = FXCollections.observableArrayList();
 	private ObservableList<Feature> features = FXCollections.observableArrayList();
+	private ObservableList<Sprint> sprints = FXCollections.observableArrayList();
 
-	public Chat(String chatName, ChatboxType type) {
+	public Group(String chatName, ChatboxType type) {
 		this.chatName = chatName;
 		this.type = type;
+
+		/*features.addListener((ListChangeListener<Feature>) change -> {
+					while (change.next()) {
+						if (change.wasAdded()) {
+							System.out.println("Items added: " + change.getAddedSubList());
+						}
+						if (change.wasRemoved()) {
+							System.out.println("Items removed: " + change.getRemoved());
+						}
+						if (change.wasUpdated()) {
+							System.out.println("Items updated.");
+						}
+						if (change.wasPermutated()) {
+							System.out.println("Items permutated.");
+						}
+					}
+				}
+		);*/
 	}
 
-	public Chat(String chatId, String chatName, boolean isOwner, String createdAt) {
+	public Group(String chatId, String chatName, boolean isOwner, String createdAt) {
 		this.chatId = chatId;
 		this.chatName = chatName;
 		this.isOwner = isOwner;
@@ -35,6 +54,15 @@ public class Chat {
 
 	public void initializeFeatures(ArrayList<Feature> features) {
 		this.features = FXCollections.observableArrayList(features);
+	}
+
+	public void createSprint() {
+		Sprint sprint = new Sprint();
+		sprints.add(sprint);
+	}
+
+	public ObservableList<Sprint> getSprints() {
+		return sprints;
 	}
 
 	public ObservableList<Message> getMessages() {
@@ -102,5 +130,9 @@ public class Chat {
 
 	public void setUnreadCount(int unreadCount) {
 		this.unreadCount = unreadCount;
+	}
+
+	public void deleteSprint(Sprint sprint) {
+		sprints.remove(sprint);
 	}
 }

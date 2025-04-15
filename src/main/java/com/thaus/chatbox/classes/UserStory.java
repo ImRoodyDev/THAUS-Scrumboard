@@ -95,4 +95,13 @@ public class UserStory {
 	}
 
 
+	public void addMessage(Message message) {
+		this.messages.add(message);
+	}
+
+	public void removeMessage(Message message) {
+		this.messages.remove(message);
+	}
+ 
+
 }

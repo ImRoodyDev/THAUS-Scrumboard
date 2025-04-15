@@ -13,7 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-public class UserStoryChat extends VBox implements ICustomNode {
+public class SprintChat extends VBox implements ICustomNode {
 	private final Epic currentUserStoryEpic;
 	private final Feature currentUserStoryFeature;
 	private final UserStory currentUserStory;
@@ -43,7 +43,7 @@ public class UserStoryChat extends VBox implements ICustomNode {
 
 
 	// Constructor
-	public UserStoryChat(Epic epic, Feature feature, UserStory userStory) {
+	public SprintChat(Epic epic, Feature feature, UserStory userStory) {
 		this.currentUserStoryEpic = epic;
 		this.currentUserStoryFeature = feature;
 		this.currentUserStory = userStory;

@@ -375,7 +375,51 @@
 
 .rounded-label {
     -fx-text-fill: black;
-    -fx-padding: 10 14;
+    -fx-padding: 12;
     -fx-background-radius: 9999;
     -fx-background-color: -theme-color;
+}
+
+.rounded-label.red {
+    -fx-background-color: red !important;
+}
+
+.rounded-label.yellow {
+    -fx-background-color: #fbbf24 !important;
+}
+
+.rounded-label.green {
+    -fx-background-color: #10b981 !important;
+}
+
+.rounded-label-ft {
+    -fx-padding: 8 14 !important;
+    -fx-spacing: 8;
+    -fx-graphic-text-gap: 8;
+    -fx-background-color: -theme-color;
+    -fx-background-radius: 99999;
+}
+
+.rounded-label-ft.epic {
+    -fx-background-color: #fbbf24;
+}
+
+.rounded-label-ft.story {
+    -fx-background-color: #1d4ed8;
+}
+
+.rounded-label-ft.story .icon {
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+.rounded-label-ft .text {
+    -fx-font-size: 14;
+    -fx-font-family: Arial;
+    -fx-text-fill: white;
+}
+
+.rounded-label-ft .icon {
+    -fx-scale-x: 0.8;
+    -fx-scale-y: 0.8;
 }

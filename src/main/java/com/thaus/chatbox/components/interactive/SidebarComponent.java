@@ -1,7 +1,8 @@
 package com.thaus.chatbox.components.interactive;
 
 import com.jfoenix.controls.JFXButton;
-import com.thaus.chatbox.classes.Chat;
+import com.thaus.chatbox.classes.Group;
+import com.thaus.chatbox.components.interactive.buttons.ChatboxButton;
 import com.thaus.chatbox.controllers.ChatboxFilterController;
 import com.thaus.chatbox.interfaces.IChatboxFilterListener;
 import com.thaus.chatbox.interfaces.ICustomNode;
@@ -68,7 +69,7 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 		initializeFilters();
 	}
 
-	public ChatboxButton createChatboxs(Chat chatbox) {
+	public ChatboxButton createChatboxs(Group chatbox) {
 		ChatboxButton newChatboxBtn = new ChatboxButton(chatbox);
 
 		// Add the new chatbox button
@@ -77,16 +78,17 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 		return newChatboxBtn;
 	}
 
-	public void removeChatbox(Chat chat) {
+	// Chatboxs scroll content
+	public VBox getChatboxsScrollContent() {
+		return chatboxsScrollContent;
+	}
+
+	// Remove chatbox
+	public void removeChatbox(Group chat) {
 		VBox chatsContentArea = getChatboxsScrollContent();
 		chatsContentArea.getChildren().removeIf(node ->
 				node instanceof ChatboxButton && ((ChatboxButton) node).getChat().equals(chat)
 		);
-	}
-
-	// Chatboxs scroll content
-	public VBox getChatboxsScrollContent() {
-		return chatboxsScrollContent;
 	}
 
 	// Set action on create chat

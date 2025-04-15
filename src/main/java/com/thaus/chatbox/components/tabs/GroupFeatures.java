@@ -1,9 +1,9 @@
 package com.thaus.chatbox.components.tabs;
 
 import com.jfoenix.controls.JFXButton;
-import com.thaus.chatbox.classes.Chat;
 import com.thaus.chatbox.classes.Feature;
-import com.thaus.chatbox.components.interactive.FeatureButton;
+import com.thaus.chatbox.classes.Group;
+import com.thaus.chatbox.components.interactive.buttons.FeatureButton;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -11,8 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class ChatFeatures extends VBox implements ICustomNode {
-	private final Chat currentChat;
+public class GroupFeatures extends VBox implements ICustomNode {
+	private final Group currentChat;
 	// FXML components // Text field for creating new feature
 	@FXML
 	private TextField textField;
@@ -47,16 +47,21 @@ public class ChatFeatures extends VBox implements ICustomNode {
 			}
 		}
 	};
- 
+
 	// Constructor
-	public ChatFeatures(Chat chat) {
+	public GroupFeatures(Group chat) {
 		this.currentChat = chat;
-		initializeFXML("/components/tabs/chat-features.fxml");
+		initializeFXML("/components/tabs/group-features.fxml");
 	}
 
 	@FXML
 	public void initialize() {
+		initializeLabels();
 		initializeFeatures();
+	}
+
+	// Initialize labels
+	private void initializeLabels() {
 
 	}
 

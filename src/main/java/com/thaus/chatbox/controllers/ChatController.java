@@ -1,6 +1,6 @@
 package com.thaus.chatbox.controllers;
 
-import com.thaus.chatbox.classes.Chat;
+import com.thaus.chatbox.classes.Group;
 import com.thaus.chatbox.types.ChatboxType;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -8,28 +8,28 @@ import javafx.collections.ObservableList;
 
 public class ChatController {
 	// Change to ObservableList
-	private final ObservableList<Chat> chats = FXCollections.observableArrayList();
+	private final ObservableList<Group> chats = FXCollections.observableArrayList();
 
 	// Selected chat
-	private Chat selectedChat;
+	private Group selectedChat;
 	// Action on chatboxSelectionAction
 	private Runnable onChatSelectionAction;
 	// Action on chatbox deleted
 	private Runnable onChatDeletedAction;
 	// Set listChangeLister for the observable list
-	private ListChangeListener<Chat> chatListChangeListener;
+	private ListChangeListener<Group> chatListChangeListener;
 
 	public ChatController() {
 
 	}
 
 	// Initialize chat controller listener
-	public void initialize(ListChangeListener<Chat> listener) {
+	public void initialize(ListChangeListener<Group> listener) {
 		this.chatListChangeListener = listener;
-		chats.addListener((ListChangeListener<Chat>) listener);
+		chats.addListener((ListChangeListener<Group>) listener);
 	}
 
-	public void setChatListListener(ListChangeListener<Chat> listener) {
+	public void setChatListListener(ListChangeListener<Group> listener) {
 		if (chatListChangeListener != null) {
 			chats.removeListener(chatListChangeListener);
 		}
@@ -38,24 +38,24 @@ public class ChatController {
 	}
 
 	// Get chatbox list
-	public ObservableList<Chat> getChats() {
+	public ObservableList<Group> getChats() {
 		return chats;
 	}
 
 
-	public Chat getCurrentChat() {
+	public Group getCurrentChat() {
 		return selectedChat;
 	}
 
 	// Create a new chatbox
 	public void createNewChatbox(ChatboxType type, String name) {
 		System.out.println("New chat: " + name + " is group: " + type.getName());
-		Chat newChat = new Chat(name, type);
+		Group newChat = new Group(name, type);
 		chats.addFirst(newChat);
 	}
 
 	// On chatbox selected
-	public void selectChatbox(Chat chat) {
+	public void selectChatbox(Group chat) {
 		selectedChat = chat;
 
 		if (onChatSelectionAction != null) onChatSelectionAction.run();
@@ -63,7 +63,7 @@ public class ChatController {
 	}
 
 	// Delete chatbox
-	public void deleteChatbox(Chat chat) {
+	public void deleteChatbox(Group chat) {
 		chats.remove(chat);
 
 		if (this.onChatDeletedAction != null) {
