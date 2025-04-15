@@ -1,11 +1,12 @@
 package com.thaus.chatbox.base;
 
-import com.thaus.chatbox.controllers.AuthenticationController;
 import com.thaus.chatbox.controllers.ChatController;
 import com.thaus.chatbox.controllers.SceneController;
+import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.interfaces.IBaseScene;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
@@ -26,9 +27,15 @@ public abstract class BaseScene implements IBaseScene {
 	private Button toggleMaximizeButton;
 	@FXML
 	private Button toggleMinimizeButton;
+	@FXML
+	private Label nameLabel;
 
 	// Initialize automatically
 	public void initialize() {
+		if (nameLabel != null) {
+			nameLabel.setText(getUserController().getUsername());
+		}
+
 		initializeBaseButtons();
 		initializeDefaultStyling();
 	}
@@ -118,7 +125,7 @@ public abstract class BaseScene implements IBaseScene {
 		return SceneController.getChatController();
 	}
 
-	protected AuthenticationController getAuthenticationController() {
+	protected UserController getUserController() {
 		return SceneController.getAuthenticationController();
 	}
 }

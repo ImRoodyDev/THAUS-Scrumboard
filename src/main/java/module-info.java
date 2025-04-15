@@ -3,6 +3,7 @@ module com.thaus.chatbox {
 	requires com.jfoenix;
 	requires javafx.controls;
 	requires java.desktop;
+	requires org.json;
 
 	// requires transitive javafx.graphics;
 

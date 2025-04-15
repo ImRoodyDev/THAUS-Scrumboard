@@ -44,7 +44,7 @@ public class LoginRegisterController extends BaseScene {
 			triggerDialog("Please fill in all fields.");
 		} else {
 
-			getAuthenticationController().login(username, password);
+			getUserController().login(username, password);
 			triggerDialog("Login successful!");
 		}
 	}
@@ -61,7 +61,7 @@ public class LoginRegisterController extends BaseScene {
 		if (username.isEmpty() || password.isEmpty()) {
 			triggerDialog("Please fill in all fields.");
 		} else {
-			getAuthenticationController().register(username, password);
+			getUserController().register(username, password);
 			triggerDialog("Registration successful!");
 		}
 	}

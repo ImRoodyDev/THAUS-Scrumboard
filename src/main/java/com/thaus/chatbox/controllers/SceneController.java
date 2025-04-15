@@ -28,7 +28,7 @@ public class SceneController {
 
 	// Central controller
 	private static ChatController chatController;
-	private static AuthenticationController authenticationController;
+	private static UserController userController;
 
 	// Constructor that receives the Stage from App.java
 	public SceneController(Stage stage) {
@@ -54,13 +54,13 @@ public class SceneController {
 	}
 
 	// Function to get the authentication Controller
-	public static AuthenticationController getAuthenticationController() {
-		return authenticationController;
+	public static UserController getAuthenticationController() {
+		return userController;
 	}
 
 	// Function to set the authentication Controller
-	public void setAuthenticationController(AuthenticationController controller) {
-		authenticationController = controller;
+	public void setAuthenticationController(UserController controller) {
+		userController = controller;
 	}
 
 	// Load the scenes and cache it
@@ -179,7 +179,7 @@ public class SceneController {
 		this.preloadScenes();
 
 		// Go to the main app if logged in (but for now leave it at true)
-		if (authenticationController.isLoggedIn()) {
+		if (userController.isLoggedIn()) {
 			SceneController.switchStage(ScreenName.Home);
 		} else {
 			SceneController.switchStage(ScreenName.Authentication);

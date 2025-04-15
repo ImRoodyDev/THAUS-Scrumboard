@@ -2,17 +2,19 @@ package com.thaus.chatbox.controllers;
 
 import com.thaus.chatbox.types.ScreenName;
 
-public class AuthenticationController {
+public class UserController {
 	private boolean isLoggedIn = false;
-
 	private String username;
 
-	public boolean isLoggedIn() {
-		return isLoggedIn;
+	public UserController() {
+		// Initialize the user controller
+		initialize();
 	}
 
-	public String getUsername() {
-		return username;
+	private void initialize() {
+		// Initialize the user controller
+		this.isLoggedIn = false;
+		this.username = null;
 	}
 
 	public void login(String username, String password) {
@@ -39,5 +41,13 @@ public class AuthenticationController {
 	public void logout() {
 		this.username = null;
 		this.isLoggedIn = false;
+	}
+
+	public boolean isLoggedIn() {
+		return isLoggedIn;
+	}
+
+	public String getUsername() {
+		return username;
 	}
 }

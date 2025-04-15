@@ -1,8 +1,8 @@
 package com.thaus.chatbox;
 
-import com.thaus.chatbox.controllers.AuthenticationController;
 import com.thaus.chatbox.controllers.ChatController;
 import com.thaus.chatbox.controllers.SceneController;
+import com.thaus.chatbox.controllers.UserController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -15,7 +15,7 @@ public class App extends Application {
 	private ChatController chatController;
 
 	// Application authentication controller
-	private AuthenticationController authenticationController;
+	private UserController userController;
 
 	// Start the application process
 	public static void main(String[] args) {
@@ -31,7 +31,7 @@ public class App extends Application {
 		sceneController.setChatController(new ChatController());
 
 		// Set scene controller authentication controller
-		sceneController.setAuthenticationController(new AuthenticationController());
+		sceneController.setAuthenticationController(new UserController());
 
 		// Initialize screens
 		sceneController.initialize(1280, 720, false);

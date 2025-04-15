@@ -42,7 +42,6 @@ public class ChatController {
 		return chats;
 	}
 
-
 	public Group getCurrentChat() {
 		return selectedChat;
 	}
@@ -70,8 +69,7 @@ public class ChatController {
 			onChatDeletedAction.run();
 		}
 	}
-
-
+	
 	// Chat controller action events
 	public void setOnClickChatboxAction(Runnable action) {
 		onChatSelectionAction = action;
@@ -88,7 +86,6 @@ public class ChatController {
 		onChatSelectionAction = null;
 		onChatDeletedAction = null;
 	}
-
 
 	public void cleanup() {
 		if (chatListChangeListener != null) {
