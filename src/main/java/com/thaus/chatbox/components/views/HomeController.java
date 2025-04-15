@@ -1,6 +1,7 @@
 package com.thaus.chatbox.components.views;
 
 import com.thaus.chatbox.base.BaseScene;
+import com.thaus.chatbox.classes.Chat;
 import com.thaus.chatbox.components.interactive.ChatboxButton;
 import com.thaus.chatbox.components.interactive.SidebarComponent;
 import com.thaus.chatbox.components.tabs.CreateChatComponent;
@@ -8,6 +9,7 @@ import com.thaus.chatbox.components.tabs.WelcomeComponent;
 import com.thaus.chatbox.interfaces.IChatboxFilterListener;
 import com.thaus.chatbox.interfaces.ISearchListeners;
 import com.thaus.chatbox.types.ChatboxType;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,20 +17,53 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-import java.util.Collections;
-
 public class HomeController extends BaseScene {
 	// Components inside the home fxml
 	@FXML
-	private BorderPane borderPane;
+	private BorderPane borderPane;    // Chat change listener
 	@FXML
 	private AnchorPane viewportContainer;
-
 	// Custom Components
 	private SidebarComponent sidebar;
-
 	// Page values
 	private HomeTab currentTab;
+
+
+	// ListChangeListener for chat
+	private ListChangeListener<Chat> chatListChangeListener = change -> {
+		while (change.next()) {
+			if (change.wasAdded()) {
+				for (Chat chat : change.getAddedSubList()) {
+					ChatboxButton chatboxButton = sidebar.createChatboxs(chat);
+
+					// Handle click action on chatbox
+					chatboxButton.onClickHandle(_ -> {
+						getChatController().selectChatbox(chat);
+						switchTab(HomeTab.CHAT);
+					});
+
+					// Handle delete action on chatbox
+					chatboxButton.onDeleteAction(_ -> {
+						// When delete a chat
+						if (getChatController().getCurrentChat().equals(chat)) {
+							switchTab(HomeTab.WELCOME);
+						}
+						// Remove chatbox from the sidebar
+						getChatController().deleteChatbox(chat);
+					});
+				}
+
+				// Select the last added chat
+				getChatController().selectChatbox(change.getAddedSubList().getLast());
+			}
+
+			if (change.wasRemoved()) {
+				for (Chat chat : change.getRemoved()) {
+					sidebar.removeChatbox(chat); // Ensure this method removes the chat UI
+				}
+			}
+		}
+	};
 
 	// This method will be automatically called after the FXML is loaded
 	@Override
@@ -44,7 +79,7 @@ public class HomeController extends BaseScene {
 	@Override
 	public void onOpen() {
 		// Clear listener
-		initializeChatController();
+		initializeChats();
 	}
 
 	@Override
@@ -59,7 +94,7 @@ public class HomeController extends BaseScene {
 				new IChatboxFilterListener() {
 					@Override
 					public void onFilterApplied(ChatboxType type) {
-						getChatController().filterChatboxes(Collections.singleton(type));
+
 					}
 
 					@Override
@@ -75,7 +110,7 @@ public class HomeController extends BaseScene {
 				new ISearchListeners() {
 					@Override
 					public void onSubmit(String text) {
-						getChatController().searchChatboxes(text);
+
 					}
 
 					@Override
@@ -93,20 +128,24 @@ public class HomeController extends BaseScene {
 	}
 
 	// Initialize chat controller
-	private void initializeChatController() {
+	private void initializeChats() {
 		// Get the observableList of the chatboxes
-		ObservableList<ChatboxButton> buttons = getChatController().getChatboxButtons();
+		ObservableList<Chat> chats = getChatController().getChats();
 
 		// Initialize UI with current state
-		VBox contentArea = sidebar.getChatboxsScrollContent();
-		contentArea.getChildren().setAll(buttons);
+		VBox chatsContentArea = sidebar.getChatboxsScrollContent();
+		chatsContentArea.getChildren().clear();
 
+		// Add listener to array
+		getChatController().setChatListListener(chatListChangeListener);
 
-		// Initialize chat controller listener
-		getChatController().initialize(_ -> {
-			contentArea.getChildren().setAll(buttons);
-		});
-		getChatController().setOnClickChatboxDeletedAction(() -> switchTab(HomeTab.WELCOME));
+		// Get available chat
+		for (Chat chat : getChatController().getChats()) {
+			sidebar.createChatboxs(chat);
+		}
+
+		// Set action on chatbox selected
+		// getChatController().setOnClickChatboxDeletedAction(() -> switchTab(HomeTab.WELCOME));
 		getChatController().setOnClickChatboxAction(() -> switchTab(HomeTab.CHAT));
 	}
 
@@ -141,7 +180,7 @@ public class HomeController extends BaseScene {
 					newContent = createChatMenu;
 					break;
 				case CHAT:
-					ChatWindowController chatComponent = new ChatWindowController(getChatController());
+					ChatWindowController chatComponent = new ChatWindowController(getChatController().getCurrentChat());
 					newContent = chatComponent;
 					break;
 			}
@@ -171,4 +210,5 @@ public class HomeController extends BaseScene {
 		NEW_CHAT,
 		CHAT,
 	}
+
 }

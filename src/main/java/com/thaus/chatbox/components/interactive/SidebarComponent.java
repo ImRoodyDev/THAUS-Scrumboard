@@ -1,12 +1,12 @@
 package com.thaus.chatbox.components.interactive;
 
 import com.jfoenix.controls.JFXButton;
+import com.thaus.chatbox.classes.Chat;
 import com.thaus.chatbox.controllers.ChatboxFilterController;
 import com.thaus.chatbox.interfaces.IChatboxFilterListener;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import com.thaus.chatbox.interfaces.ISearchListeners;
 import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -36,8 +36,6 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 	@FXML
 	private JFXButton searchBtn;
 	@FXML
-	private ScrollPane chatboxsScrollPane;
-	@FXML
 	private VBox chatboxsScrollContent;
 	@FXML
 	private JFXButton newChatboxBtn;
@@ -62,13 +60,28 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 		initializeChatboxs();
 	}
 
-
 	// Initialize Filter controller
 	public void initializeListeners(IChatboxFilterListener filterListener, ISearchListeners searchListeners) {
 		this.filterListener = filterListener;
 		this.searchListeners = searchListeners;
 		initializeSearchBar();
 		initializeFilters();
+	}
+
+	public ChatboxButton createChatboxs(Chat chatbox) {
+		ChatboxButton newChatboxBtn = new ChatboxButton(chatbox);
+
+		// Add the new chatbox button
+		chatboxsScrollContent.getChildren().add(newChatboxBtn);
+
+		return newChatboxBtn;
+	}
+
+	public void removeChatbox(Chat chat) {
+		VBox chatsContentArea = getChatboxsScrollContent();
+		chatsContentArea.getChildren().removeIf(node ->
+				node instanceof ChatboxButton && ((ChatboxButton) node).getChat().equals(chat)
+		);
 	}
 
 	// Chatboxs scroll content
@@ -80,11 +93,7 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 	public void onCreateChatbox(Runnable action) {
 		newChatboxBtn.setOnAction(event -> action.run());
 	}
-
-	// Getter for the New chatbox button
-	public JFXButton getNewChatboxButton() {
-		return this.newChatboxBtn;
-	}
+	 
 
 	// Initialize filter bar
 	private void initializeFilters() {

@@ -1,5 +1,6 @@
 package com.thaus.chatbox.classes;
 
+import com.thaus.chatbox.types.ChatboxType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,10 +10,16 @@ public class Chat {
 	private String chatId;
 	private String chatName;
 	private String createdAt;
+	private int unreadCount;
 	private boolean isOwner;
+	private ChatboxType type;
 	private ObservableList<Message> messages;
 	private ObservableList<Feature> features;
 
+	public Chat(String chatName, ChatboxType type) {
+		this.chatName = chatName;
+		this.type = type;
+	}
 
 	public Chat(String chatId, String chatName, boolean isOwner, String createdAt) {
 		this.chatId = chatId;
@@ -69,6 +76,10 @@ public class Chat {
 		}
 	}
 
+	public ChatboxType getType() {
+		return type;
+	}
+
 	public String getChatId() {
 		return chatId;
 	}
@@ -83,5 +94,13 @@ public class Chat {
 
 	public String getCreatedAt() {
 		return createdAt;
+	}
+
+	public int getUnreadCount() {
+		return unreadCount;
+	}
+
+	public void setUnreadCount(int unreadCount) {
+		this.unreadCount = unreadCount;
 	}
 }

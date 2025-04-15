@@ -1,8 +1,8 @@
 package com.thaus.chatbox.components.interactive;
 
 import com.jfoenix.controls.JFXButton;
+import com.thaus.chatbox.classes.Chat;
 import com.thaus.chatbox.interfaces.ICustomNode;
-import com.thaus.chatbox.types.ChatboxType;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
@@ -11,20 +11,13 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 
 public class ChatboxButton extends HBox implements ICustomNode {
-	private final String id;
-	// Type of the chatbox
-	private final ChatboxType type;
-	// Is owner of the chatbox
-	private final boolean isOwner;
-	// Name of the chatbox
-	private String name;
-	// Count of unread messages
-	private int unread = 0;
+	private final Chat chat;
+
 	// Menu is open
 	private boolean isMenuOpen = false;
 
 	// Events
-	private Runnable onDelete;
+	private OnDeleteHandle onDeleteHandle;
 	private OnClickHandle onClickHandle;
 
 	@FXML
@@ -43,32 +36,22 @@ public class ChatboxButton extends HBox implements ICustomNode {
 	private MenuItem clearMenuItem;
 
 	// Constructor
-	public ChatboxButton(ChatboxType type, String id, String name, boolean isOwner, int unread) {
+	public ChatboxButton(Chat chat) {
+		this.chat = chat;
 		initializeFXML("/components/tabs/chatbox.fxml");
-
-		this.type = type;
-		this.id = id;
-		this.name = name;
-		this.isOwner = isOwner;
-		this.unread = unread;
-
-		// Add styling class of the type
-		nameLabel.setText(name);
-		unreadLabel.setText(String.valueOf(unread));
-		this.getStyleClass().add(type.getName().toLowerCase());
 	}
 
 	@FXML
 	public void initialize() {
+		initializeLabels();
+
 		// Hook up actions
 		if (chatboxContextMenu != null) {
-			MenuItem deleteItem = new MenuItem("Delete");
-			MenuItem clearItem = new MenuItem("Clear");
+			deleteMenuItem = new MenuItem("Delete");
+			clearMenuItem = new MenuItem("Clear");
 
 			// Create menu action
-			deleteItem.setOnAction(e -> onDelete());
-			clearItem.setOnAction(e -> updateUnread(0)); // Example clear action
-			chatboxContextMenu.getItems().addAll(deleteItem, clearItem);
+			chatboxContextMenu.getItems().addAll(deleteMenuItem, clearMenuItem);
 
 			// Show context menu on button click
 			contextMenuButton.setOnMouseClicked(e -> {
@@ -81,43 +64,41 @@ public class ChatboxButton extends HBox implements ICustomNode {
 		}
 	}
 
-	// Events on new unread
-	public void updateUnread(int number) {
-		unreadLabel.setText(String.valueOf(number));
+	public void initializeLabels() {
+		if (nameLabel != null) {
+			nameLabel.setText(chat.getChatName());
+		}
+		if (unreadLabel != null) {
+			unreadLabel.setText(String.valueOf(chat.getUnreadCount()));
+		}
+		this.getStyleClass().add(chat.getType().getName().toLowerCase());
+	}
+
+	// On click chatbox action
+	public void onClickHandle(OnClickHandle handle) {
+		this.onClickHandle = handle;
+		if (chatboxBtn != null && onClickHandle != null) {
+			chatboxBtn.setOnAction(_ -> onClickHandle.handle(chat));
+		}
 	}
 
 	// Set on delete action
-	public void onDeleteAction(Runnable onDelete) {
-		this.onDelete = onDelete;
-	}
-
-	// Get type of the chatbox
-	public ChatboxType getType() {
-		return type;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void onClickHandle(OnClickHandle handle) {
-		onClickHandle = handle;
-		if (chatboxBtn != null && onClickHandle != null) {
-			chatboxBtn.setOnAction(_ -> onClickHandle.handle(id));
+	public void onDeleteAction(OnDeleteHandle onDelete) {
+		this.onDeleteHandle = onDelete;
+		if (deleteMenuItem != null && onDelete != null) {
+			deleteMenuItem.setOnAction(_ -> onDelete.handle(chat));
 		}
 	}
 
-
-	private void onDelete() {
-		if (onDelete != null) {
-			onDelete.run();
-		}
+	public Chat getChat() {
+		return chat;
 	}
 
 	public interface OnClickHandle {
+		public void handle(Chat chat);
+	}
 
-		public void handle(String id);
-
-		// 	public void handle(String id, ChatboxType type);
+	public interface OnDeleteHandle {
+		public void handle(Chat chat);
 	}
 }
