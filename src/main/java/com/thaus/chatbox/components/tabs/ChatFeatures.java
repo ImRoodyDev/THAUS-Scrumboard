@@ -27,14 +27,27 @@ public class ChatFeatures extends VBox implements ICustomNode {
 	private OnFeatureClickHandler onFeatureClickHandler;
 	private final ListChangeListener<Feature> chatFeatureListChangeListener = change -> {
 		while (change.next()) {
+
 			if (change.wasAdded()) {
 				for (Feature feature : change.getAddedSubList()) {
 					createFeatureComponent(feature);
 				}
 			}
+
+			if (change.wasRemoved()) {
+				for (Feature feature : change.getRemoved()) {
+					// Remove the feature from the view container
+					viewContainer.getChildren().removeIf(node -> {
+						if (node instanceof FeatureButton featureButton) {
+							return featureButton.getFeature().equals(feature);
+						}
+						return false;
+					});
+				}
+			}
 		}
 	};
-
+ 
 	// Constructor
 	public ChatFeatures(Chat chat) {
 		this.currentChat = chat;
@@ -44,17 +57,19 @@ public class ChatFeatures extends VBox implements ICustomNode {
 	@FXML
 	public void initialize() {
 		initializeFeatures();
+
 	}
 
 	// Initialize the feature list
 	private void initializeFeatures() {
 		// Check if features is null or empty
 		if (currentChat.getFeatures() == null || currentChat.getFeatures().isEmpty()) {
-			return;
+			dialog.setVisible(true);
+		} else {
+			if (viewContainer.getChildren().contains(dialog)) {
+				viewContainer.getChildren().remove(dialog);
+			}
 		}
-
-		// Clear the view container and add each feature to it
-		viewContainer.getChildren().clear();
 
 		// Add the listener to the features list
 		currentChat.getFeatures().addListener(chatFeatureListChangeListener);
@@ -69,10 +84,14 @@ public class ChatFeatures extends VBox implements ICustomNode {
 	}
 
 	private void createFeature() {
+		System.out.println("Test create: " + textField.getText());
+
 		// Check if the text field is empty
 		if (textField.getText().isEmpty()) {
 			return;
 		}
+
+		System.out.println("Creating feature: " + textField.getText());
 
 		// Create a new feature
 		currentChat.createFeature(textField.getText());
@@ -82,10 +101,10 @@ public class ChatFeatures extends VBox implements ICustomNode {
 	}
 
 	private void createFeatureComponent(Feature feature) {
-		// Check if the text field is empty
-		if (textField.getText().isEmpty()) {
-			return;
+		if (viewContainer.getChildren().contains(dialog)) {
+			viewContainer.getChildren().remove(dialog);
 		}
+
 		// Create a new feature button
 		FeatureButton featureButton = new FeatureButton(feature);
 		featureButton.setOnClickHandler(() -> {

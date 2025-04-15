@@ -79,6 +79,10 @@ public class FeatureButton extends HBox implements ICustomNode {
 		}
 	}
 
+	public Feature getFeature() {
+		return chatFeature;
+	}
+
 	public void setOnDeleteHandler(Runnable onDeleteHandler) {
 		this.onDeleteHandler = onDeleteHandler;
 	}
