@@ -1,4 +1,4 @@
-package com.thaus.chatbox.components;
+package com.thaus.chatbox.components.interactive;
 
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.controllers.ChatboxFilterController;
@@ -6,13 +6,10 @@ import com.thaus.chatbox.interfaces.IChatboxFilterListener;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import com.thaus.chatbox.interfaces.ISearchListeners;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
-
-import java.io.IOException;
 
 public class SidebarComponent extends AnchorPane implements ICustomNode {
 	// Toggle searchbar element
@@ -47,12 +44,12 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 
 	// Default constructor needed for JavaFX
 	public SidebarComponent() {
-		initializeFXML();
+		initializeFXML("/components/interactive/sidebar.fxml");
 	}
 
 	// Constructor for manually loading the sidebar
 	public SidebarComponent(IChatboxFilterListener filterListener, ISearchListeners searchListeners) {
-		initializeFXML();
+		initializeFXML("/components/interactive/sidebar.fxml");
 		initializeListeners(filterListener, searchListeners);
 	}
 
@@ -65,18 +62,6 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 		initializeChatboxs();
 	}
 
-	@Override
-	public void initializeFXML() {
-		// Load component
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/sidebar.fxml"));
-		loader.setRoot(this);
-		loader.setController(this);
-		try {
-			loader.load();
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to load Sidebar FXML", e);
-		}
-	}
 
 	// Initialize Filter controller
 	public void initializeListeners(IChatboxFilterListener filterListener, ISearchListeners searchListeners) {

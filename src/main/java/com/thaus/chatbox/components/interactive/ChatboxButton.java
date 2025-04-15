@@ -1,15 +1,16 @@
-package com.thaus.chatbox.components;
+package com.thaus.chatbox.components.interactive;
 
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import com.thaus.chatbox.types.ChatboxType;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.geometry.Side;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.HBox;
 
-import java.io.IOException;
-
-public class ChatboxButton extends JFXButton implements ICustomNode {
+public class ChatboxButton extends HBox implements ICustomNode {
 	private final String id;
 	// Type of the chatbox
 	private final ChatboxType type;
@@ -31,11 +32,19 @@ public class ChatboxButton extends JFXButton implements ICustomNode {
 	@FXML
 	private Label unreadLabel;
 	@FXML
+	private JFXButton chatboxBtn;
+	@FXML
 	private JFXButton contextMenuButton;
+	@FXML
+	private ContextMenu chatboxContextMenu;
+	@FXML
+	private MenuItem deleteMenuItem;
+	@FXML
+	private MenuItem clearMenuItem;
 
 	// Constructor
 	public ChatboxButton(ChatboxType type, String id, String name, boolean isOwner, int unread) {
-		initializeFXML();
+		initializeFXML("/components/tabs/chatbox.fxml");
 
 		this.type = type;
 		this.id = id;
@@ -49,16 +58,26 @@ public class ChatboxButton extends JFXButton implements ICustomNode {
 		this.getStyleClass().add(type.getName().toLowerCase());
 	}
 
-	@Override
-	public void initializeFXML() {
-		// Load component
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/chatbox.fxml"));
-		loader.setRoot(this);
-		loader.setController(this);
-		try {
-			loader.load();
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to load Sidebar FXML", e);
+	@FXML
+	public void initialize() {
+		// Hook up actions
+		if (chatboxContextMenu != null) {
+			MenuItem deleteItem = new MenuItem("Delete");
+			MenuItem clearItem = new MenuItem("Clear");
+
+			// Create menu action
+			deleteItem.setOnAction(e -> onDelete());
+			clearItem.setOnAction(e -> updateUnread(0)); // Example clear action
+			chatboxContextMenu.getItems().addAll(deleteItem, clearItem);
+
+			// Show context menu on button click
+			contextMenuButton.setOnMouseClicked(e -> {
+				if (!chatboxContextMenu.isShowing()) {
+					chatboxContextMenu.show(contextMenuButton, Side.BOTTOM, 0, 0);
+				} else {
+					chatboxContextMenu.hide();
+				}
+			});
 		}
 	}
 
@@ -83,14 +102,11 @@ public class ChatboxButton extends JFXButton implements ICustomNode {
 
 	public void onClickHandle(OnClickHandle handle) {
 		onClickHandle = handle;
-		this.setOnAction(_ -> onClickHandle.handle(id));
+		if (chatboxBtn != null && onClickHandle != null) {
+			chatboxBtn.setOnAction(_ -> onClickHandle.handle(id));
+		}
 	}
 
-	// Toggle contextmenu
-	private void toggleContextMenu() {
-		isMenuOpen = !isMenuOpen;
-
-	}
 
 	private void onDelete() {
 		if (onDelete != null) {

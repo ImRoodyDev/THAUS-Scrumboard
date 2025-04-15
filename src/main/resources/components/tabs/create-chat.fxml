@@ -117,7 +117,7 @@
 		</HBox>
 	</children>
 	<stylesheets>
-		<URL value="@../css/default.css"/>
-		<URL value="@../css/views.css"/>
+		<URL value="@../../css/default.css"/>
+		<URL value="@../../css/views.css"/>
 	</stylesheets>
 </fx:root>

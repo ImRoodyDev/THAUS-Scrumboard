@@ -3,7 +3,7 @@ package com.thaus.chatbox.controllers;
 
 import com.thaus.chatbox.base.BaseScene;
 import com.thaus.chatbox.types.ScreenName;
-import com.thaus.chatbox.views.HomeController;
+import com.thaus.chatbox.components.views.HomeController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -64,7 +64,7 @@ public class SceneController {
 		// Creating the scene object
 		switch (sceneName) {
 			case Home:
-				root = new FXMLLoader(SceneController.class.getResource("/views/home.fxml"));
+				root = new FXMLLoader(SceneController.class.getResource("/components/views/home.fxml"));
 
 				// Load the FXML and set the scene
 				scene = new Scene(root.load(), Color.TRANSPARENT);

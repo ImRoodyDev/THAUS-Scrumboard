@@ -2,30 +2,33 @@ package com.thaus.chatbox.types;
 
 import com.thaus.chatbox.interfaces.IMappedTypes;
 
-public enum ChatType implements IMappedTypes {
+public enum ChatThreadType implements IMappedTypes {
 	GENERAL("General"),
-	EPICS("Epics"),
-	USER_STORY("User story"),
+	FEATURES("Features"),
 	SPRINTS("Sprints"),
+	CUSTOM("Custom"),
 	;
-	// Constructed enum nae
+
+	// Name of the ChatThread type
 	private final String name;
 
-	ChatType(String name) {
+	// Constructor
+	ChatThreadType(String name) {
 		this.name = name;
 	}
 
-	public static ChatType fromName(String name) {
-		for (ChatType type : values()) {
+	public static ChatThreadType fromName(String name) {
+		for (ChatThreadType type : values()) {
 			if (type.getName().equals(name)) {
 				return type;
 			}
 		}
-		throw new Error("Invalid ChatType: " + name);
+		return CUSTOM;
 	}
 
 	@Override
 	public String getName() {
 		return name;
 	}
+
 }

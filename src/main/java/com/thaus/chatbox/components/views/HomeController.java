@@ -1,7 +1,10 @@
-package com.thaus.chatbox.views;
+package com.thaus.chatbox.components.views;
 
 import com.thaus.chatbox.base.BaseScene;
-import com.thaus.chatbox.components.*;
+import com.thaus.chatbox.components.interactive.ChatboxButton;
+import com.thaus.chatbox.components.interactive.SidebarComponent;
+import com.thaus.chatbox.components.tabs.CreateChatComponent;
+import com.thaus.chatbox.components.tabs.WelcomeComponent;
 import com.thaus.chatbox.interfaces.IChatboxFilterListener;
 import com.thaus.chatbox.interfaces.ISearchListeners;
 import com.thaus.chatbox.types.ChatboxType;
@@ -98,10 +101,12 @@ public class HomeController extends BaseScene {
 		VBox contentArea = sidebar.getChatboxsScrollContent();
 		contentArea.getChildren().setAll(buttons);
 
+
 		// Initialize chat controller listener
 		getChatController().initialize(_ -> {
 			contentArea.getChildren().setAll(buttons);
 		});
+		getChatController().setOnClickChatboxDeletedAction(() -> switchTab(HomeTab.WELCOME));
 		getChatController().setOnClickChatboxAction(() -> switchTab(HomeTab.CHAT));
 	}
 
@@ -121,7 +126,7 @@ public class HomeController extends BaseScene {
 					newContent = new WelcomeComponent("Hello Roody");
 					break;
 				case NEW_CHAT:
-					CreateChatMenuComponent createChatMenu = new CreateChatMenuComponent();
+					CreateChatComponent createChatMenu = new CreateChatComponent();
 
 					// On cancel menu
 					createChatMenu.setOnCancelAction(() -> switchTab(HomeTab.WELCOME));
@@ -136,7 +141,7 @@ public class HomeController extends BaseScene {
 					newContent = createChatMenu;
 					break;
 				case CHAT:
-					ChatComponent chatComponent = new ChatComponent(getChatController());
+					ChatWindowController chatComponent = new ChatWindowController(getChatController());
 					newContent = chatComponent;
 					break;
 			}

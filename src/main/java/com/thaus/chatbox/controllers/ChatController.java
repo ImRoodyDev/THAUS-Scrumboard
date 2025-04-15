@@ -1,6 +1,6 @@
 package com.thaus.chatbox.controllers;
 
-import com.thaus.chatbox.components.ChatboxButton;
+import com.thaus.chatbox.components.interactive.ChatboxButton;
 import com.thaus.chatbox.types.ChatboxType;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -17,9 +17,10 @@ public class ChatController {
 	private String selectedChatId;
 	// Action on chatboxSelectionAction
 	private Runnable onChatSelectionAction;
+	// Action on chatbox deleted
+	private Runnable onChatboxDeletedAction;
 	// Set listChangeLister for the observable list
 	private ListChangeListener<ChatboxButton> listener;
-
 
 	// Initialize chat controller listener
 	public void initialize(ListChangeListener<ChatboxButton> listener) {
@@ -43,6 +44,16 @@ public class ChatController {
 		ChatboxButton newChatboxButton = new ChatboxButton(type, "0", name, true, 10);
 		allChatboxes.addFirst(newChatboxButton);
 		newChatboxButton.onClickHandle(this::onChatboxSelected);
+		newChatboxButton.onDeleteAction(() -> deleteChatbox(newChatboxButton));
+	}
+
+	// Delete chatbox
+	public void deleteChatbox(ChatboxButton button) {
+		allChatboxes.remove(button);
+
+		if (this.onChatboxDeletedAction != null) {
+			onChatboxDeletedAction.run();
+		}
 	}
 
 	// Apply filter to search chatboxes
@@ -71,12 +82,17 @@ public class ChatController {
 		onChatSelectionAction = action;
 	}
 
+	// Chat controller on deleted event
+	public void setOnClickChatboxDeletedAction(Runnable action) {
+		onChatboxDeletedAction = action;
+	}
+
 	public void removeChatboxesListener() {
 		allChatboxes.removeListener(listener);
 		listener = null;
 		onChatSelectionAction = null;
+		onChatboxDeletedAction = null;
 	}
-
 
 	public void sendGeneralMessage(String chatboxId, String text) {
 	}

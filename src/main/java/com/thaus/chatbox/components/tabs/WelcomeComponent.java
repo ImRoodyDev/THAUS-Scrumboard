@@ -1,9 +1,8 @@
-package com.thaus.chatbox.components;
+package com.thaus.chatbox.components.tabs;
 
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.CycleMethod;
@@ -11,8 +10,6 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
-import java.io.IOException;
 
 public class WelcomeComponent extends AnchorPane implements ICustomNode {
 
@@ -26,7 +23,7 @@ public class WelcomeComponent extends AnchorPane implements ICustomNode {
 	// Constructor
 	public WelcomeComponent(String text) {
 		welcomeText = text;
-		initializeFXML();
+		initializeFXML("/components/tabs/welcome-chat.fxml");
 	}
 
 	@FXML
@@ -64,16 +61,5 @@ public class WelcomeComponent extends AnchorPane implements ICustomNode {
 		}
 	}
 
-	@Override
-	public void initializeFXML() {
-		// Load component
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/welcome-chat.fxml"));
-		loader.setRoot(this);
-		loader.setController(this);
-		try {
-			loader.load();
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to load Sidebar FXML", e);
-		}
-	}
+
 }

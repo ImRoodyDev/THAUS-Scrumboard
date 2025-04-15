@@ -14,17 +14,23 @@ module com.thaus.chatbox {
 	exports com.thaus.chatbox;
 	exports com.thaus.chatbox.controllers;
 	exports com.thaus.chatbox.types;
-	exports com.thaus.chatbox.views;
+	exports com.thaus.chatbox.components.views;
 	exports com.thaus.chatbox.base;
 	exports com.thaus.chatbox.interfaces;
-	exports com.thaus.chatbox.components;
+	exports com.thaus.chatbox.components.tabs;
+	exports com.thaus.chatbox.components.interactive;
 	exports com.thaus.chatbox.utils;
+	exports com.thaus.chatbox.classes;
 
 	opens com.thaus.chatbox to javafx.fxml;
-	opens com.thaus.chatbox.components to javafx.fxml;
+	opens com.thaus.chatbox.components.tabs to javafx.fxml;
+	opens com.thaus.chatbox.components.interactive to javafx.fxml;
 	opens com.thaus.chatbox.controllers to javafx.fxml;
 	opens com.thaus.chatbox.base to javafx.fxml;
-	opens com.thaus.chatbox.views to javafx.fxml;
+	opens com.thaus.chatbox.components.views to javafx.fxml;
 	opens com.thaus.chatbox.interfaces to javafx.fxml;
+	exports com.thaus.chatbox.components.informative;
+	opens com.thaus.chatbox.components.informative to javafx.fxml;
+
 
 }

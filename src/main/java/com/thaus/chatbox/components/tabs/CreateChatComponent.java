@@ -1,4 +1,4 @@
-package com.thaus.chatbox.components;
+package com.thaus.chatbox.components.tabs;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -6,14 +6,11 @@ import com.thaus.chatbox.interfaces.ICustomNode;
 import com.thaus.chatbox.types.ChatboxType;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
-
-public class CreateChatMenuComponent extends VBox implements ICustomNode {
+public class CreateChatComponent extends VBox implements ICustomNode {
 	private final int groupNameFieldIndex = 2;
 	private final int userNameFieldIndex = 3;
 	private final ObservableList<Node> children = this.getChildren();
@@ -35,8 +32,8 @@ public class CreateChatMenuComponent extends VBox implements ICustomNode {
 	private OnActionSubmitHandler onActionSubmit;
 	private Runnable onCancelAction;
 
-	public CreateChatMenuComponent() {
-		initializeFXML();
+	public CreateChatComponent() {
+		initializeFXML("/components/tabs/create-chat.fxml");
 	}
 
 	@FXML
@@ -61,19 +58,6 @@ public class CreateChatMenuComponent extends VBox implements ICustomNode {
 		}
 
 
-	}
-
-	@Override
-	public void initializeFXML() {
-		// Load component
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/create-chat.fxml"));
-		loader.setRoot(this);
-		loader.setController(this);
-		try {
-			loader.load();
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to load Sidebar FXML", e);
-		}
 	}
 
 	// Set on submit

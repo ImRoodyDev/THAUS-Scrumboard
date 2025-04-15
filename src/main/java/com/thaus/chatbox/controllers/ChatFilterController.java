@@ -1,13 +1,13 @@
 package com.thaus.chatbox.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.thaus.chatbox.components.ChatFilterButton;
+import com.thaus.chatbox.components.interactive.ChatFilterButton;
 import com.thaus.chatbox.interfaces.IChatFilterListener;
 import com.thaus.chatbox.types.ChatType;
 import javafx.scene.layout.FlowPane;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChatFilterController {
 	// Array of Filter button
@@ -21,7 +21,8 @@ public class ChatFilterController {
 	public ChatFilterController(FlowPane filtersFlowPane, IChatFilterListener filterListeners) {
 		this.filterListeners = filterListeners;
 		this.filtersFlowPane = filtersFlowPane;
- 	}
+	}
+
 	public ChatFilterController(FlowPane filtersFlowPane, IChatFilterListener filterListeners, boolean forceClean) {
 		this.filterListeners = filterListeners;
 		this.filtersFlowPane = filtersFlowPane;
@@ -34,6 +35,7 @@ public class ChatFilterController {
 				.map(ChatFilterButton::getType)
 				.collect(Collectors.toList());
 	}
+
 	// Remove all filters
 	public void clearAllFilters() {
 		// Iterate through a copy to avoid ConcurrentModificationException
@@ -41,6 +43,7 @@ public class ChatFilterController {
 		filterButtons.clear();
 		filterListeners.onAllFiltersRemoved();
 	}
+
 	// Add filter
 	public void applyFilter(ChatType filter) {
 		// Check if the filter is already applied
@@ -67,6 +70,7 @@ public class ChatFilterController {
 			removeFilterButton(filterButton);
 		});
 	}
+
 	// Open filter Context menu
 	public void enableContextMenu(boolean enable) {
 

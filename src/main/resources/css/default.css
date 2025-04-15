@@ -73,7 +73,7 @@
     -fx-background-radius: 9999;
 }
 
-.field .text {
+.custom-field .field .text {
     -fx-text-fill: white;
 }
 
@@ -199,4 +199,183 @@
 
 /*#endregion */
 
+/*#region Menu Item */
+.menu-button {
+    -fx-pref-width: 36px;
+    -fx-pref-height: 36px;
+    -fx-background-color: -theme-color;
 
+    -fx-spacing: 0;
+    -fx-padding: 0;
+}
+
+.menu-button:openvertically {
+    -fx-label-padding: 0;
+    -fx-padding: 0;
+}
+
+.menu-button:openvertically .arrow-button {
+    -fx-max-width: 0;
+    -fx-pref-width: 0;
+    -fx-padding: 0;
+    visibility: false;
+    -fx-scale-x: 0;
+    -fx-managed: false !important;
+}
+
+.context-menu {
+    -fx-background-color: black;
+    -fx-border-color: -theme-color;
+    -fx-border-radius: 22;
+    -fx-background-radius: 22;
+    -fx-padding: 6;
+}
+
+.menu-item {
+    -fx-text-fill: white;
+    -fx-padding: 8 16;
+    -fx-font-size: 14px;
+    -fx-background-color: transparent;
+    -fx-background-radius: 9999;
+    -fx-opacity: 1.0;
+}
+
+.menu-item:focused {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-opacity: 1.0;
+}
+
+.menu-item:hover {
+    -fx-background-color: -theme-color;
+    -fx-text-fill: white;
+    -fx-opacity: 1.0;
+}
+
+.menu-item .label {
+    -fx-text-fill: white;
+    -fx-opacity: 1.0;
+}
+
+/*#endregion*/
+
+/*#region Text bar or Search bar send message bar*/
+
+.text-bar {
+    -fx-max-height: 30px;
+    -fx-background-color: #171717;
+    -fx-padding: 8px;
+    -fx-background-radius: 99999px;
+}
+
+.text-bar.white {
+    -fx-background-color: white !important;
+}
+
+.text-bar-field {
+    -fx-padding: 8px;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+}
+
+.text-bar-field .text {
+    -fx-opacity: 1 !important;
+}
+
+.text-bar.white .text-bar-field {
+    -fx-text-fill: black !important;
+}
+
+.text-bar-btn {
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+    -fx-background-color: -theme-color;
+    -fx-background-radius: 999999;
+}
+
+.text-bar-btn .icon {
+    -fx-scale-x: 0.75;
+    -fx-scale-y: 0.75;
+}
+
+.text-bar-btn .add {
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+
+.search-bar {
+    -fx-max-height: 50px;
+    -fx-background-color: #171717;
+    -fx-padding: 4px 8px;
+    -fx-background-radius: 99999px;
+}
+
+.search-bar-field {
+    -fx-padding: 8px;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+}
+
+.search-bar-field .scroll-pane {
+}
+
+.search-bar-field .prompt-container {
+    fx-alignment: center-left;
+    -fx-opacity: 0;
+}
+
+.search-bar-btn {
+    -fx-pref-width: 30px;
+    -fx-pref-height: 30px;
+    -fx-background-color: -theme-color;
+    -fx-background-radius: 999999;
+}
+
+.search-bar-btn .icon {
+    -fx-scale-x: 0.75;
+    -fx-scale-y: 0.75;
+}
+
+.send-message-bar {
+    -fx-max-height: 60px;
+    -fx-background-color: #171717;
+    -fx-padding: 4px 8px;
+    -fx-background-radius: 99999px;
+}
+
+
+.send-message-bar-input-fld {
+    -fx-padding: 8px;
+    -fx-text-fill: white;
+}
+
+.send-message-bar-input-fld .scroll-pane {
+}
+
+.send-message-bar-input-fld .prompt-container {
+    fx-alignment: center-left;
+    /*  -fx-opacity: 0;*/
+}
+
+.app-message-bar-send-btn {
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
+    -fx-background-color: -theme-color;
+    -fx-background-radius: 999999;
+}
+
+.app-message-bar-send-btn .icon {
+    -fx-scale-x: 0.75;
+    -fx-scale-y: 0.75;
+}
+
+
+/*#endregion*/
+
+.rounded-label {
+    -fx-text-fill: black;
+    -fx-padding: 10 14;
+    -fx-background-radius: 9999;
+    -fx-background-color: -theme-color;
+}

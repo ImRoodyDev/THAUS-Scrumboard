@@ -1,14 +1,11 @@
-package com.thaus.chatbox.components;
+package com.thaus.chatbox.components.interactive;
 
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import com.thaus.chatbox.interfaces.ISearchListeners;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-
-import java.io.IOException;
 
 public class SearchBarComponent extends HBox implements ICustomNode {
 	// Searchbar listener
@@ -24,7 +21,7 @@ public class SearchBarComponent extends HBox implements ICustomNode {
 	// Constructor
 	SearchBarComponent(boolean enable, ISearchListeners searchListeners) {
 		// Initialize fxml
-		initializeFXML();
+		initializeFXML("/components/interactive/search-bar.fxml");
 
 		// Apply the search listener
 		this.searchListeners = searchListeners;
@@ -38,18 +35,6 @@ public class SearchBarComponent extends HBox implements ICustomNode {
 		initializeEvents();
 	}
 
-	@Override
-	public void initializeFXML() {
-		// Load component
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/components/search-bar.fxml"));
-		loader.setRoot(this);
-		loader.setController(this);
-		try {
-			loader.load();
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to load Searchbar FXML", e);
-		}
-	}
 
 	// Function to enable and disable components
 	public void enableComponent(boolean enable) {
