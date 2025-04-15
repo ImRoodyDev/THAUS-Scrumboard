@@ -1,7 +1,7 @@
 package com.thaus.chatbox.components.tabs;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTextArea;
 import com.thaus.chatbox.classes.Chat;
 import com.thaus.chatbox.classes.Message;
 import com.thaus.chatbox.components.informative.MessageComponent;
@@ -16,7 +16,7 @@ public class ChatGeneral extends VBox implements ICustomNode {
 	@FXML
 	private JFXButton sendMessage;
 	@FXML
-	private JFXTextField textArea;
+	private JFXTextArea textArea;
 	@FXML
 	private VBox messageContainer;
 	private final ListChangeListener<Message> messageListener = change -> {
@@ -34,7 +34,6 @@ public class ChatGeneral extends VBox implements ICustomNode {
 	public ChatGeneral(Chat chat) {
 		this.chat = chat;
 		initializeFXML("/components/tabs/chat-general.fxml");
-
 	}
 
 	@FXML

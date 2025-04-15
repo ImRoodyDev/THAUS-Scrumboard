@@ -133,6 +133,7 @@ public class ChatWindowController extends VBox implements ICustomNode {
 					break;
 			}
 
+
 			// Update the window type
 			if (newComponent != null) {
 				// Clear contents and add new
@@ -153,6 +154,7 @@ public class ChatWindowController extends VBox implements ICustomNode {
 
 		} catch (Exception e) {
 			System.out.println("Failed to switch window: " + windowType.getName());
+			e.printStackTrace();
 		}
 	}
 
