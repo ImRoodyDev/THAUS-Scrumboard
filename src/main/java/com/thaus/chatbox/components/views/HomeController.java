@@ -6,8 +6,6 @@ import com.thaus.chatbox.components.interactive.SidebarComponent;
 import com.thaus.chatbox.components.interactive.buttons.ChatboxButton;
 import com.thaus.chatbox.components.tabs.GroupCreate;
 import com.thaus.chatbox.components.tabs.WelcomeComponent;
-import com.thaus.chatbox.interfaces.IChatboxFilterListener;
-import com.thaus.chatbox.interfaces.ISearchListeners;
 import com.thaus.chatbox.types.ChatboxType;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -90,38 +88,10 @@ public class HomeController extends BaseScene {
 	// Initialize sidebar component
 	private void initializeSidebar() {
 		// Create Sidebar component listeners
-		sidebar = new SidebarComponent(
-				new IChatboxFilterListener() {
-					@Override
-					public void onFilterApplied(ChatboxType type) {
-
-					}
-
-					@Override
-					public void onFilterRemoved(ChatboxType type) {
-
-					}
-
-					@Override
-					public void onAllFiltersRemoved() {
-
-					}
-				},
-				new ISearchListeners() {
-					@Override
-					public void onSubmit(String text) {
-
-					}
-
-					@Override
-					public void onTextChanged(String text) {
-						System.out.println("Search Text changed to " + text);
-					}
-				}
-		);
+		sidebar = new SidebarComponent();
 
 		// On create chat new chat button
-		sidebar.onCreateChatbox(() -> switchTab(HomeTab.NEW_CHAT));
+		sidebar.setOnCreateChat(() -> switchTab(HomeTab.NEW_CHAT));
 
 		// Append in viewport
 		borderPane.setLeft(sidebar);

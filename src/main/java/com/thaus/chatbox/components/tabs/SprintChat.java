@@ -2,10 +2,8 @@ package com.thaus.chatbox.components.tabs;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
-import com.thaus.chatbox.classes.Epic;
-import com.thaus.chatbox.classes.Feature;
 import com.thaus.chatbox.classes.Message;
-import com.thaus.chatbox.classes.UserStory;
+import com.thaus.chatbox.classes.Sprint;
 import com.thaus.chatbox.components.informative.MessageComponent;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.collections.ListChangeListener;
@@ -14,17 +12,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class SprintChat extends VBox implements ICustomNode {
-	private final Epic currentUserStoryEpic;
-	private final Feature currentUserStoryFeature;
-	private final UserStory currentUserStory;
+	private final Sprint currentSprint;
 
 	// General components
 	@FXML
-	private Label featureLabel;
-	@FXML
-	private Label epicLabel;
-	@FXML
-	private Label userStoryLabel;
+	private Label sprintLabel;
 	@FXML
 	private JFXButton sendMessageBtn;
 	@FXML
@@ -41,13 +33,10 @@ public class SprintChat extends VBox implements ICustomNode {
 		}
 	};
 
-
 	// Constructor
-	public SprintChat(Epic epic, Feature feature, UserStory userStory) {
-		this.currentUserStoryEpic = epic;
-		this.currentUserStoryFeature = feature;
-		this.currentUserStory = userStory;
-		initializeFXML("/components/tabs/story-chat.fxml");
+	public SprintChat(Sprint sprint) {
+		this.currentSprint = sprint;
+		initializeFXML("/components/tabs/sprint-chat.fxml");
 	}
 
 	public void initialize() {
@@ -58,20 +47,18 @@ public class SprintChat extends VBox implements ICustomNode {
 
 	private void initializeLabels() {
 		// Set the labels for the chat
-		featureLabel.setText(currentUserStoryFeature.getName());
-		epicLabel.setText(currentUserStoryEpic.getName());
-		userStoryLabel.setText(currentUserStory.getName());
+		sprintLabel.setText(currentSprint.getName());
 	}
 
 	private void initializeChat() {
 		// Add listener to update UI when new messages are added
-		currentUserStory.getMessages().addListener(messageListener);
+		currentSprint.getMessages().addListener(messageListener);
 
 		// Clear the message container
 		messageContainer.getChildren().clear();
 
 		// Initialize existing messages
-		currentUserStory.getMessages().forEach((message) -> {
+		currentSprint.getMessages().forEach((message) -> {
 			addMessageToContainer(message);
 		});
 
@@ -83,7 +70,7 @@ public class SprintChat extends VBox implements ICustomNode {
 		String messageText = textArea.getText();
 		if (!messageText.isEmpty()) {
 			Message message = new Message(messageText);
-			currentUserStory.addMessage(message);
+			currentSprint.addMessage(message);
 			textArea.clear();
 		}
 	}
@@ -94,6 +81,6 @@ public class SprintChat extends VBox implements ICustomNode {
 
 	// Call this method when the ChatGeneral instance is destroyed
 	public void cleanup() {
-		currentUserStory.getMessages().removeListener(messageListener);
+		currentSprint.getMessages().removeListener(messageListener);
 	}
 }

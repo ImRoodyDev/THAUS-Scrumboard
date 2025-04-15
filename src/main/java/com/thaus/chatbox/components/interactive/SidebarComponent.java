@@ -3,8 +3,6 @@ package com.thaus.chatbox.components.interactive;
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Group;
 import com.thaus.chatbox.components.interactive.buttons.ChatboxButton;
-import com.thaus.chatbox.controllers.ChatboxFilterController;
-import com.thaus.chatbox.interfaces.IChatboxFilterListener;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import com.thaus.chatbox.interfaces.ISearchListeners;
 import javafx.fxml.FXML;
@@ -15,14 +13,6 @@ import javafx.scene.layout.VBox;
 public class SidebarComponent extends AnchorPane implements ICustomNode {
 	// Toggle searchbar element
 	private boolean isSearchOpen = false;
-	// Toggle filters pop up
-	private boolean isFilterOpen = false;
-	// Event listener for the Chatbox filter
-	private IChatboxFilterListener filterListener;
-	// Event listener for the chatbox search
-	private ISearchListeners searchListeners;
-	// Filter controller
-	private ChatboxFilterController filterController;
 
 	// Search bar controller
 	@FXML
@@ -44,13 +34,9 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 	// Default constructor needed for JavaFX
 	public SidebarComponent() {
 		initializeFXML("/components/interactive/sidebar.fxml");
+
 	}
 
-	// Constructor for manually loading the sidebar
-	public SidebarComponent(IChatboxFilterListener filterListener, ISearchListeners searchListeners) {
-		initializeFXML("/components/interactive/sidebar.fxml");
-		initializeListeners(filterListener, searchListeners);
-	}
 
 	@FXML
 	public void initialize() {
@@ -59,12 +45,11 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 
 		// Initialize Chatbox
 		initializeChatboxs();
+		initializeListeners();
 	}
 
 	// Initialize Filter controller
-	public void initializeListeners(IChatboxFilterListener filterListener, ISearchListeners searchListeners) {
-		this.filterListener = filterListener;
-		this.searchListeners = searchListeners;
+	public void initializeListeners() {
 		initializeSearchBar();
 		initializeFilters();
 	}
@@ -92,19 +77,29 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 	}
 
 	// Set action on create chat
-	public void onCreateChatbox(Runnable action) {
+	public void setOnCreateChat(Runnable action) {
 		newChatboxBtn.setOnAction(event -> action.run());
 	}
 
 	// Initialize filter bar
 	private void initializeFilters() {
 		// Initialize filter controller
-		filterController = new ChatboxFilterController(filtersFlowPane, filterListener, true);
+		filtersFlowPane.getChildren().clear();
 	}
 
 	// Initialize searchbar
 	private void initializeSearchBar() {
-		searchBar = new SearchBarComponent(isSearchOpen, searchListeners);
+		searchBar = new SearchBarComponent(isSearchOpen, new ISearchListeners() {
+			@Override
+			public void onSubmit(String text) {
+				System.out.println("Search submitted: " + text);
+			}
+
+			@Override
+			public void onTextChanged(String text) {
+				System.out.println("Search text changed: " + text);
+			}
+		});
 
 		// Add element in the separator bar
 		if (separatorBar != null) {
@@ -117,7 +112,9 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 	// Initialize buttons
 	private void initializeButtons() {
 		// Initialize filter button
-		filterBtn.setOnAction(_ -> toggleFilter());
+		filterBtn.setVisible(false);
+		filterBtn.setManaged(false);
+
 
 		// Initialize search button
 		searchBtn.setOnAction(_ -> toggleSearch());
@@ -133,12 +130,6 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 	private void toggleSearch() {
 		isSearchOpen = !isSearchOpen;
 		searchBar.enableComponent(isSearchOpen);
-	}
-
-	// Toggle Filter pop up
-	private void toggleFilter() {
-		isFilterOpen = !isFilterOpen;
-		filterController.enableContextMenu(isFilterOpen);
 	}
 
 }

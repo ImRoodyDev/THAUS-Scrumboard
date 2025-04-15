@@ -1,10 +1,7 @@
 package com.thaus.chatbox.components.views;
 
 import com.jfoenix.controls.JFXButton;
-import com.thaus.chatbox.classes.Epic;
-import com.thaus.chatbox.classes.Feature;
-import com.thaus.chatbox.classes.Group;
-import com.thaus.chatbox.classes.UserStory;
+import com.thaus.chatbox.classes.*;
 import com.thaus.chatbox.components.tabs.*;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import com.thaus.chatbox.types.ChatThreadType;
@@ -20,7 +17,7 @@ import javafx.scene.layout.VBox;
 
 public class ChatWindowController extends VBox implements ICustomNode {
 	// Current
-	private final Group currentChat;
+	private final Group currentGroup;
 
 	// Components
 	public AnchorPane windowContainer;
@@ -39,10 +36,9 @@ public class ChatWindowController extends VBox implements ICustomNode {
 	private Epic currentEpic;
 	private UserStory currentUserStory;
 
-
 	// Constructor
 	public ChatWindowController(Group chat) {
-		this.currentChat = chat;
+		this.currentGroup = chat;
 		initializeFXML("/components/tabs/chat-window.fxml");
 		// Initialize the chat window
 		switchWindow(ChatThreadType.GENERAL);
@@ -54,9 +50,9 @@ public class ChatWindowController extends VBox implements ICustomNode {
 		initializeMenu();
 
 		// Set chat label
-		chatLabel.setText(currentChat.getChatName());
+		chatLabel.setText(currentGroup.getChatName());
 
-		if (!currentChat.isOwner()) {
+		if (!currentGroup.isOwner()) {
 			addButton.setVisible(false);
 			addButton.setManaged(false);
 		} else {
@@ -81,7 +77,7 @@ public class ChatWindowController extends VBox implements ICustomNode {
 
 	private void switchWindow(ChatThreadType windowType) {
 		if (this.currentWindowType == windowType) {
-			System.out.println("You are already at the: " + windowType.getName());
+			// System.out.println("You are already at the: " + windowType.getName());
 			return;
 		}
 
@@ -97,7 +93,7 @@ public class ChatWindowController extends VBox implements ICustomNode {
 
 			switch (windowType) {
 				case GENERAL:
-					ChatGeneral chatGeneral = new ChatGeneral(currentChat);
+					ChatGeneral chatGeneral = new ChatGeneral(currentGroup);
 
 					// Setup controller values
 					onWindowSwitch = chatGeneral::cleanup;
@@ -106,7 +102,7 @@ public class ChatWindowController extends VBox implements ICustomNode {
 					searchButton.setManaged(true);
 					break;
 				case FEATURES:
-					GroupFeatures groupFeatures = new GroupFeatures(currentChat);
+					GroupFeatures groupFeatures = new GroupFeatures(currentGroup);
 					groupFeatures.setOnFeatureClickHandler((Feature feature) -> {
 						switchWindow(ExtraWindowType.EPICS, feature);
 					});
@@ -118,7 +114,7 @@ public class ChatWindowController extends VBox implements ICustomNode {
 					searchButton.setManaged(false);
 					break;
 				case SPRINTS:
-					GroupSprints groupSprints = new GroupSprints(currentChat);
+					GroupSprints groupSprints = new GroupSprints(currentGroup);
 					groupSprints.setOnSprintClickHandler((sprint) -> {
 						switchWindow(ExtraWindowType.SPRINT_CHAT, sprint);
 					});
@@ -151,13 +147,13 @@ public class ChatWindowController extends VBox implements ICustomNode {
 
 		} catch (Exception e) {
 			System.out.println("Failed to switch window: " + windowType.getName());
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
 	private void switchWindow(ExtraWindowType windowType, Object object) {
 		if (this.currentWindowType == windowType) {
-			System.out.println("You are already at the: " + windowType.name());
+			// System.out.println("You are already at the: " + windowType.name());
 			return;
 		}
 
@@ -201,6 +197,14 @@ public class ChatWindowController extends VBox implements ICustomNode {
 
 					onWindowSwitch = chatUserStory::cleanup;
 					newComponent = chatUserStory;
+					break;
+				case SPRINT_CHAT:
+					SprintChat sprintChat = new SprintChat((Sprint) object);
+
+					// Setup controller values
+					onWindowSwitch = sprintChat::cleanup;
+					newComponent = sprintChat;
+					chatType.setText(ChatType.SPRINTS.getName());
 					break;
 			}
 
