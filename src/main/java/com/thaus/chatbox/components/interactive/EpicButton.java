@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Epic;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -48,6 +49,10 @@ public class EpicButton extends HBox implements ICustomNode {
 		});
 	}
 
+	public Epic getEpic() {
+		return featureEpic;
+	}
+
 	private void initializeMenu() {
 		// Initialize the context menu
 		if (contextMenuButton != null) {
@@ -65,7 +70,7 @@ public class EpicButton extends HBox implements ICustomNode {
 			// Open item action
 			contextMenuButton.setOnAction(event -> {
 				if (contextMenu != null) {
-					contextMenu.show(contextMenuButton, 0, 0);
+					contextMenu.show(contextMenuButton, Side.BOTTOM, 0, 0);
 				}
 			});
 		}

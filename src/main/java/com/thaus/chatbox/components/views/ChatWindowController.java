@@ -132,7 +132,7 @@ public class ChatWindowController extends VBox implements ICustomNode {
 					newComponent = chatFeatures;
 					break;
 			}
-			
+
 			// Update the window type
 			if (newComponent != null) {
 				// Clear contents and add new

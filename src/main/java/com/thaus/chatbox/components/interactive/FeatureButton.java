@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Feature;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -42,8 +43,8 @@ public class FeatureButton extends HBox implements ICustomNode {
 	@FXML
 	public void initialize() {
 		// Initialize the button with the name and id
-		this.epicsLabel.setText(String.valueOf(chatFeature.getEpicsCount()));
-		this.userStoryLabel.setText(String.valueOf(chatFeature.getUserStoryCount()));
+		this.epicsLabel.setText("Epics: " + String.valueOf(chatFeature.getEpicsCount()));
+		this.userStoryLabel.setText("User stories: " + String.valueOf(chatFeature.getUserStoryCount()));
 		this.unreadLabel.setText(String.valueOf(chatFeature.getUnreadCount()));
 		this.nameLabel.setText(chatFeature.getName());
 
@@ -70,10 +71,9 @@ public class FeatureButton extends HBox implements ICustomNode {
 				}
 			});
 
-
 			contextMenuButton.setOnAction(event -> {
 				if (contextMenu != null) {
-					contextMenu.show(contextMenuButton, 0, 0);
+					contextMenu.show(contextMenuButton, Side.BOTTOM, 0, 0);
 				}
 			});
 		}

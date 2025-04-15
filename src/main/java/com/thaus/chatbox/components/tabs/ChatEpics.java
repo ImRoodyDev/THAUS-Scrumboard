@@ -37,6 +37,18 @@ public class ChatEpics extends VBox implements ICustomNode {
 					createEpicComponent(feature);
 				}
 			}
+
+			if (change.wasRemoved()) {
+				for (Epic feature : change.getRemoved()) {
+					// Remove the feature from the view container
+					viewContainer.getChildren().removeIf(node -> {
+						if (node instanceof EpicButton epicButton) {
+							return epicButton.getEpic().equals(feature);
+						}
+						return false;
+					});
+				}
+			}
 		}
 	};
 
@@ -56,7 +68,11 @@ public class ChatEpics extends VBox implements ICustomNode {
 	private void initializeEpics() {
 		// Check if epics is null or empty
 		if (currentChatFeature.getEpics() == null || currentChatFeature.getEpics().isEmpty()) {
-			return;
+			dialog.setVisible(true);
+		} else {
+			if (viewContainer.getChildren().contains(dialog)) {
+				viewContainer.getChildren().remove(dialog);
+			}
 		}
 
 		// Clear the view container and add each epic to it
@@ -88,9 +104,12 @@ public class ChatEpics extends VBox implements ICustomNode {
 	}
 
 	private void createEpicComponent(Epic epic) {
+		if (viewContainer.getChildren().contains(dialog)) {
+			viewContainer.getChildren().remove(dialog);
+		}
 		// Create a new epic component and add it to the view container
 		EpicButton epicButton = new EpicButton(epic);
-		epicButton.setOnMouseClicked(event -> {
+		epicButton.setOnClickHandler(() -> {
 			if (onEpicClickHandler != null) {
 				onEpicClickHandler.onEpicClick(epic);
 			}

@@ -36,6 +36,18 @@ public class ChatUserStories extends VBox implements ICustomNode {
 					createUserStoryComponent(userStory);
 				}
 			}
+
+			if (change.wasRemoved()) {
+				for (UserStory userStory : change.getRemoved()) {
+					// Remove the feature from the view container
+					viewContainer.getChildren().removeIf(node -> {
+						if (node instanceof UserStoryButton userStoryButton) {
+							return userStoryButton.getUserStory().equals(userStory);
+						}
+						return false;
+					});
+				}
+			}
 		}
 	};
 
@@ -60,7 +72,11 @@ public class ChatUserStories extends VBox implements ICustomNode {
 	private void initializeUserStory() {
 		// Check if user stories is null or empty
 		if (currentEpicUserStory.getUserStories() == null || currentEpicUserStory.getUserStories().isEmpty()) {
-			return;
+			dialog.setVisible(true);
+		} else {
+			if (viewContainer.getChildren().contains(dialog)) {
+				viewContainer.getChildren().remove(dialog);
+			}
 		}
 
 		// Add event listener to the array
@@ -92,17 +108,29 @@ public class ChatUserStories extends VBox implements ICustomNode {
 	public void setOnUserStoryClickHandler(OnUserStoryClickHandler onUserStoryClickHandler) {
 		this.onUserStoryClickHandler = onUserStoryClickHandler;
 	}
-	
+
 	public void cleanup() {
+		// Remove the listener from the user stories list
+		if (currentEpicUserStory.getUserStories() != null) {
+			currentEpicUserStory.getUserStories().removeListener(chatUserStoryListChangeListener);
+		}
 	}
 
 	private void createUserStoryComponent(UserStory userStory) {
+		if (viewContainer.getChildren().contains(dialog)) {
+			viewContainer.getChildren().remove(dialog);
+		}
+
 		UserStoryButton userStoryButton = new UserStoryButton(userStory);
+
 		userStoryButton.setOnClickHandler(() -> {
 			if (onUserStoryClickHandler != null) {
 				onUserStoryClickHandler.onUserStoryClick(userStory);
 			}
 		});
+		userStoryButton.setOnDeleteHandler(() -> currentEpicUserStory.deleteUserStory(userStory));
+
+
 		viewContainer.getChildren().add(userStoryButton);
 	}
 

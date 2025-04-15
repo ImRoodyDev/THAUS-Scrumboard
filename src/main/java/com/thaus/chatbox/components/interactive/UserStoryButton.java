@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.UserStory;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -43,6 +44,9 @@ public class UserStoryButton extends HBox implements ICustomNode {
 			}
 		});
 
+
+		initializeMenu();
+
 	}
 
 	private void initializeMenu() {
@@ -62,10 +66,14 @@ public class UserStoryButton extends HBox implements ICustomNode {
 
 			contextMenuButton.setOnAction(event -> {
 				if (contextMenu != null) {
-					contextMenu.show(contextMenuButton, 0, 0);
+					contextMenu.show(contextMenuButton, Side.BOTTOM, 0, 0);
 				}
 			});
 		}
+	}
+
+	public UserStory getUserStory() {
+		return userStory;
 	}
 
 	public void setOnDeleteHandler(Runnable onDeleteHandler) {

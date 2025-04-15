@@ -93,7 +93,6 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 	public void onCreateChatbox(Runnable action) {
 		newChatboxBtn.setOnAction(event -> action.run());
 	}
-	 
 
 	// Initialize filter bar
 	private void initializeFilters() {
