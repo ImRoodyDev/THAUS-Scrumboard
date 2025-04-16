@@ -2,10 +2,12 @@ package com.thaus.chatbox.components.views;
 
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.base.BaseScene;
+import com.thaus.chatbox.types.ScreenName;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import org.json.JSONObject;
 
 public class LoginRegisterController extends BaseScene {
 	@FXML
@@ -36,16 +38,23 @@ public class LoginRegisterController extends BaseScene {
 		String username = nameField.getText();
 		String password = passwordField.getText();
 		System.out.println("Login button clicked");
-		System.out.println("Username: " + username);
-		System.out.println("Password: " + password);
 
 		// Validate input
 		if (username.isEmpty() || password.isEmpty()) {
 			triggerDialog("Please fill in all fields.");
 		} else {
+			JSONObject response = getUserController().login(username, password);
+			if (response != null) {
+				int statusCode = response.getInt("statusCode");
 
-			getUserController().login(username, password);
-			triggerDialog("Login successful!");
+				if (statusCode == 200) {
+					switchPage(ScreenName.Home);
+				} else {
+					triggerDialog(response.getString("message"));
+				}
+			} else {
+				triggerDialog("Login failed. Please try again.");
+			}
 		}
 	}
 
@@ -53,16 +62,24 @@ public class LoginRegisterController extends BaseScene {
 		String username = nameField.getText();
 		String password = passwordField.getText();
 		System.out.println("Register button clicked");
-		System.out.println("Username: " + username);
-		System.out.println("Password: " + password);
-
 
 		// Validate input
 		if (username.isEmpty() || password.isEmpty()) {
 			triggerDialog("Please fill in all fields.");
 		} else {
-			getUserController().register(username, password);
-			triggerDialog("Registration successful!");
+			JSONObject response = getUserController().register(username, password);
+
+			if (response != null) {
+				int statusCode = response.getInt("statusCode");
+
+				if (statusCode == 200) {
+					switchPage(ScreenName.Home);
+				} else {
+					triggerDialog(response.getString("message"));
+				}
+			} else {
+				triggerDialog("Login failed. Please try again.");
+			}
 		}
 	}
 

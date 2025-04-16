@@ -4,6 +4,7 @@ import com.thaus.chatbox.controllers.ChatController;
 import com.thaus.chatbox.controllers.SceneController;
 import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.interfaces.IBaseScene;
+import com.thaus.chatbox.types.ScreenName;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -120,6 +121,9 @@ public abstract class BaseScene implements IBaseScene {
 		SceneController.closeStage();
 	}
 
+	protected void switchPage(ScreenName screenName) {
+		SceneController.switchStage(screenName);
+	}
 
 	protected ChatController getChatController() {
 		return SceneController.getChatController();

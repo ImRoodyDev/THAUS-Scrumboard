@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.Map;
 
 public class FetchUtils {
-	
+
 	public static JSONObject post(String url, Map<String, String> data, String accessToken, String refreshToken) throws Exception {
 		URL endpoint = new URL(url);
 		HttpURLConnection connection = (HttpURLConnection) endpoint.openConnection();
@@ -73,7 +73,8 @@ public class FetchUtils {
 	}
 
 	private static String readResponse(HttpURLConnection connection) throws Exception {
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+				connection.getResponseCode() >= 400 ? connection.getErrorStream() : connection.getInputStream()))) {
 			StringBuilder response = new StringBuilder();
 			String line;
 			while ((line = reader.readLine()) != null) {
