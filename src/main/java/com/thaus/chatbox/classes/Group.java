@@ -7,15 +7,19 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 public class Group {
-	private String chatId;
+	// Class properties to assign to UI
+	private String groupId;
 	private String chatName;
 	private String createdAt;
 	private int unreadCount;
 	private boolean isOwner;
 	private ChatboxType type;
+
+	// Observable lists for messages, features, sprints, and members
 	private ObservableList<Message> messages = FXCollections.observableArrayList();
 	private ObservableList<Feature> features = FXCollections.observableArrayList();
 	private ObservableList<Sprint> sprints = FXCollections.observableArrayList();
+	private ObservableList<Member> members = FXCollections.observableArrayList();
 
 	public Group(String chatName, ChatboxType type) {
 		this.chatName = chatName;
@@ -40,8 +44,8 @@ public class Group {
 		);*/
 	}
 
-	public Group(String chatId, String chatName, boolean isOwner, String createdAt) {
-		this.chatId = chatId;
+	public Group(String groupId, String chatName, boolean isOwner, String createdAt) {
+		this.groupId = groupId;
 		this.chatName = chatName;
 		this.isOwner = isOwner;
 		this.createdAt = createdAt;
@@ -56,9 +60,54 @@ public class Group {
 		this.features = FXCollections.observableArrayList(features);
 	}
 
+	public void initializeSprints(ArrayList<Sprint> sprints) {
+		this.sprints = FXCollections.observableArrayList(sprints);
+	}
+
 	public void createSprint() {
 		Sprint sprint = new Sprint();
 		sprints.add(sprint);
+	}
+
+	public void createFeature(String featureName) {
+		Feature feature = new Feature(this.groupId, featureName);
+		features.add(feature);
+	}
+
+	public void addMessage(Message message) {
+		messages.add(message);
+	}
+
+	public void addMember(Member member) {
+		members.add(member);
+	}
+
+	public void setUnreadCount(int unreadCount) {
+		this.unreadCount = unreadCount;
+	}
+
+	public void deleteSprint(Sprint sprint) {
+		sprints.remove(sprint);
+	}
+
+	public void removeFeature(Feature feature) {
+		features.remove(feature);
+	}
+
+	public boolean isOwner() {
+		return isOwner;
+	}
+
+	public ChatboxType getType() {
+		return type;
+	}
+
+	public String getChatName() {
+		return chatName;
+	}
+
+	public int getUnreadCount() {
+		return unreadCount;
 	}
 
 	public ObservableList<Sprint> getSprints() {
@@ -73,66 +122,4 @@ public class Group {
 		return features;
 	}
 
-	public void createFeature(String featureName) {
-		Feature feature = new Feature(this.chatId, featureName);
-		features.add(feature);
-	}
-
-	public void removeFeature(Feature feature) {
-		features.remove(feature);
-	}
-
-	public void editFeature(Feature feature) {
-		int index = features.indexOf(feature);
-		if (index != -1) {
-			features.set(index, feature);
-		}
-	}
-
-	public void addMessage(Message message) {
-		messages.add(message);
-	}
-
-	public void removeMessage(Message message) {
-		messages.remove(message);
-	}
-
-	public void editMessage(Message message) {
-		int index = messages.indexOf(message);
-		if (index != -1) {
-			messages.set(index, message);
-		}
-	}
-
-	public ChatboxType getType() {
-		return type;
-	}
-
-	public String getChatId() {
-		return chatId;
-	}
-
-	public String getChatName() {
-		return chatName;
-	}
-
-	public boolean isOwner() {
-		return isOwner;
-	}
-
-	public String getCreatedAt() {
-		return createdAt;
-	}
-
-	public int getUnreadCount() {
-		return unreadCount;
-	}
-
-	public void setUnreadCount(int unreadCount) {
-		this.unreadCount = unreadCount;
-	}
-
-	public void deleteSprint(Sprint sprint) {
-		sprints.remove(sprint);
-	}
 }

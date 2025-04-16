@@ -3,7 +3,7 @@ package com.thaus.chatbox.classes;
 import javafx.collections.ObservableList;
 
 public class Epic {
-	private String chatId;
+	private String groupId;
 	private String featureId;
 	private String id;
 	private String name;
@@ -29,7 +29,7 @@ public class Epic {
 		this.status = "New";
 		this.unreadCount = 0;
 		this.userStoryCount = 0;
-	 
+
 	}
 
 	public String getId() {

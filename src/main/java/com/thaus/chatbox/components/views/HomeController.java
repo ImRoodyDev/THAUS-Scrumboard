@@ -8,7 +8,6 @@ import com.thaus.chatbox.components.tabs.GroupCreate;
 import com.thaus.chatbox.components.tabs.WelcomeComponent;
 import com.thaus.chatbox.types.ChatboxType;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
@@ -26,9 +25,8 @@ public class HomeController extends BaseScene {
 	// Page values
 	private HomeTab currentTab;
 
-
 	// ListChangeListener for chat
-	private ListChangeListener<Group> chatListChangeListener = change -> {
+	private final ListChangeListener<Group> chatListChangeListener = change -> {
 		while (change.next()) {
 			if (change.wasAdded()) {
 				for (Group chat : change.getAddedSubList()) {
@@ -43,11 +41,11 @@ public class HomeController extends BaseScene {
 					// Handle delete action on chatbox
 					chatboxButton.onDeleteAction(_ -> {
 						// When delete a chat
-						if (getChatController().getCurrentChat().equals(chat)) {
+						if (getChatController().getCurrentGroup().equals(chat)) {
 							switchTab(HomeTab.WELCOME);
 						}
 						// Remove chatbox from the sidebar
-						getChatController().deleteChatbox(chat);
+						getChatController().deleteGroup(chat);
 					});
 				}
 
@@ -99,24 +97,22 @@ public class HomeController extends BaseScene {
 
 	// Initialize chat controller
 	private void initializeChats() {
-		// Get the observableList of the chatboxes
-		ObservableList<Group> chats = getChatController().getChats();
 
 		// Initialize UI with current state
 		VBox chatsContentArea = sidebar.getChatboxsScrollContent();
 		chatsContentArea.getChildren().clear();
 
 		// Add listener to array
-		getChatController().setChatListListener(chatListChangeListener);
+		getChatController().setGroupListListener(chatListChangeListener);
 
 		// Get available chat
-		for (Group chat : getChatController().getChats()) {
+		for (Group chat : getChatController().getGroups()) {
 			sidebar.createChatboxs(chat);
 		}
 
 		// Set action on chatbox selected
-		// getChatController().setOnClickChatboxDeletedAction(() -> switchTab(HomeTab.WELCOME));
-		getChatController().setOnClickChatboxAction(() -> switchTab(HomeTab.CHAT));
+		// getChatController().handleGroupDeletion(() -> switchTab(HomeTab.WELCOME));
+		getChatController().handleGroupSelection(() -> switchTab(HomeTab.CHAT));
 	}
 
 	// Switch to tab in the home page
@@ -132,7 +128,7 @@ public class HomeController extends BaseScene {
 
 			switch (tabName) {
 				case WELCOME:
-					newContent = new WelcomeComponent("Hello " + getUserController().getUsername());
+					newContent = new WelcomeComponent("Hello " + getUser().getUsername());
 					break;
 				case NEW_CHAT:
 					GroupCreate createChatMenu = new GroupCreate();
@@ -142,7 +138,7 @@ public class HomeController extends BaseScene {
 
 					// Cn submit to create a new chatbox
 					createChatMenu.setOnActionSubmit((ChatboxType type, String name) -> {
-						getChatController().createNewChatbox(type, name);
+						getChatController().createGroup(type, name);
 						switchTab(HomeTab.WELCOME);
 					});
 
@@ -150,7 +146,7 @@ public class HomeController extends BaseScene {
 					newContent = createChatMenu;
 					break;
 				case CHAT:
-					ChatWindowController chatComponent = new ChatWindowController(getChatController().getCurrentChat());
+					ChatWindowController chatComponent = new ChatWindowController(getChatController().getCurrentGroup());
 					newContent = chatComponent;
 					break;
 			}

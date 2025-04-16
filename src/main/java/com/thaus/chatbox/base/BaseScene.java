@@ -1,5 +1,6 @@
 package com.thaus.chatbox.base;
 
+import com.thaus.chatbox.classes.User;
 import com.thaus.chatbox.controllers.ChatController;
 import com.thaus.chatbox.controllers.SceneController;
 import com.thaus.chatbox.controllers.UserController;
@@ -34,7 +35,7 @@ public abstract class BaseScene implements IBaseScene {
 	// Initialize automatically
 	public void initialize() {
 		if (nameLabel != null) {
-			nameLabel.setText(getUserController().getUsername());
+			nameLabel.setText(getUser().getUsername());
 		}
 
 		initializeBaseButtons();
@@ -126,10 +127,15 @@ public abstract class BaseScene implements IBaseScene {
 	}
 
 	protected ChatController getChatController() {
-		return SceneController.getChatController();
+		return SceneController.getUserController().getChatController();
 	}
 
 	protected UserController getUserController() {
-		return SceneController.getAuthenticationController();
+		return SceneController.getUserController();
 	}
+
+	protected User getUser() {
+		return UserController.getCurrentUser();
+	}
+
 }

@@ -3,7 +3,7 @@ package com.thaus.chatbox.classes;
 import javafx.collections.ObservableList;
 
 public class Feature {
-	private String chatId;
+	private String groupId;
 	private String id;
 	private String name;
 	private String description;
@@ -22,9 +22,9 @@ public class Feature {
 		this.userStoryCount = userStoryCount;
 	}
 
-	public Feature(String chatId, String name) {
+	public Feature(String groupId, String name) {
 		this.name = name;
-		this.chatId = chatId;
+		this.groupId = groupId;
 		this.description = "";
 		this.status = "New";
 		this.unreadCount = 0;

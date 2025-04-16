@@ -3,7 +3,7 @@ package com.thaus.chatbox.classes;
 import javafx.collections.ObservableList;
 
 public class UserStory {
-	private String chatId;
+	private String groupId;
 	private String featureId;
 	private String epicId;
 	private String id;
@@ -14,7 +14,7 @@ public class UserStory {
 	private int unreadCount;
 
 	public UserStory(String chatId, String featureId, String epicId, String id, String name, String description) {
-		this.chatId = chatId;
+		this.groupId = chatId;
 		this.featureId = featureId;
 		this.epicId = epicId;
 		this.id = id;
@@ -27,17 +27,17 @@ public class UserStory {
 		this.name = name;
 		this.description = "";
 		this.id = "";
-		this.chatId = "";
+		this.groupId = "";
 		this.epicId = "";
 	}
 
-	public String getChatId() {
-		return chatId;
+	public String getGroupId() {
+		return groupId;
 	}
 
 
-	public void setChatId(String chatId) {
-		this.chatId = chatId;
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 
 
@@ -102,6 +102,6 @@ public class UserStory {
 	public void removeMessage(Message message) {
 		this.messages.remove(message);
 	}
- 
+
 
 }

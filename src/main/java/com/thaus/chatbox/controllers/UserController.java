@@ -1,5 +1,6 @@
 package com.thaus.chatbox.controllers;
 
+import com.thaus.chatbox.classes.User;
 import com.thaus.chatbox.types.ScreenName;
 import com.thaus.chatbox.utils.FetchUtils;
 import com.thaus.chatbox.utils.TokenUtils;
@@ -8,20 +9,36 @@ import org.json.JSONObject;
 import java.util.Map;
 
 public class UserController {
+	private static User currentUser = null;
 	private final String API = "http://localhost:3002/api";
 
 	// UserController variables
 	private boolean isLoggedIn = false;
-	private String username;
+	private ChatController chatController = null;
 
+	// Constructor
 	public UserController() {
 		// Initialize the user controller
 		initialize();
 	}
 
+	public static User getCurrentUser() {
+		return currentUser;
+	}
+
+	private void initialize() {
+		// Initialize the user controller
+		this.isLoggedIn = false;
+		chatController = new ChatController();
+	}
+
+	public ChatController getChatController() {
+		return chatController;
+	}
+
 	public JSONObject login(String username, String password) {
 		if (isLoggedIn) {
-			System.out.println("Already logged in as " + this.username);
+			System.out.println("Already logged in as " + currentUser.getUsername());
 			return null;
 		}
 
@@ -50,7 +67,7 @@ public class UserController {
 
 				// Set user as logged in
 				this.isLoggedIn = true;
-				this.username = username;
+				currentUser = new User(username);
 			}
 		} catch (Exception error) {
 			System.out.println("Fetch error: " + error.getMessage());
@@ -61,7 +78,7 @@ public class UserController {
 
 	public JSONObject register(String username, String password) {
 		if (isLoggedIn) {
-			System.out.println("Already logged in as " + this.username);
+			System.out.println("Already logged in as " + currentUser.getUsername());
 			return null;
 		}
 
@@ -88,7 +105,7 @@ public class UserController {
 
 				// Set user as logged in
 				this.isLoggedIn = true;
-				this.username = username;
+				currentUser = new User(username);
 			}
 		} catch (Exception error) {
 			System.out.println("Fetch error: " + error.getMessage());
@@ -100,8 +117,10 @@ public class UserController {
 	public void logout() {
 		try {
 			TokenUtils.clearTokens();
+			currentUser.cleanup();
 			this.isLoggedIn = false;
-			this.username = null;
+			currentUser = null;
+
 			// Switch window
 			SceneController.switchStage(ScreenName.Home);
 		} catch (Exception error) {
@@ -109,17 +128,7 @@ public class UserController {
 		}
 	}
 
-	private void initialize() {
-		// Initialize the user controller
-		this.isLoggedIn = false;
-		this.username = null;
-	}
-
 	public boolean isLoggedIn() {
 		return isLoggedIn;
-	}
-
-	public String getUsername() {
-		return username;
 	}
 }

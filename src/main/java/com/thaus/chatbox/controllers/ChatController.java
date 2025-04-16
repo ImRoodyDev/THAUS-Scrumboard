@@ -1,114 +1,109 @@
 package com.thaus.chatbox.controllers;
 
 import com.thaus.chatbox.classes.Group;
+import com.thaus.chatbox.classes.User;
 import com.thaus.chatbox.types.ChatboxType;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
+// This class is responsible for managing the chat functionality and saving it in database
 public class ChatController {
-	// Change to ObservableList
-	private final ObservableList<Group> chats = FXCollections.observableArrayList();
-
 	// Selected chat
-	private Group selectedChat;
+	private Group selectedGroup;
 	// Action on chatboxSelectionAction
-	private Runnable onChatSelectionAction;
+	private Runnable handleGroupSelection;
 	// Action on chatbox deleted
-	private Runnable onChatDeletedAction;
+	private Runnable handleGroupDeletion;
 	// Set listChangeLister for the observable list
 	private ListChangeListener<Group> chatListChangeListener;
 
-	public ChatController() {
+	// On chatbox selected
+	public void selectChatbox(Group group) {
+		selectedGroup = group;
 
-	}
-
-	// Initialize chat controller listener
-	public void initialize(ListChangeListener<Group> listener) {
-		this.chatListChangeListener = listener;
-		chats.addListener((ListChangeListener<Group>) listener);
-	}
-
-	public void setChatListListener(ListChangeListener<Group> listener) {
-		if (chatListChangeListener != null) {
-			chats.removeListener(chatListChangeListener);
-		}
-		this.chatListChangeListener = listener;
-		chats.addListener(listener);
-	}
-
-	// Get chatbox list
-	public ObservableList<Group> getChats() {
-		return chats;
-	}
-
-	public Group getCurrentChat() {
-		return selectedChat;
+		if (handleGroupSelection != null) handleGroupSelection.run();
+		System.out.println("Selected group: " + selectedGroup.getChatName());
 	}
 
 	// Create a new chatbox
-	public void createNewChatbox(ChatboxType type, String name) {
+	public void createGroup(ChatboxType type, String name) {
 		System.out.println("New chat: " + name + " is group: " + type.getName());
 		Group newChat = new Group(name, type);
-		chats.addFirst(newChat);
+		getCurrentUser().getGroups().addFirst(newChat);
 	}
 
-	// On chatbox selected
-	public void selectChatbox(Group chat) {
-		selectedChat = chat;
+	// Delete group
+	public void deleteGroup(Group chat) {
+		getCurrentUser().getGroups().remove(chat);
 
-		if (onChatSelectionAction != null) onChatSelectionAction.run();
-		System.out.println("Selected chat: " + selectedChat.getChatName());
-	}
-
-	// Delete chatbox
-	public void deleteChatbox(Group chat) {
-		chats.remove(chat);
-
-		if (this.onChatDeletedAction != null) {
-			onChatDeletedAction.run();
+		if (this.handleGroupDeletion != null) {
+			handleGroupDeletion.run();
 		}
 	}
-	
-	// Chat controller action events
-	public void setOnClickChatboxAction(Runnable action) {
-		onChatSelectionAction = action;
+
+	// Get selected chat
+	public Group getCurrentGroup() {
+		return selectedGroup;
 	}
 
-	// Chat controller on deleted event
-	public void setOnClickChatboxDeletedAction(Runnable action) {
-		onChatDeletedAction = action;
-	}
-
-	public void removeChatboxesListener() {
-		chats.removeListener(chatListChangeListener);
-		chatListChangeListener = null;
-		onChatSelectionAction = null;
-		onChatDeletedAction = null;
+	// Get all Groups
+	public ObservableList<Group> getGroups() {
+		return getCurrentUser().getGroups();
 	}
 
 	public void cleanup() {
 		if (chatListChangeListener != null) {
-			chats.removeListener(chatListChangeListener);
+			getCurrentUser().getGroups().removeListener(chatListChangeListener);
 		}
-		if (onChatSelectionAction != null) {
-			onChatSelectionAction = null;
+		if (handleGroupSelection != null) {
+			handleGroupSelection = null;
 		}
-		if (onChatDeletedAction != null) {
-			onChatDeletedAction = null;
+		if (handleGroupDeletion != null) {
+			handleGroupDeletion = null;
 		}
 	}
 
-	public void cleanChatsListeners() {
+	// Chat controller action events
+	public void handleGroupSelection(Runnable action) {
+		handleGroupSelection = action;
+	}
+
+	// Chat controller on deleted event
+	public void handleGroupDeletion(Runnable action) {
+		handleGroupDeletion = action;
+	}
+
+	// Set chatbox list change listener
+	public void setGroupListListener(ListChangeListener<Group> listener) {
 		if (chatListChangeListener != null) {
-			chats.removeListener(chatListChangeListener);
+			getCurrentUser().getGroups().removeListener(chatListChangeListener);
 		}
-		if (onChatSelectionAction != null) {
-			onChatSelectionAction = null;
+		this.chatListChangeListener = listener;
+		getCurrentUser().getGroups().addListener(listener);
+	}
+
+	public void removeChatboxesListener() {
+		getCurrentUser().getGroups().removeListener(chatListChangeListener);
+		chatListChangeListener = null;
+		handleGroupSelection = null;
+		handleGroupDeletion = null;
+	}
+
+	public void cleanGroupsListener() {
+		if (chatListChangeListener != null) {
+			getCurrentUser().getGroups().removeListener(chatListChangeListener);
 		}
-		if (onChatDeletedAction != null) {
-			onChatDeletedAction = null;
+		if (handleGroupSelection != null) {
+			handleGroupSelection = null;
 		}
+		if (handleGroupDeletion != null) {
+			handleGroupDeletion = null;
+		}
+	}
+
+
+	private User getCurrentUser() {
+		return UserController.getCurrentUser();
 	}
 }
 

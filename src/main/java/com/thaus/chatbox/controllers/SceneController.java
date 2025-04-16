@@ -27,7 +27,6 @@ public class SceneController {
 	private static String currentView = "";
 
 	// Central controller
-	private static ChatController chatController;
 	private static UserController userController;
 
 	// Constructor that receives the Stage from App.java
@@ -43,24 +42,9 @@ public class SceneController {
 		System.out.println("Scene controller created");
 	}
 
-	// Function to get the chat Controller
-	public static ChatController getChatController() {
-		return chatController;
-	}
-
-	// Function to set the chat Controller
-	public void setChatController(ChatController controller) {
-		chatController = controller;
-	}
-
 	// Function to get the authentication Controller
-	public static UserController getAuthenticationController() {
+	public static UserController getUserController() {
 		return userController;
-	}
-
-	// Function to set the authentication Controller
-	public void setAuthenticationController(UserController controller) {
-		userController = controller;
 	}
 
 	// Load the scenes and cache it
@@ -190,4 +174,10 @@ public class SceneController {
 	private void preloadScenes() throws IOException {
 		// sceneCache.put("Dashboard", loadScene("Dashboard"));
 	}
+
+	// Function to set the authentication Controller
+	public void setUserController(UserController controller) {
+		userController = controller;
+	}
+
 }
