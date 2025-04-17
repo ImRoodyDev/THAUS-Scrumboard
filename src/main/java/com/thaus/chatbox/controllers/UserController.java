@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class UserController {
 	private static User currentUser = null;
-	private final String API = "http://localhost:3002/api";
+	private final String API = "http://145.52.146.43:3002/api";
 
 	// UserController variables
 	private boolean isLoggedIn = false;
