@@ -1,27 +1,26 @@
 package com.thaus.chatbox.classes;
 
+import com.thaus.chatbox.utils.DateUtils;
+
+import java.util.Date;
+
 public class Message {
-	private String senderId;
-	private String senderName;
+	private String username;
 	private String content;
 	private String timestamp;
 	private boolean isMine;
 
-	public Message(String sender, String senderId, String content, String timestamp) {
-		this.senderId = senderId;
-		this.senderName = sender;
+	public Message(String username, String content, Date timestamp, boolean you) {
+		this.username = username;
 		this.content = content;
-		this.timestamp = timestamp;
+		this.timestamp = DateUtils.formatDate(timestamp);
+		this.isMine = you;
 	}
 
 	public Message(String content) {
 		this.content = content;
-		this.timestamp = String.valueOf(System.currentTimeMillis());
+		this.timestamp = DateUtils.formatDate(new Date());
 		isMine = true;
-	}
-
-	public String getSenderId() {
-		return senderId;
 	}
 
 	public String getContent() {
@@ -33,11 +32,10 @@ public class Message {
 	}
 
 	public String getSenderName() {
-		return senderName;
+		return username;
 	}
 
 	public boolean isMine() {
 		return isMine;
 	}
-
 }

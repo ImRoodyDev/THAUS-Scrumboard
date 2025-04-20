@@ -315,7 +315,7 @@
     -fx-background-radius: 99999;
 }
 
-.teams .organisation-icon-ptn {
+.organisation .organisation-icon-ptn {
     -fx-opacity: 1;
 }
 
@@ -395,6 +395,11 @@
     -fx-text-fill: white;
     -fx-font-size: 18;
     -fx-font-family: Arial;
+}
+
+.feature-btn-ctn .text.bold {
+    -fx-font-weight: 700;
+    -fx-font-size: 16;
 }
 
 .menu-btn {

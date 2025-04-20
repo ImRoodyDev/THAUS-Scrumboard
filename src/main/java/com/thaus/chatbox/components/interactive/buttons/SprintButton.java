@@ -2,6 +2,7 @@ package com.thaus.chatbox.components.interactive.buttons;
 
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Sprint;
+import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
@@ -10,12 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 
-import java.util.Date;
-
 public class SprintButton extends HBox implements ICustomNode {
-	// private final Group group;
-	private final Sprint sprint;
-
 	// FXML components
 	@FXML
 	private Label nameLabel;
@@ -33,17 +29,26 @@ public class SprintButton extends HBox implements ICustomNode {
 	private JFXButton contextMenuButton;
 	@FXML
 	private ContextMenu contextMenu;
+
+
+	// Observable properties
+	private final String sprintId;
 	private Runnable onClickHandler;
 	private Runnable onDeleteHandler;
+	private OnSprintStartHandler onSprintStartHandler;
+	private OnSprintStopHandler onSprintStopHandler;
 
 	public SprintButton(Sprint sprint) {
-		this.sprint = sprint;
+		this.sprintId = sprint.getId();
 		initializeFXML("/components/interactive/sprint.fxml");
 	}
 
 	public void initialize() {
-		initializeMenu();
-		initializeLabels();
+		Sprint sprint = UserController.getChatController()
+				.currentGroup().getSprintById(sprintId);
+
+		initializeMenu(sprint);
+		initializeLabels(sprint);
 
 		button.setOnAction(event -> {
 			if (onClickHandler != null) {
@@ -52,20 +57,18 @@ public class SprintButton extends HBox implements ICustomNode {
 		});
 	}
 
-	private void initializeLabels() {
-		// nameLabel.setText("Sprint " + (group.getSprints().indexOf(sprint) + 1));
-		nameLabel.setText(sprint.getName());
+	private void initializeLabels(Sprint sprint) {
+		nameLabel.textProperty().bind(sprint.getName());
 		userStoryLabel.setText("User stories: " + String.valueOf(sprint.getUserStories().size()));
-		unreadLabel.setText(String.valueOf(sprint.getUnreadCount()));
 
 		if (sprint.getStartedAt() != null && sprint.getEndAt() == null) {
 			statusLabel.setText("In progress");
 			statusLabel.getStyleClass().add("yellow");
-			dateLabel.setText("Started at: " + sprint.getStartedAt().toString());
+			dateLabel.setText("Started at: " + sprint.getStartedAt().get());
 		} else if (sprint.getEndAt() != null) {
 			statusLabel.setText("Completed");
 			statusLabel.getStyleClass().add("green");
-			dateLabel.setText("Completed at: " + sprint.getEndAt().toString());
+			dateLabel.setText("Completed at: " + sprint.getEndAt().get());
 
 		} else {
 			statusLabel.setText("Not started");
@@ -74,7 +77,7 @@ public class SprintButton extends HBox implements ICustomNode {
 		}
 	}
 
-	private void initializeMenu() {
+	private void initializeMenu(Sprint sprint) {
 		// Initialize the context menu
 		if (contextMenuButton != null) {
 			MenuItem deleteItem = new MenuItem("Delete");
@@ -88,19 +91,13 @@ public class SprintButton extends HBox implements ICustomNode {
 			if (sprint.getStartedAt() == null) {
 				MenuItem startItem = new MenuItem("Start sprint");
 				contextMenu.getItems().add(startItem);
-				startItem.setOnAction(e -> {
-					// Handle start sprint action
-					sprint.setStartedAt(new Date());
-				});
+				startItem.setOnAction(e -> onSprintStartHandler.handle(sprint));
 			}
 
 			if (sprint.getStartedAt() != null && sprint.getEndAt() == null) {
 				MenuItem endItem = new MenuItem("End sprint");
 				contextMenu.getItems().add(endItem);
-				endItem.setOnAction(e -> {
-					// Handle end sprint action
-					sprint.setEndAt(new Date());
-				});
+				endItem.setOnAction(e -> onSprintStopHandler.handle(sprint));
 			}
 
 			// Open item action
@@ -112,17 +109,28 @@ public class SprintButton extends HBox implements ICustomNode {
 		}
 	}
 
-	public Sprint getSprint() {
-		return sprint;
+	public String getSprintId() {
+		return sprintId;
 	}
 
-	public void setOnClickHandler(Runnable handler) {
+	public void handleSprintClick(Runnable handler) {
 		this.onClickHandler = handler;
 	}
 
-	public void setOnDeleteHandler(Runnable handler) {
+	public void handleSprintDelete(Runnable handler) {
 		this.onDeleteHandler = handler;
 	}
 
+	public void handleSprintStart(OnSprintStartHandler handler) {
+		this.onSprintStartHandler = handler;
+	}
 
+	public interface OnSprintStartHandler {
+		void handle(Sprint sprint);
+	}
+
+	public interface OnSprintStopHandler {
+		void handle(Sprint sprint);
+	}
+	
 }

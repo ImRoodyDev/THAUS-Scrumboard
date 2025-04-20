@@ -1,7 +1,9 @@
 package com.thaus.chatbox.components.tabs;
 
+import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -12,17 +14,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class WelcomeComponent extends AnchorPane implements ICustomNode {
-
 	// Cache font to avoid repeated loading
 	private static Font customFont;
-	// Controller values
-	private final String welcomeText;
+
 	@FXML
 	private VBox textContainer;
 
 	// Constructor
-	public WelcomeComponent(String text) {
-		welcomeText = text;
+	public WelcomeComponent() {
 		initializeFXML("/components/tabs/welcome-chat.fxml");
 	}
 
@@ -40,7 +39,14 @@ public class WelcomeComponent extends AnchorPane implements ICustomNode {
 			}
 
 			// Create text with your custom font
-			Text text = new Text(welcomeText);
+			Text text = new Text();
+			text.textProperty().bind(
+					Bindings.concat(
+							"Welcome ",
+							UserController.getCurrentUser().getUsername(),
+							" !"
+					)
+			);
 			text.setFont(customFont);
 
 			// Create gradient fill
@@ -60,6 +66,4 @@ public class WelcomeComponent extends AnchorPane implements ICustomNode {
 			System.err.println("Error loading custom font: " + e.getMessage());
 		}
 	}
-
-
 }

@@ -4,15 +4,16 @@ import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Feature;
 import com.thaus.chatbox.classes.Group;
 import com.thaus.chatbox.components.interactive.buttons.FeatureButton;
+import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import org.json.JSONObject;
 
 public class GroupFeatures extends VBox implements ICustomNode {
-	private final Group currentChat;
 	// FXML components // Text field for creating new feature
 	@FXML
 	private TextField textField;
@@ -24,8 +25,11 @@ public class GroupFeatures extends VBox implements ICustomNode {
 	private Label dialogLabel;
 	@FXML
 	private VBox viewContainer;
+
+	// Observable properties
+	private String groupId;
 	private OnFeatureClickHandler onFeatureClickHandler;
-	private final ListChangeListener<Feature> chatFeatureListChangeListener = change -> {
+	private ListChangeListener<Feature> featureListChangeListener = change -> {
 		while (change.next()) {
 
 			if (change.wasAdded()) {
@@ -49,26 +53,21 @@ public class GroupFeatures extends VBox implements ICustomNode {
 	};
 
 	// Constructor
-	public GroupFeatures(Group chat) {
-		this.currentChat = chat;
+	public GroupFeatures() {
 		initializeFXML("/components/tabs/group-features.fxml");
 	}
 
 	@FXML
 	public void initialize() {
-		initializeLabels();
-		initializeFeatures();
-	}
-
-	// Initialize labels
-	private void initializeLabels() {
-
+		Group group = UserController.getChatController().currentGroup();
+		this.groupId = group.getId();
+		initializeFeatures(group);
 	}
 
 	// Initialize the feature list
-	private void initializeFeatures() {
+	private void initializeFeatures(Group currentGroup) {
 		// Check if features is null or empty
-		if (currentChat.getFeatures() == null || currentChat.getFeatures().isEmpty()) {
+		if (currentGroup.getFeatures().isEmpty()) {
 			dialog.setVisible(true);
 		} else {
 			if (viewContainer.getChildren().contains(dialog)) {
@@ -77,10 +76,10 @@ public class GroupFeatures extends VBox implements ICustomNode {
 		}
 
 		// Add the listener to the features list
-		currentChat.getFeatures().addListener(chatFeatureListChangeListener);
+		currentGroup.getFeatures().addListener(featureListChangeListener);
 
 		// Add each feature to the view container
-		for (Feature feature : currentChat.getFeatures()) {
+		for (Feature feature : currentGroup.getFeatures()) {
 			createFeatureComponent(feature);
 		}
 
@@ -89,8 +88,6 @@ public class GroupFeatures extends VBox implements ICustomNode {
 	}
 
 	private void createFeature() {
-		System.out.println("Test create: " + textField.getText());
-
 		// Check if the text field is empty
 		if (textField.getText().isEmpty()) {
 			return;
@@ -99,10 +96,39 @@ public class GroupFeatures extends VBox implements ICustomNode {
 		System.out.println("Creating feature: " + textField.getText());
 
 		// Create a new feature
-		currentChat.createFeature(textField.getText());
+		JSONObject response = UserController.createFeature(groupId, textField.getText());
 
-		// Clear the text field
-		textField.clear();
+		if (response == null || response.getInt("statusCode") > 203) {
+			String message = response.getString("message");
+			System.out.println(message);
+		} else {
+			JSONObject feature = response.getJSONObject("feature");
+			String featureId = feature.getString("id");
+			String featureName = feature.getString("name");
+			Group currentGroup = UserController.getChatController().currentGroup();
+			currentGroup.addFeature(new Feature(featureId, featureName));
+
+			// Clear the text field
+			textField.clear();
+		}
+	}
+
+	private void deleteFeature(Feature feature) {
+		// Check if the feature is null
+		if (feature == null) {
+			return;
+		}
+
+		System.out.println("Deleting feature: " + feature.getName());
+
+		// Delete the feature
+		JSONObject response = UserController.deleteFeature(groupId, feature.getId());
+
+		if (response == null || response.getInt("statusCode") > 203) {
+			return;
+		} else {
+			UserController.getChatController().currentGroup().removeFeature(feature);
+		}
 	}
 
 	private void createFeatureComponent(Feature feature) {
@@ -112,29 +138,31 @@ public class GroupFeatures extends VBox implements ICustomNode {
 
 		// Create a new feature button
 		FeatureButton featureButton = new FeatureButton(feature);
-		featureButton.setOnClickHandler(() -> {
+		featureButton.handleOnClick(() -> {
 			// Call the on feature click handler
 			if (onFeatureClickHandler != null) {
 				onFeatureClickHandler.onFeatureClick(feature);
 			}
 		});
-		featureButton.setOnDeleteHandler(() -> currentChat.removeFeature(feature));
+		featureButton.handleOnDelete(() -> deleteFeature(feature));
 
 		// Add it to the view container
 		viewContainer.getChildren().add(featureButton);
 	}
 
-	public void cleanup() {
-		// Remove the listener
-		currentChat.getFeatures().removeListener(chatFeatureListChangeListener);
+	public void handleFeatureClick(OnFeatureClickHandler onFeatureClickHandler) {
+		this.onFeatureClickHandler = onFeatureClickHandler;
 	}
 
-	public void setOnFeatureClickHandler(OnFeatureClickHandler onFeatureClickHandler) {
-		this.onFeatureClickHandler = onFeatureClickHandler;
+	public void cleanup() {
+		// Remove the listener
+		viewContainer.getChildren().clear();
+		onFeatureClickHandler = null;
+		createButton.setOnAction(null);
+		UserController.getChatController().currentGroup().getFeatures().removeListener(featureListChangeListener);
 	}
 
 	public interface OnFeatureClickHandler {
 		void onFeatureClick(Feature feature);
 	}
-
 }

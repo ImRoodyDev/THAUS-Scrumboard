@@ -141,7 +141,7 @@
    </AnchorPane>
 	<AnchorPane prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 		<children>
-			<VBox fx:id="dialogContainer" alignment="CENTER" fillWidth="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+			<VBox fx:id="dialogContainer" alignment="CENTER" fillWidth="false" mouseTransparent="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 				<children>
 					<JFXButton fx:id="dialogButton" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" ripplerFill="BLACK" style="-fx-background-color: white; -fx-padding: 12 18;" text="User" visible="false">
 						<graphic>

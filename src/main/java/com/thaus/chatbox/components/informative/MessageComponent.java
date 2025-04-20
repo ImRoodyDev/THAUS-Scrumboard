@@ -31,7 +31,7 @@ public class MessageComponent extends HBox implements ICustomNode {
 			label.setText("You");
 			this.getStyleClass().add("from-me");
 		} else {
-			String labelText = String.format("%s (%s)   %s", message.getSenderName(), message.getSenderId(), message.getTimestamp());
+			String labelText = String.format("%s (%s)   %s", message.getSenderName(), message.getSenderName(), message.getTimestamp());
 			label.setText(message.getSenderName());
 		}
 

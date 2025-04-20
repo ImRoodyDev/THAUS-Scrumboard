@@ -4,16 +4,16 @@ import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Epic;
 import com.thaus.chatbox.classes.Feature;
 import com.thaus.chatbox.components.interactive.buttons.EpicButton;
+import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import org.json.JSONObject;
 
 public class GroupEpics extends VBox implements ICustomNode {
-	private final Feature currentChatFeature;
-
 	@FXML
 	private Label featureLabel;
 	@FXML
@@ -26,8 +26,13 @@ public class GroupEpics extends VBox implements ICustomNode {
 	private Label dialogLabel;
 	@FXML
 	private VBox viewContainer;
+
+	// Observable properties
+	private String groupId;
+	private String featureId;
+	private Runnable onFeatureClickHandler;
 	private OnEpicClickHandler onEpicClickHandler;
-	private final ListChangeListener<Epic> chatFeatureListChangeListener = change -> {
+	private ListChangeListener<Epic> featureListChangeListener = change -> {
 		while (change.next()) {
 			if (change.wasAdded()) {
 				for (Epic feature : change.getAddedSubList()) {
@@ -50,29 +55,32 @@ public class GroupEpics extends VBox implements ICustomNode {
 	};
 
 	// Constructor
-	public GroupEpics(Feature chatFeature) {
-		this.currentChatFeature = chatFeature;
+	public GroupEpics() {
 		initializeFXML("/components/tabs/group-epics.fxml");
 	}
 
 	@FXML
 	public void initialize() {
+		Feature feature = UserController.getChatController().currentFeature();
+		this.groupId = UserController.getChatController().currentGroup().getId();
+		this.featureId = feature.getId();
+
 		// Initialize labels
-		initializeLabels();
+		initializeLabels(feature);
 		// Initialize the chat epics component
-		initializeEpics();
+		initializeEpics(feature);
 	}
 
 	// Initialize labels
-	private void initializeLabels() {
-		this.featureLabel.setText(currentChatFeature.getName());
-		this.featureLabel.setText(currentChatFeature.getName());
+	private void initializeLabels(Feature currentFeature) {
+		int featureIndex = UserController.getChatController().currentGroup().getFeatures().indexOf(currentFeature);
+		this.featureLabel.setText("Feature " + (featureIndex + 1));
 	}
 
 	// Initialize the Epics list
-	private void initializeEpics() {
+	private void initializeEpics(Feature currentFeature) {
 		// Check if epics is null or empty
-		if (currentChatFeature.getEpics() == null || currentChatFeature.getEpics().isEmpty()) {
+		if (currentFeature.getEpics() == null || currentFeature.getEpics().isEmpty()) {
 			dialog.setVisible(true);
 		} else {
 			if (viewContainer.getChildren().contains(dialog)) {
@@ -84,15 +92,16 @@ public class GroupEpics extends VBox implements ICustomNode {
 		viewContainer.getChildren().clear();
 
 		// Add the listener to the epics list
-		currentChatFeature.getEpics().addListener(chatFeatureListChangeListener);
+		currentFeature.getEpics().addListener(featureListChangeListener);
 
 		// Add each epic to the view container
-		for (Epic feature : currentChatFeature.getEpics()) {
+		for (Epic feature : currentFeature.getEpics()) {
 			createEpicComponent(feature);
 		}
 
 		// Add the create button action
 		createButton.setOnAction(_ -> createEpic());
+
 	}
 
 	private void createEpic() {
@@ -101,11 +110,50 @@ public class GroupEpics extends VBox implements ICustomNode {
 			return;
 		}
 
-		// Create a new feature
-		currentChatFeature.createEpic(textField.getText());
+		System.out.println("Creating epic: " + textField.getText());
 
-		// Clear the text field
-		textField.clear();
+		JSONObject response = UserController.createEpic(
+				groupId,
+				featureId,
+				textField.getText()
+		);
+
+		if (response == null || response.getInt("statusCode") > 203) {
+			return;
+		} else {
+			JSONObject epic = response.getJSONObject("epic");
+			String epicId = epic.getString("id");
+			String epicName = epic.getString("name");
+			Feature currentFeature = UserController.getChatController().currentFeature();
+
+			// Create a new epic
+			currentFeature.addEpic(new Epic(epicId, epicName));
+			// Clear the text field
+			textField.clear();
+		}
+	}
+
+	private void deleteEpic(Epic epic) {
+		// Check if the epic is null
+		if (epic == null) {
+			return;
+		}
+
+		System.out.println("Deleting epic: " + epic.getName());
+
+		JSONObject response = UserController.deleteEpic(
+				groupId,
+				featureId,
+				epic.getId()
+		);
+
+		if (response == null || response.getInt("statusCode") > 203) {
+			return;
+		} else {
+			// Remove the epic from the feature
+			Feature currentFeature = UserController.getChatController().currentFeature();
+			currentFeature.removeEpic(epic);
+		}
 	}
 
 	private void createEpicComponent(Epic epic) {
@@ -115,22 +163,38 @@ public class GroupEpics extends VBox implements ICustomNode {
 
 		// Create a new epic component and add it to the view container
 		EpicButton epicButton = new EpicButton(epic);
-		epicButton.setOnClickHandler(() -> {
+		epicButton.handleEpicClick(() -> {
 			if (onEpicClickHandler != null) {
 				onEpicClickHandler.onEpicClick(epic);
 			}
 		});
-		epicButton.setOnDeleteHandler(() -> currentChatFeature.deleteEpic(epic));
+		epicButton.handleDeleteClick(() -> deleteEpic(epic));
 		viewContainer.getChildren().add(epicButton);
+	}
+
+	public void handleFeatureClick(Runnable onFeatureClickHandler) {
+		this.onFeatureClickHandler = onFeatureClickHandler;
+		featureLabel.setOnMouseClicked(_ -> {
+			System.out.println("Touch pressed");
+			if (onFeatureClickHandler != null) {
+				onFeatureClickHandler.run();
+			}
+		});
+	}
+
+	public void handleEpicClick(OnEpicClickHandler onEpicClickHandler) {
+		this.onEpicClickHandler = onEpicClickHandler;
 	}
 
 	public void cleanup() {
 		// Remove the listener from the features list
-		currentChatFeature.getEpics().removeListener(chatFeatureListChangeListener);
-	}
-
-	public void setOnEpicClickHandler(OnEpicClickHandler onEpicClickHandler) {
-		this.onEpicClickHandler = onEpicClickHandler;
+		viewContainer.getChildren().clear();
+		onEpicClickHandler = null;
+		onFeatureClickHandler = null;
+		createButton.setOnAction(null);
+		featureLabel.setOnMouseClicked(null);
+		Feature currentFeature = UserController.getChatController().currentFeature();
+		currentFeature.getEpics().removeListener(featureListChangeListener);
 	}
 
 	public interface OnEpicClickHandler {

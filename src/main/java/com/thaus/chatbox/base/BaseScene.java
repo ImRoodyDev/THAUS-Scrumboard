@@ -1,11 +1,13 @@
 package com.thaus.chatbox.base;
 
+import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.User;
-import com.thaus.chatbox.controllers.ChatController;
+import com.thaus.chatbox.controllers.GroupController;
 import com.thaus.chatbox.controllers.SceneController;
 import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.interfaces.IBaseScene;
 import com.thaus.chatbox.types.ScreenName;
+import com.thaus.chatbox.utils.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,11 +33,15 @@ public abstract class BaseScene implements IBaseScene {
 	private Button toggleMinimizeButton;
 	@FXML
 	private Label nameLabel;
+	@FXML
+	private JFXButton dialogButton;
+	@FXML
+	public Label dialogLabel;
 
 	// Initialize automatically
 	public void initialize() {
 		if (nameLabel != null) {
-			nameLabel.setText(getUser().getUsername());
+			nameLabel.textProperty().bind(getUser().getUsername());
 		}
 
 		initializeBaseButtons();
@@ -73,6 +79,11 @@ public abstract class BaseScene implements IBaseScene {
 			});
 		}
 
+		// Initialize dialog button
+		if (dialogButton != null) {
+			dialogButton.setVisible(false);
+			dialogButton.setOnAction(_ -> dialogButton.setDisable(true));
+		}
 	}
 
 	// Apply default styling to the window
@@ -122,11 +133,37 @@ public abstract class BaseScene implements IBaseScene {
 		SceneController.closeStage();
 	}
 
+	protected void showError(String message) {
+		Task.runUITask(() -> {
+			dialogButton.setVisible(true);
+			if (dialogLabel != null)
+				dialogLabel.setText(message);
+
+			// Disable after 5 seconds using timeout
+			Task.runTask(() -> {
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				dialogButton.setVisible(false);
+			});
+		});
+	}
+
+	protected void showInfo(String message) {
+		Task.runUITask(() -> {
+			dialogButton.setVisible(true);
+			if (dialogLabel != null)
+				dialogLabel.setText(message);
+		});
+	}
+
 	protected void switchPage(ScreenName screenName) {
 		SceneController.switchStage(screenName);
 	}
 
-	protected ChatController getChatController() {
+	protected GroupController getGroupController() {
 		return SceneController.getUserController().getChatController();
 	}
 

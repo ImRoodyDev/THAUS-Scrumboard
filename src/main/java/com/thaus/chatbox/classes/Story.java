@@ -2,30 +2,30 @@ package com.thaus.chatbox.classes;
 
 import com.thaus.chatbox.utils.DateUtils;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Sprint {
+public class Story {
 	private String id;
 
 	// Observable properties
 	private boolean messageInitialized = false;
 	private StringProperty name = new javafx.beans.property.SimpleStringProperty();
+	private StringProperty description = new javafx.beans.property.SimpleStringProperty();
+	private StringProperty sprintId = new javafx.beans.property.SimpleStringProperty();
+	private StringProperty userId = new javafx.beans.property.SimpleStringProperty();
 	private StringProperty startedAt = new javafx.beans.property.SimpleStringProperty();
 	private StringProperty endAt = new javafx.beans.property.SimpleStringProperty();
-	private ObservableList<Story> userStories = FXCollections.observableArrayList();
-	private ObservableList<Message> messages = FXCollections.observableArrayList();
+	private ObservableList<Message> messages = javafx.collections.FXCollections.observableArrayList();
 
-	public Sprint(String name, String id, Date startedAt, Date endAt) {
+	public Story(String id, String name, String description, String sprintId, String userId) {
 		this.id = id;
 		this.name.set(name);
-		if (startedAt != null)
-			this.startedAt.set(DateUtils.formatDate(startedAt));
-		if (endAt != null)
-			this.endAt.set(DateUtils.formatDate(endAt));
+		this.description.set(description);
+		this.sprintId.set(sprintId);
+		this.userId.set(userId);
 	}
 
 	public String getId() {
@@ -36,16 +36,16 @@ public class Sprint {
 		return name;
 	}
 
-	public StringProperty getStartedAt() {
-		return startedAt;
+	public StringProperty getDescription() {
+		return description;
 	}
 
-	public StringProperty getEndAt() {
-		return endAt;
+	public StringProperty getSprintId() {
+		return sprintId;
 	}
 
-	public ObservableList<Story> getUserStories() {
-		return userStories;
+	public StringProperty getUserId() {
+		return userId;
 	}
 
 	public ObservableList<Message> getMessages() {
@@ -60,24 +60,12 @@ public class Sprint {
 		this.messageInitialized = messageInitialized;
 	}
 
-	public void setName(String name) {
-		this.name.set(name);
-	}
-
 	public void addMessage(Message message) {
 		this.messages.add(message);
 	}
 
 	public void addMessages(ArrayList<Message> messages) {
 		this.messages.addAll(0, messages);
-	}
-
-	public void addUserStory(Story story) {
-		this.userStories.add(story);
-	}
-
-	public void removeUserStory(Story story) {
-		this.userStories.remove(story);
 	}
 
 	public void updateDates(Date startedAt, Date endAt) {

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<fx:root alignment="CENTER" fillHeight="false" maxWidth="1.7976931348623157E308" prefWidth="779.0" styleClass="feature-btn-ptn" type="HBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<JFXButton fx:id="button" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" ripplerFill="BLACK" styleClass="feature-btn" text="Sprint" HBox.hgrow="ALWAYS">
+			<graphic>
+				<HBox alignment="CENTER_LEFT" fillHeight="false" styleClass="feature-btn-ctn">
+					<children>
+						<VBox fx:id="profileBackground" alignment="CENTER" style="-fx-padding: 16; -fx-background-radius: 99999;" styleClass="icon-ptn">
+							<children>
+                        <Label fx:id="profileLabel" alignment="CENTER" contentDisplay="CENTER" minHeight="40.0" minWidth="40.0" style="-fx-font-size: 29; -fx-opacity: 1; -fx-text-fill: white;" text="W" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="34.0" />
+                           </font>
+                        </Label>
+							</children>
+						</VBox>
+						<VBox HBox.hgrow="ALWAYS">
+							<children>
+								<Label fx:id="nameLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="ROOD" wrapText="true">
+									<font>
+										<Font name="Arial" size="14.0" />
+									</font>
+                           <styleClass>
+                              <String fx:value="text" />
+                              <String fx:value="bold" />
+                           </styleClass>
+								</Label>
+								<Label fx:id="memberLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-font-size: 16; -fx-font-family: Arial; -fx-text-fill: #10b981;" text="Scrummaster" textFill="#10b981" wrapText="true">
+									<font>
+										<Font name="Arial" size="12.0" />
+									</font>
+								</Label>
+                        <Label fx:id="dateLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-font-size: 16; -fx-font-family: Arial; -fx-text-fill: #52525b;" text="Joined: 21 April 2023" wrapText="true">
+                           <font>
+                              <Font name="Arial" size="12.0" />
+                           </font>
+                        </Label>
+							</children>
+						</VBox>
+					</children>
+				</HBox>
+			</graphic>
+		</JFXButton>
+		<JFXButton fx:id="deleteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" ripplerFill="#f43f5e" style="-fx-background-color: #f43f5e; -fx-padding: 20;" styleClass="menu-btn" text="remove">
+			<graphic>
+				<SVGPath content="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" styleClass="icon" />
+			</graphic>
+		</JFXButton>
+	</children>
+	<stylesheets>
+		<URL value="@../../css/views.css" />
+		<URL value="@../../css/default.css" />
+	</stylesheets>
+</fx:root>

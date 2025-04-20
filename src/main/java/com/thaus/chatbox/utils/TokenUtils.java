@@ -17,17 +17,26 @@ public class TokenUtils {
 	 * 1. AccessToken
 	 * 2. RefreshToken
 	 */
-	public static String[] loadTokens() throws IOException {
-		if (!Files.exists(Path.of(TOKEN_FILE))) {
+	public static String[] loadTokens() {
+		try {
+			if (!Files.exists(Path.of(TOKEN_FILE))) {
+				return null;
+			}
+			String content = Files.readString(Path.of(TOKEN_FILE));
+			String accessToken = content.split("\n")[0].split("=")[1];
+			String refreshToken = content.split("\n")[1].split("=")[1];
+			return new String[]{accessToken, refreshToken};
+		} catch (IOException e) {
+			e.printStackTrace();
 			return null;
 		}
-		String content = Files.readString(Path.of(TOKEN_FILE));
-		String accessToken = content.split("\n")[0].split("=")[1];
-		String refreshToken = content.split("\n")[1].split("=")[1];
-		return new String[]{accessToken, refreshToken};
 	}
 
-	public static void clearTokens() throws IOException {
-		Files.deleteIfExists(Path.of(TOKEN_FILE));
+	public static void clearTokens() {
+		try {
+			Files.deleteIfExists(Path.of(TOKEN_FILE));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

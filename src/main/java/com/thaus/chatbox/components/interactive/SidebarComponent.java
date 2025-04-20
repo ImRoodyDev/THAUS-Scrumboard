@@ -2,9 +2,12 @@ package com.thaus.chatbox.components.interactive;
 
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Group;
-import com.thaus.chatbox.components.interactive.buttons.ChatboxButton;
+import com.thaus.chatbox.components.interactive.buttons.GroupButton;
+import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import com.thaus.chatbox.interfaces.ISearchListeners;
+import com.thaus.chatbox.utils.Task;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
@@ -13,7 +16,6 @@ import javafx.scene.layout.VBox;
 public class SidebarComponent extends AnchorPane implements ICustomNode {
 	// Toggle searchbar element
 	private boolean isSearchOpen = false;
-
 	// Search bar controller
 	@FXML
 	private SearchBarComponent searchBar;
@@ -31,12 +33,15 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 	@FXML
 	private JFXButton newChatboxBtn;
 
+	// Initialize listeners
+	private ListChangeListener<Group> groupListChangeListener;
+	private HandleGroupClick groupClickListener;
+	private HandleGroupDelete groupDeleteListener;
+
 	// Default constructor needed for JavaFX
 	public SidebarComponent() {
 		initializeFXML("/components/interactive/sidebar.fxml");
-
 	}
-
 
 	@FXML
 	public void initialize() {
@@ -49,37 +54,94 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 	}
 
 	// Initialize Filter controller
-	public void initializeListeners() {
+	private void initializeListeners() {
 		initializeSearchBar();
 		initializeFilters();
-	}
 
-	public ChatboxButton createChatboxs(Group chatbox) {
-		ChatboxButton newChatboxBtn = new ChatboxButton(chatbox);
+		// Initialize group list change listener
+		groupListChangeListener = change -> {
+			while (change.next()) {
+				if (change.wasAdded()) {
+					for (Group group : change.getAddedSubList()) {
+						GroupButton groupButton = createGroupButton(group);
 
-		// Add the new chatbox button
-		chatboxsScrollContent.getChildren().add(newChatboxBtn);
+						// Handle click action on chatbox
+						groupButton.onClickHandle(() -> {
+							if (groupClickListener != null) {
+								groupClickListener.onGroupClick(group);
+							}
+						});
 
-		return newChatboxBtn;
-	}
+						// Handle delete action on chatbox
+						groupButton.onDeleteAction(() -> {
+							if (groupDeleteListener != null) {
+								groupDeleteListener.onGroupDelete(group);
+							}
+						});
+					}
+				}
 
-	// Chatboxs scroll content
-	public VBox getChatboxsScrollContent() {
-		return chatboxsScrollContent;
-	}
+				if (change.wasRemoved()) {
+					for (Group group : change.getRemoved()) {
+						removeChatbox(group); // Ensure this method removes the group UI
+					}
+				}
+			}
+		};
 
-	// Remove chatbox
-	public void removeChatbox(Group chat) {
-		VBox chatsContentArea = getChatboxsScrollContent();
-		chatsContentArea.getChildren().removeIf(node ->
-				node instanceof ChatboxButton && ((ChatboxButton) node).getChat().equals(chat)
+		UserController.getCurrentUser().getGroups().addListener(groupListChangeListener);
+
+		// Add current buttons from user groups
+		UserController.getCurrentUser().getGroups().forEach(
+				group -> {
+					GroupButton groupButton = createGroupButton(group);
+
+					// Handle click action on chatbox
+					groupButton.onClickHandle(() -> {
+						if (groupClickListener != null) {
+							groupClickListener.onGroupClick(group);
+						}
+					});
+
+					// Handle delete action on chatbox
+					groupButton.onDeleteAction(() -> {
+						if (groupDeleteListener != null) {
+							groupDeleteListener.onGroupDelete(group);
+						}
+					});
+				}
 		);
 	}
 
-	// Set action on create chat
-	public void setOnCreateChat(Runnable action) {
-		newChatboxBtn.setOnAction(event -> action.run());
+	// Initialize chatboxs
+	private GroupButton createGroupButton(Group group) {
+		GroupButton groupButton = new GroupButton(group);
+		groupButton.onClickHandle(() -> {
+			if (groupClickListener != null) {
+				groupClickListener.onGroupClick(group);
+			}
+		});
+		groupButton.onDeleteAction(() -> {
+			if (groupDeleteListener != null) {
+				groupDeleteListener.onGroupDelete(group);
+			}
+		});
+
+		// Add the new group button
+		Task.runUITask(() ->
+				chatboxsScrollContent.getChildren().add(groupButton)
+		);
+
+		return groupButton;
 	}
+
+	// Remove chatbox
+	private void removeChatbox(Group group) {
+		Task.runUITask(() -> chatboxsScrollContent.getChildren().removeIf(node ->
+				node instanceof GroupButton && ((GroupButton) node).getGroupId().equals(group.getId())
+		));
+	}
+
 
 	// Initialize filter bar
 	private void initializeFilters() {
@@ -130,6 +192,34 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 	private void toggleSearch() {
 		isSearchOpen = !isSearchOpen;
 		searchBar.enableComponent(isSearchOpen);
+	}
+
+	// Set action on create chat
+	public void handleCreateChat(Runnable action) {
+		newChatboxBtn.setOnAction(event -> action.run());
+	}
+
+	// Set action on group click
+	public void handleGroupClick(HandleGroupClick action) {
+		this.groupClickListener = action;
+	}
+
+	// Set action on group delete
+	public void handleGroupDelete(HandleGroupDelete action) {
+		this.groupDeleteListener = action;
+	}
+
+	public void cleanup() {
+		// Remove listeners
+		UserController.getCurrentUser().getGroups().removeListener(groupListChangeListener);
+	}
+
+	public interface HandleGroupClick {
+		void onGroupClick(Group group);
+	}
+
+	public interface HandleGroupDelete {
+		void onGroupDelete(Group group);
 	}
 
 }

@@ -2,23 +2,25 @@ package com.thaus.chatbox.types;
 
 import com.thaus.chatbox.interfaces.IMappedTypes;
 
-public enum ChatboxType implements IMappedTypes {
+public enum GroupType implements IMappedTypes {
 	TEAM("Team"),
-	USER("Organisation");
+	USER("Organisation"),
+	UNKOWN("Unknown");
 
 	private final String name;
 
-	ChatboxType(String name) {
+	GroupType(String name) {
 		this.name = name;
 	}
 
-	public static ChatboxType fromName(String name) {
-		for (ChatboxType type : values()) {
+	public static GroupType fromName(String name) {
+		for (GroupType type : values()) {
 			if (type.getName().equals(name)) {
 				return type;
 			}
 		}
-		throw new IllegalArgumentException("No enum found with name: " + name);
+
+		return UNKOWN;
 	}
 
 	@Override

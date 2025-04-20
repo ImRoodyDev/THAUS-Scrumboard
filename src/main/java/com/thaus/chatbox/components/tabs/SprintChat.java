@@ -5,15 +5,17 @@ import com.jfoenix.controls.JFXTextArea;
 import com.thaus.chatbox.classes.Message;
 import com.thaus.chatbox.classes.Sprint;
 import com.thaus.chatbox.components.informative.MessageComponent;
+import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.interfaces.ICustomNode;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import org.json.JSONObject;
+
+import java.util.Date;
 
 public class SprintChat extends VBox implements ICustomNode {
-	private final Sprint currentSprint;
-
 	// General components
 	@FXML
 	private Label sprintLabel;
@@ -23,6 +25,10 @@ public class SprintChat extends VBox implements ICustomNode {
 	private JFXTextArea textArea;
 	@FXML
 	private VBox messageContainer;
+
+	// Observable properties
+	private String groupId;
+	private String sprintId;
 	private final ListChangeListener<Message> messageListener = change -> {
 		while (change.next()) {
 			if (change.wasAdded()) {
@@ -34,23 +40,26 @@ public class SprintChat extends VBox implements ICustomNode {
 	};
 
 	// Constructor
-	public SprintChat(Sprint sprint) {
-		this.currentSprint = sprint;
+	public SprintChat() {
 		initializeFXML("/components/tabs/sprint-chat.fxml");
 	}
 
 	public void initialize() {
+		this.groupId = UserController.getChatController().currentGroup().getId();
+		Sprint currentSprint = UserController.getChatController().currentSprint();
+		this.sprintId = currentSprint.getId();
+
 		// Initialize the chat window
-		initializeLabels();
-		initializeChat();
+		initializeLabels(currentSprint);
+		initializeChat(currentSprint);
 	}
 
-	private void initializeLabels() {
+	private void initializeLabels(Sprint currentSprint) {
 		// Set the labels for the chat
-		sprintLabel.setText(currentSprint.getName());
+		sprintLabel.textProperty().bind(currentSprint.getName());
 	}
 
-	private void initializeChat() {
+	private void initializeChat(Sprint currentSprint) {
 		// Add listener to update UI when new messages are added
 		currentSprint.getMessages().addListener(messageListener);
 
@@ -58,9 +67,7 @@ public class SprintChat extends VBox implements ICustomNode {
 		messageContainer.getChildren().clear();
 
 		// Initialize existing messages
-		currentSprint.getMessages().forEach((message) -> {
-			addMessageToContainer(message);
-		});
+		currentSprint.getMessages().forEach(this::addMessageToContainer);
 
 		// Set up send button action
 		sendMessageBtn.setOnAction(_ -> sendMessage());
@@ -70,8 +77,31 @@ public class SprintChat extends VBox implements ICustomNode {
 		String messageText = textArea.getText();
 		if (!messageText.isEmpty()) {
 			Message message = new Message(messageText);
-			currentSprint.addMessage(message);
-			textArea.clear();
+
+			JSONObject response = UserController.sendSprintMessage(
+					groupId,
+					sprintId,
+					messageText
+			);
+
+			if (response == null || response.getInt("statusCode") > 203) {
+				// Handle error
+				System.out.println("Error sending message: " + response);
+				return;
+			} else {
+				Sprint currentSprint = UserController.getChatController().currentSprint();
+				currentSprint.addMessage(
+						new Message(
+								UserController.getCurrentUser().getUsername().get(),
+								messageText,
+								new Date(),
+								true
+						)
+				);
+
+				// Clear the text area after sending the message
+				textArea.clear();
+			}
 		}
 	}
 
@@ -81,6 +111,10 @@ public class SprintChat extends VBox implements ICustomNode {
 
 	// Call this method when the ChatGeneral instance is destroyed
 	public void cleanup() {
+		sprintLabel.textProperty().unbind();
+		sendMessageBtn.setOnAction(null);
+		messageContainer.getChildren().clear();
+		Sprint currentSprint = UserController.getChatController().currentSprint();
 		currentSprint.getMessages().removeListener(messageListener);
 	}
 }

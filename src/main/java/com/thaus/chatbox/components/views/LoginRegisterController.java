@@ -2,7 +2,9 @@ package com.thaus.chatbox.components.views;
 
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.base.BaseScene;
+import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.types.ScreenName;
+import com.thaus.chatbox.utils.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -43,18 +45,26 @@ public class LoginRegisterController extends BaseScene {
 		if (username.isEmpty() || password.isEmpty()) {
 			triggerDialog("Please fill in all fields.");
 		} else {
-			JSONObject response = getUserController().login(username, password);
-			if (response != null) {
-				int statusCode = response.getInt("statusCode");
+			Task.runTask(
+					() -> {
+						Task.runUITask(() -> loginButton.setDisable(true));
+						JSONObject response = UserController.login(username, password);
 
-				if (statusCode == 200) {
-					switchPage(ScreenName.Home);
-				} else {
-					triggerDialog(response.getString("message"));
-				}
-			} else {
-				triggerDialog("Login failed. Please try again.");
-			}
+						if (response != null) {
+							int statusCode = response.getInt("statusCode");
+
+							if (statusCode == 200) {
+								Task.runUITask(() -> switchPage(ScreenName.Home));
+							} else {
+								Task.runUITask(() -> triggerDialog(response.getString("message")));
+							}
+						} else {
+							Task.runUITask(() -> triggerDialog("Login failed. Please try again."));
+						}
+
+						Task.runUITask(() -> loginButton.setDisable(false));
+					}
+			);
 		}
 	}
 
@@ -67,19 +77,27 @@ public class LoginRegisterController extends BaseScene {
 		if (username.isEmpty() || password.isEmpty()) {
 			triggerDialog("Please fill in all fields.");
 		} else {
-			JSONObject response = getUserController().register(username, password);
+			Task.runTask(
+					() -> {
+						Task.runUITask(() -> createAccount.setDisable(true));
+						JSONObject response = UserController.register(username, password);
 
-			if (response != null) {
-				int statusCode = response.getInt("statusCode");
+						if (response != null) {
+							int statusCode = response.getInt("statusCode");
 
-				if (statusCode == 200) {
-					switchPage(ScreenName.Home);
-				} else {
-					triggerDialog(response.getString("message"));
-				}
-			} else {
-				triggerDialog("Login failed. Please try again.");
-			}
+							if (statusCode == 200) {
+								Task.runUITask(() -> switchPage(ScreenName.Home));
+							} else {
+								Task.runUITask(() -> triggerDialog(response.getString("message")));
+							}
+						} else {
+							Task.runUITask(() -> triggerDialog("Registration failed. Please try again."));
+						}
+
+						Task.runUITask(() -> createAccount.setDisable(false));
+					}
+			);
+
 		}
 	}
 

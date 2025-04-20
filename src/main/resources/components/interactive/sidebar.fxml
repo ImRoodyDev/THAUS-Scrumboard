@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.Font?>
-
-<fx:root xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0"
+<?import java.net.URL?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+         prefHeight="720.0"
          prefWidth="369.0" styleClass="app-chats-sidebar" type="javafx.scene.layout.AnchorPane"
          xmlns="http://javafx.com/javafx/23.0.1">
 
@@ -87,7 +83,7 @@
 		</AnchorPane>
 		<AnchorPane prefWidth="200.0" styleClass="app-chat-bar-footer">
 			<JFXButton fx:id="newChatboxBtn" graphicTextGap="20.0" ripplerFill="BLACK"
-			           styleClass="app-chat-bar-footer-btn" text="Start een gesprek" wrapText="true"
+			           styleClass="app-chat-bar-footer-btn" text="Start een project" wrapText="true"
 			           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
 			           AnchorPane.topAnchor="0.0">
 				<graphic>

@@ -1,19 +1,19 @@
 package com.thaus.chatbox.components.interactive;
 
 import com.jfoenix.controls.JFXButton;
-import com.thaus.chatbox.types.ChatboxType;
+import com.thaus.chatbox.types.GroupType;
 import javafx.fxml.FXMLLoader;
 
 public class ChatboxFilterButton {
 	// Type of filter
-	private ChatboxType type;
+	private GroupType type;
 	// Filter root button
 	private JFXButton rootButton;
 	// OnClick event
 	private Runnable onClick;
 
 	// Constructor
-	public ChatboxFilterButton(ChatboxType filter) {
+	public ChatboxFilterButton(GroupType filter) {
 		try {
 			// Save chat type
 			this.type = filter;
@@ -31,7 +31,7 @@ public class ChatboxFilterButton {
 	}
 
 	// Get filter type
-	public ChatboxType getType() {
+	public GroupType getType() {
 		return type;
 	}
 

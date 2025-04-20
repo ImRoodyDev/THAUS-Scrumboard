@@ -105,6 +105,16 @@
     -jfx-unfocus-color: transparent; /* Remove unfocused underline color */
 }
 
+.member-bx {
+    -fx-background-color: #18181b;
+    -fx-border-color: white;
+    -fx-padding: 4;
+}
+
+.member-bx .text {
+    -fx-text-fill: white;
+}
+
 .combo-bx .text-field {
     -fx-alignment: center;
 }
@@ -231,6 +241,7 @@
     -fx-padding: 6;
 }
 
+.combo-box-popup .list-view .list-cell,
 .menu-item {
     -fx-text-fill: white;
     -fx-padding: 8 16;
@@ -240,12 +251,14 @@
     -fx-opacity: 1.0;
 }
 
+.combo-box-popup .list-view .list-cell:selected,
 .menu-item:focused {
     -fx-background-color: transparent;
     -fx-text-fill: white;
     -fx-opacity: 1.0;
 }
 
+.combo-box-popup .list-view .list-cell:hover,
 .menu-item:hover {
     -fx-background-color: -theme-color;
     -fx-text-fill: white;
@@ -256,6 +269,7 @@
     -fx-text-fill: white;
     -fx-opacity: 1.0;
 }
+
 
 /*#endregion*/
 

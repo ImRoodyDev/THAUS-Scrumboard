@@ -10,10 +10,15 @@ import java.net.URL;
 import java.util.Map;
 
 public class FetchUtils {
+	private static HttpURLConnection configureConnection(HttpURLConnection connection) {
+		connection.setConnectTimeout(4000);
+		connection.setReadTimeout(4000);
+		return connection;
+	}
 
 	public static JSONObject post(String url, Map<String, String> data, String accessToken, String refreshToken) throws Exception {
 		URL endpoint = new URL(url);
-		HttpURLConnection connection = (HttpURLConnection) endpoint.openConnection();
+		HttpURLConnection connection = configureConnection((HttpURLConnection) endpoint.openConnection());
 		connection.setRequestMethod("POST");
 		connection.setRequestProperty("Content-Type", "application/json");
 
@@ -34,7 +39,7 @@ public class FetchUtils {
 
 		int statusCode = connection.getResponseCode();
 		String responseBody = readResponse(connection);
-
+		
 		JSONObject jsonResponse = new JSONObject(responseBody);
 		jsonResponse.put("statusCode", statusCode);
 
@@ -48,7 +53,7 @@ public class FetchUtils {
 
 	public static JSONObject get(String url, String accessToken, String refreshToken) throws Exception {
 		URL endpoint = new URL(url);
-		HttpURLConnection connection = (HttpURLConnection) endpoint.openConnection();
+		HttpURLConnection connection = configureConnection((HttpURLConnection) endpoint.openConnection());
 		connection.setRequestMethod("GET");
 
 		if (accessToken != null && !accessToken.isEmpty()) {

@@ -1,11 +1,12 @@
 package com.thaus.chatbox.components.views;
 
 import com.jfoenix.controls.JFXButton;
-import com.thaus.chatbox.classes.*;
+import com.thaus.chatbox.classes.Feature;
+import com.thaus.chatbox.classes.Group;
 import com.thaus.chatbox.components.tabs.*;
+import com.thaus.chatbox.controllers.GroupController;
+import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.interfaces.ICustomNode;
-import com.thaus.chatbox.types.ChatThreadType;
-import com.thaus.chatbox.types.ChatType;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,68 +17,73 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 public class ChatWindowController extends VBox implements ICustomNode {
-	// Current
-	private final Group currentGroup;
-
 	// Components
+	@FXML
 	public AnchorPane windowContainer;
+	@FXML
 	public Label chatType;
+	@FXML
 	public Label chatLabel;
+	@FXML
 	public MenuButton tabsMenu;
-	public JFXButton addButton;
+	@FXML
 	public JFXButton searchButton;
 
 	// Component controls values
-	private Object currentWindowType;
+	private GroupController groupController;
+	private Object currentWindowController;
+	private TabType currentWindowType;
 	private Runnable onWindowSwitch;
 
-	// Holders
-	private Feature currentFeature;
-	private Epic currentEpic;
-	private UserStory currentUserStory;
-
 	// Constructor
-	public ChatWindowController(Group chat) {
-		this.currentGroup = chat;
+	public ChatWindowController() {
+		// Initialize the controller
+		this.groupController = UserController.getChatController();
+		groupController.setChatWindowController(this);
+
 		initializeFXML("/components/tabs/chat-window.fxml");
-		// Initialize the chat window
-		switchWindow(ChatThreadType.GENERAL);
+		switchWindow(TabType.GENERAL);
 	}
 
 	@FXML
 	public void initialize() {
 		// Initialize the chat window menu
-		initializeMenu();
+		initializeTabMenu();
 
 		// Set chat label
-		chatLabel.setText(currentGroup.getChatName());
+		chatLabel.textProperty().bind(groupController.currentGroup().getName());
+	}
 
-		if (!currentGroup.isOwner()) {
-			addButton.setVisible(false);
-			addButton.setManaged(false);
-		} else {
-			addButton.setVisible(true);
-			addButton.setManaged(true);
+	public void changeChatWindow(Group group) {
+		System.out.println("Changing chat window to: " + group.getName().get());
+
+		if (currentWindowType != TabType.GENERAL) {
+			switchWindow(TabType.GENERAL);
 		}
 
+		// Initialize component again
+		initialize();
 	}
 
 	// Initialize the chat window menu
-	private void initializeMenu() {
+	private void initializeTabMenu() {
 		// Clear the tab menu add custom items
 		tabsMenu.getItems().clear();
 		ObservableList<MenuItem> tabMenuChildren = tabsMenu.getItems();
 
-		for (ChatThreadType chatThreadType : ChatThreadType.values()) {
-			MenuItem menuItem = new MenuItem(chatThreadType.getName());
-			menuItem.setOnAction(event -> switchWindow(chatThreadType));
+		for (TabType tabType : TabType.values()) {
+			if (tabType == TabType.SPRINT_CHAT || tabType == TabType.STORY_CHAT ||
+					tabType == TabType.USER_STORY || tabType == TabType.EPICS) {
+				continue;
+			}
+			MenuItem menuItem = new MenuItem(tabType.getName());
+			menuItem.setOnAction(_ -> switchWindow(tabType));
 			tabMenuChildren.add(menuItem);
 		}
 	}
 
-	private void switchWindow(ChatThreadType windowType) {
+	private void switchWindow(TabType windowType) {
 		if (this.currentWindowType == windowType) {
-			// System.out.println("You are already at the: " + windowType.getName());
 			return;
 		}
 
@@ -88,61 +94,122 @@ public class ChatWindowController extends VBox implements ICustomNode {
 		}
 
 		try {
-			// Loader for FXML
-			Node newComponent = null;
-
 			switch (windowType) {
 				case GENERAL:
-					ChatGeneral chatGeneral = new ChatGeneral(currentGroup);
+					ChatGeneral chatGeneral = new ChatGeneral();
 
 					// Setup controller values
 					onWindowSwitch = chatGeneral::cleanup;
-					newComponent = chatGeneral;
+					currentWindowController = chatGeneral;
 					searchButton.setVisible(true);
 					searchButton.setManaged(true);
 					break;
-				case FEATURES:
-					GroupFeatures groupFeatures = new GroupFeatures(currentGroup);
-					groupFeatures.setOnFeatureClickHandler((Feature feature) -> {
-						switchWindow(ExtraWindowType.EPICS, feature);
+				case SPRINTS:
+					GroupSprints groupSprints = new GroupSprints();
+					groupSprints.handleSprintClick((sprint) -> {
+						groupController.selectedSprint(sprint);
+						switchWindow(TabType.SPRINT_CHAT);
 					});
 
 					// Setup controller values
-					newComponent = groupFeatures;
+					currentWindowController = groupSprints;
+					onWindowSwitch = groupSprints::cleanup;
+					searchButton.setVisible(false);
+					searchButton.setManaged(false);
+					break;
+				case MEMBERS:
+					GroupMembers groupMembers = new GroupMembers();
+
+					// Setup controller values
+					currentWindowController = groupMembers;
+					onWindowSwitch = groupMembers::cleanup;
+					searchButton.setVisible(false);
+					searchButton.setManaged(false);
+					break;
+				case FEATURES:
+					GroupFeatures groupFeatures = new GroupFeatures();
+					groupFeatures.handleFeatureClick((Feature feature) -> {
+						groupController.selectedFeature(feature);
+						switchWindow(TabType.EPICS);
+					});
+
+					// Setup controller values
+					currentWindowController = groupFeatures;
 					onWindowSwitch = groupFeatures::cleanup;
 					searchButton.setVisible(false);
 					searchButton.setManaged(false);
 					break;
-				case SPRINTS:
-					GroupSprints groupSprints = new GroupSprints(currentGroup);
-					groupSprints.setOnSprintClickHandler((sprint) -> {
-						switchWindow(ExtraWindowType.SPRINT_CHAT, sprint);
+				case EPICS:
+					GroupEpics groupEpics = new GroupEpics();
+					groupEpics.handleEpicClick((epic -> {
+						groupController.selectedEpic(epic);
+						switchWindow(TabType.USER_STORY);
+					}));
+					groupEpics.handleFeatureClick(() -> {
+						switchWindow(TabType.FEATURES);
 					});
 
 					// Setup controller values
-					onWindowSwitch = groupSprints::cleanup;
-					newComponent = groupSprints;
-					searchButton.setVisible(false);
-					searchButton.setManaged(false);
+					currentWindowController = groupEpics;
+					onWindowSwitch = groupEpics::cleanup;
+					break;
+				case USER_STORY:
+					GroupStories groupStories = new GroupStories();
+					groupStories.handleStoryClick((userStory -> {
+						groupController.selectedStory(userStory);
+						switchWindow(TabType.STORY_CHAT);
+					}));
+					groupStories.handleEpicClick(() -> {
+						switchWindow(TabType.EPICS);
+					});
+					groupStories.handleFeatureClick(() -> {
+						switchWindow(TabType.FEATURES);
+					});
+
+					// Setup controller values
+					currentWindowController = groupStories;
+					onWindowSwitch = groupStories::cleanup;
+					break;
+				case STORY_CHAT:
+					StoryChat chatUserStory = new StoryChat();
+					chatUserStory.handleStoryClick(() -> {
+						switchWindow(TabType.USER_STORY);
+					});
+					chatUserStory.handleFeatureClick(() -> {
+						switchWindow(TabType.FEATURES);
+					});
+					chatUserStory.handleEpicClick(() -> {
+						switchWindow(TabType.EPICS);
+					});
+
+					// Setup controller values
+					currentWindowController = chatUserStory;
+					onWindowSwitch = chatUserStory::cleanup;
+					break;
+				case SPRINT_CHAT:
+					SprintChat sprintChat = new SprintChat();
+
+					// Setup controller values
+					currentWindowController = sprintChat;
+					onWindowSwitch = sprintChat::cleanup;
 					break;
 			}
 
 			// Update the window type
-			if (newComponent != null) {
+			if (currentWindowController != null) {
 				// Clear contents and add new
 				windowContainer.getChildren().clear();
-				windowContainer.getChildren().add(newComponent);
+				windowContainer.getChildren().add((Node) currentWindowController);
 
 				// Set anchor position
-				AnchorPane.setTopAnchor(newComponent, 0.0);
-				AnchorPane.setBottomAnchor(newComponent, 0.0);
-				AnchorPane.setLeftAnchor(newComponent, 0.0);
-				AnchorPane.setRightAnchor(newComponent, 0.0);
+				AnchorPane.setTopAnchor((Node) currentWindowController, 0.0);
+				AnchorPane.setBottomAnchor((Node) currentWindowController, 0.0);
+				AnchorPane.setLeftAnchor((Node) currentWindowController, 0.0);
+				AnchorPane.setRightAnchor((Node) currentWindowController, 0.0);
 
 				// Set the window type
 				currentWindowType = windowType;
 				chatType.setText(windowType.getName());
-				System.out.println("Switching tab: " + windowType.getName());
 			}
 
 		} catch (Exception e) {
@@ -151,94 +218,67 @@ public class ChatWindowController extends VBox implements ICustomNode {
 		}
 	}
 
-	private void switchWindow(ExtraWindowType windowType, Object object) {
-		if (this.currentWindowType == windowType) {
-			// System.out.println("You are already at the: " + windowType.name());
-			return;
-		}
+	public void cleanup() {
+		System.out.println("Cleaning up chat window controller");
+		// Call the cleanup method of the current window controller
+		chatLabel.textProperty().unbind();
+		chatLabel.setText("");
 
-		// Before changing the window, call the cleanup method
-		if (onWindowSwitch != null) {
-			onWindowSwitch.run();
-			onWindowSwitch = null;
-		}
-
-		try {
-			// Loader for FXML
-			Node newComponent = null;
-
-			switch (windowType) {
-				case USER_STORY:
-					GroupUserStories groupUserStories = new GroupUserStories((Epic) object, currentFeature);
-					groupUserStories.setOnUserStoryClickHandler((userStory -> {
-						currentEpic = (Epic) object;
-						switchWindow(ExtraWindowType.STORY_CHAT, userStory);
-					}));
-
-					// Setup controller values
-					newComponent = groupUserStories;
-					onWindowSwitch = groupUserStories::cleanup;
-					chatType.setText(ChatType.USER_STORY.getName());
+		if (currentWindowType != null || currentWindowController != null) {
+			switch (currentWindowType) {
+				case GENERAL:
+					((ChatGeneral) currentWindowController).cleanup();
+					break;
+				case SPRINTS:
+					((GroupSprints) currentWindowController).cleanup();
+					break;
+				case FEATURES:
+					((GroupFeatures) currentWindowController).cleanup();
 					break;
 				case EPICS:
-					GroupEpics groupEpics = new GroupEpics((Feature) object);
-					groupEpics.setOnEpicClickHandler((epic -> {
-						currentFeature = (Feature) object;
-						switchWindow(ExtraWindowType.USER_STORY, epic);
-					}));
-
-					// Setup controller values
-					newComponent = groupEpics;
-					onWindowSwitch = groupEpics::cleanup;
-					chatType.setText(ChatType.EPICS.getName());
+					((GroupEpics) currentWindowController).cleanup();
+					break;
+				case USER_STORY:
+					((GroupStories) currentWindowController).cleanup();
 					break;
 				case STORY_CHAT:
-					UserStoryChat chatUserStory = new UserStoryChat(currentEpic, currentFeature, (UserStory) object);
-
-					onWindowSwitch = chatUserStory::cleanup;
-					newComponent = chatUserStory;
+					((StoryChat) currentWindowController).cleanup();
 					break;
 				case SPRINT_CHAT:
-					SprintChat sprintChat = new SprintChat((Sprint) object);
-
-					// Setup controller values
-					onWindowSwitch = sprintChat::cleanup;
-					newComponent = sprintChat;
-					chatType.setText(ChatType.SPRINTS.getName());
+					((SprintChat) currentWindowController).cleanup();
+					break;
+				case MEMBERS:
+					((GroupMembers) currentWindowController).cleanup();
+				case null:
 					break;
 			}
+		}
 
-			// Update the window type
-			if (newComponent != null) {
-				// Clear contents and add new
-				windowContainer.getChildren().clear();
-				windowContainer.getChildren().add(newComponent);
+		currentWindowType = null;
+		onWindowSwitch = null;
+		currentWindowController = null;
+	}
 
-				// Set anchor position
-				AnchorPane.setTopAnchor(newComponent, 0.0);
-				AnchorPane.setBottomAnchor(newComponent, 0.0);
-				AnchorPane.setLeftAnchor(newComponent, 0.0);
-				AnchorPane.setRightAnchor(newComponent, 0.0);
+	private enum TabType {
+		GENERAL("General"),
+		FEATURES("Features"),
+		EPICS("Epics"),
+		USER_STORY("User Stories"),
+		STORY_CHAT("User Story Chat"),
+		SPRINTS("Sprints"),
+		SPRINT_CHAT("Sprint Chat"),
+		MEMBERS("Members"),
+		;
 
-				// Set the window type
-				currentWindowType = windowType;
-				System.out.println("Switching tab: " + windowType);
-			} else {
-				// Clear contents and add new
-				windowContainer.getChildren().clear();
-			}
+		// Constructed enum name
+		TabType(String name) {
+			this.name = name;
+		}
 
-		} catch (Exception e) {
-			System.out.println("Failed to switch window: Epics");
-			// e.printStackTrace();
+		private final String name;
+
+		public String getName() {
+			return name;
 		}
 	}
-
-	private enum ExtraWindowType {
-		USER_STORY,
-		EPICS,
-		STORY_CHAT,
-		SPRINT_CHAT;
-	}
-
 }

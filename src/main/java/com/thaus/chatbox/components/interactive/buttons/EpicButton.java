@@ -3,6 +3,7 @@ package com.thaus.chatbox.components.interactive.buttons;
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Epic;
 import com.thaus.chatbox.interfaces.ICustomNode;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
@@ -11,7 +12,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 
 public class EpicButton extends HBox implements ICustomNode {
-	private final Epic featureEpic;
 	// FXML components
 	@FXML
 	private Label nameLabel;
@@ -25,6 +25,10 @@ public class EpicButton extends HBox implements ICustomNode {
 	private JFXButton contextMenuButton;
 	@FXML
 	private ContextMenu contextMenu;
+
+
+	// Observable properties
+	private final Epic featureEpic;
 	private Runnable onClickHandler;
 	private Runnable onDeleteHandler;
 
@@ -37,9 +41,10 @@ public class EpicButton extends HBox implements ICustomNode {
 	@FXML
 	public void initialize() {
 		// Initialize the button with the name and id
-		this.userStoryLabel.setText("User stories: " + String.valueOf(featureEpic.getUserStoryCount()));
-		this.unreadLabel.setText(String.valueOf(featureEpic.getUnreadCount()));
 		this.nameLabel.setText(featureEpic.getName());
+		this.userStoryLabel.textProperty().bind(Bindings.concat(
+				"User stories: ", featureEpic.getStoryCount().asString()
+		));
 
 		// Set up the button actions
 		button.setOnAction(event -> {
@@ -76,11 +81,11 @@ public class EpicButton extends HBox implements ICustomNode {
 		}
 	}
 
-	public void setOnDeleteHandler(Runnable onDeleteHandler) {
+	public void handleDeleteClick(Runnable onDeleteHandler) {
 		this.onDeleteHandler = onDeleteHandler;
 	}
 
-	public void setOnClickHandler(Runnable onClickHandler) {
+	public void handleEpicClick(Runnable onClickHandler) {
 		this.onClickHandler = onClickHandler;
 	}
 

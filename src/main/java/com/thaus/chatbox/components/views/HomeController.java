@@ -3,16 +3,18 @@ package com.thaus.chatbox.components.views;
 import com.thaus.chatbox.base.BaseScene;
 import com.thaus.chatbox.classes.Group;
 import com.thaus.chatbox.components.interactive.SidebarComponent;
-import com.thaus.chatbox.components.interactive.buttons.ChatboxButton;
 import com.thaus.chatbox.components.tabs.GroupCreate;
 import com.thaus.chatbox.components.tabs.WelcomeComponent;
-import com.thaus.chatbox.types.ChatboxType;
-import javafx.collections.ListChangeListener;
+import com.thaus.chatbox.controllers.UserController;
+import com.thaus.chatbox.types.GroupType;
+import com.thaus.chatbox.utils.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import org.json.JSONObject;
+
+import java.util.Date;
 
 public class HomeController extends BaseScene {
 	// Components inside the home fxml
@@ -22,44 +24,10 @@ public class HomeController extends BaseScene {
 	private AnchorPane viewportContainer;
 	// Custom Components
 	private SidebarComponent sidebar;
+
+
 	// Page values
 	private HomeTab currentTab;
-
-	// ListChangeListener for chat
-	private final ListChangeListener<Group> chatListChangeListener = change -> {
-		while (change.next()) {
-			if (change.wasAdded()) {
-				for (Group chat : change.getAddedSubList()) {
-					ChatboxButton chatboxButton = sidebar.createChatboxs(chat);
-
-					// Handle click action on chatbox
-					chatboxButton.onClickHandle(_ -> {
-						getChatController().selectChatbox(chat);
-						switchTab(HomeTab.CHAT);
-					});
-
-					// Handle delete action on chatbox
-					chatboxButton.onDeleteAction(_ -> {
-						// When delete a chat
-						if (getChatController().getCurrentGroup().equals(chat)) {
-							switchTab(HomeTab.WELCOME);
-						}
-						// Remove chatbox from the sidebar
-						getChatController().deleteGroup(chat);
-					});
-				}
-
-				// Select the last added chat
-				getChatController().selectChatbox(change.getAddedSubList().getLast());
-			}
-
-			if (change.wasRemoved()) {
-				for (Group chat : change.getRemoved()) {
-					sidebar.removeChatbox(chat); // Ensure this method removes the chat UI
-				}
-			}
-		}
-	};
 
 	// This method will be automatically called after the FXML is loaded
 	@Override
@@ -74,13 +42,12 @@ public class HomeController extends BaseScene {
 
 	@Override
 	public void onOpen() {
-		// Clear listener
-		initializeChats();
+
 	}
 
 	@Override
 	public void onClose() {
-		getChatController().removeChatboxesListener();
+		sidebar.cleanup();
 	}
 
 	// Initialize sidebar component
@@ -88,31 +55,26 @@ public class HomeController extends BaseScene {
 		// Create Sidebar component listeners
 		sidebar = new SidebarComponent();
 
-		// On create chat new chat button
-		sidebar.setOnCreateChat(() -> switchTab(HomeTab.NEW_CHAT));
+		// Sidebar actions handlers
+		sidebar.handleCreateChat(() -> switchTab(HomeTab.CREATE_GROUP));
+		sidebar.handleGroupClick((Group group) -> {
+			getGroupController().selectGroup(group,
+					() -> {
+						if (currentTab != HomeTab.CHAT) {
+							switchTab(HomeTab.CHAT);
+						}
+					});
+		});
+		sidebar.handleGroupDelete((Group group) -> {
+			deleteGroup(group);
+			if (getGroupController().currentGroup() == group) {
+				switchTab(HomeTab.WELCOME);
+				getGroupController().deselectCurrentGroup();
+			}
+		});
 
 		// Append in viewport
 		borderPane.setLeft(sidebar);
-	}
-
-	// Initialize chat controller
-	private void initializeChats() {
-
-		// Initialize UI with current state
-		VBox chatsContentArea = sidebar.getChatboxsScrollContent();
-		chatsContentArea.getChildren().clear();
-
-		// Add listener to array
-		getChatController().setGroupListListener(chatListChangeListener);
-
-		// Get available chat
-		for (Group chat : getChatController().getGroups()) {
-			sidebar.createChatboxs(chat);
-		}
-
-		// Set action on chatbox selected
-		// getChatController().handleGroupDeletion(() -> switchTab(HomeTab.WELCOME));
-		getChatController().handleGroupSelection(() -> switchTab(HomeTab.CHAT));
 	}
 
 	// Switch to tab in the home page
@@ -128,25 +90,31 @@ public class HomeController extends BaseScene {
 
 			switch (tabName) {
 				case WELCOME:
-					newContent = new WelcomeComponent("Hello " + getUser().getUsername());
+					newContent = new WelcomeComponent();
 					break;
-				case NEW_CHAT:
+				case CREATE_GROUP:
 					GroupCreate createChatMenu = new GroupCreate();
 
 					// On cancel menu
 					createChatMenu.setOnCancelAction(() -> switchTab(HomeTab.WELCOME));
 
 					// Cn submit to create a new chatbox
-					createChatMenu.setOnActionSubmit((ChatboxType type, String name) -> {
-						getChatController().createGroup(type, name);
-						switchTab(HomeTab.WELCOME);
+					createChatMenu.setOnActionSubmit((GroupType type, String name) -> {
+						Task.runTask(() -> {
+							Group createdGroup = createGroup(name, type);
+							if (createdGroup == null) {
+								return;
+							}
+							getGroupController().selectGroup(createdGroup);
+							Task.runUITask(() -> switchTab(HomeTab.CHAT));
+						});
 					});
 
 					// Add it to the temporary content
 					newContent = createChatMenu;
 					break;
 				case CHAT:
-					ChatWindowController chatComponent = new ChatWindowController(getChatController().getCurrentGroup());
+					ChatWindowController chatComponent = new ChatWindowController();
 					newContent = chatComponent;
 					break;
 			}
@@ -166,15 +134,48 @@ public class HomeController extends BaseScene {
 			}
 		} catch (Exception e) {
 			System.err.println("Error loading tab: " + tabName);
-			// e.printStackTrace();
+			e.printStackTrace();
+		}
+	}
+
+	private Group createGroup(String name, GroupType type) {
+		JSONObject response = UserController.createGroup(name, type);
+		Group newGroup = null;
+
+		if (response.getInt("statusCode") > 203) {
+			String message = response.getString("message");
+			showError(message);
+		} else {
+			JSONObject group = response.getJSONObject("group");
+			String groupId = group.getString("id");
+			newGroup = new Group(
+					groupId,
+					name,
+					true,
+					new Date(),
+					type
+			);
+			getUser().addGroup(newGroup);
+		}
+		return newGroup;
+	}
+
+	private void deleteGroup(Group group) {
+		JSONObject response = UserController.deleteGroup(group.getId());
+
+		if (response.getInt("statusCode") > 203) {
+			String message = response.getString("message");
+			showError(message);
+		} else {
+			getUser().removeGroup(group);
 		}
 	}
 
 	// Type of Tabs in home page
 	public enum HomeTab {
 		WELCOME,
-		NEW_CHAT,
+		CREATE_GROUP,
 		CHAT,
-	}
 
+	}
 }

@@ -22,71 +22,104 @@
 						<!-- Sidebar fx:id="sidebar" / -->
 					</left>
 					<center>
-						<VBox>
-							<children>
-								<HBox fx:id="dragArea" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-screen-header">
-									<children>
-										<HBox alignment="CENTER_LEFT" prefWidth="758.0" styleClass="app-screen-header-tab-ctn" HBox.hgrow="ALWAYS">
-											<children>
-												<JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" ripplerFill="BLACK" styleClass="app-screen-header-tab-btn-long" text="User">
-													<graphic>
-														<HBox alignment="CENTER_LEFT" styleClass="app-screen-header-tab-btn-long-ctn">
-															<children>
-																<Circle radius="18.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-																<Label fx:id="nameLabel" text="Roody ">
-																	<font>
-																		<Font name="Arial Bold" size="16.0" />
-																	</font>
-																</Label>
-															</children>
-														</HBox>
-													</graphic>
-												</JFXButton>
-												<JFXButton graphicTextGap="12.0" maxHeight="1.7976931348623157E308" text="Notificaties">
-													<graphic>
-														<SVGPath content="m20.19 14.06-1.13-1.88c-.25-.41-.47-1.2-.47-1.68V8.63c0-3.63-2.95-6.58-6.57-6.58C8.39 2.06 5.44 5 5.44 8.63v1.86c0 .48-.22 1.27-.46 1.68l-1.13 1.88c-.43.73-.53 1.56-.26 2.28.27.73.88 1.31 1.68 1.57 1.08.36 2.17.62 3.28.81.11.02.22.03.33.05l.44.06c.26.04.52.07.79.09a20.187 20.187 0 0 0 3.79 0c.23-.02.46-.04.68-.07.18-.02.36-.04.54-.07.11-.01.22-.03.33-.05 1.12-.18 2.23-.46 3.31-.82a2.65 2.65 0 0 0 1.64-1.58c.28-.75.2-1.57-.21-2.26ZM12.75 10a.76.76 0 1 1-1.52 0V6.9a.76.76 0 1 1 1.52 0V10ZM14.83 20.01A3.014 3.014 0 0 1 12 22c-.79 0-1.57-.32-2.12-.89-.32-.3-.56-.7-.7-1.11.13.02.26.03.4.05.23.03.47.06.71.08.57.05 1.15.08 1.73.08.57 0 1.14-.03 1.7-.08.21-.02.42-.03.62-.06l.49-.06Z" styleClass="icon" />
-													</graphic>
-													<styleClass>
-														<String fx:value="app-screen-header-tab-btn" />
-														<String fx:value="yellow" />
-													</styleClass>
-													<font>
-														<Font name="Arial Bold" size="12.0" />
-													</font>
-												</JFXButton>
-											</children>
-										</HBox>
-										<JFXButton fx:id="toggleMinimizeButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="1.7976931348623157E308" ripplerFill="#ffffff00" text="Minimize" textFill="WHITE">
-											<graphic>
-												<SVGPath content="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8" fill="WHITE" styleClass="icon" />
-											</graphic>
-											<styleClass>
-												<String fx:value="app-screen-header-ctrl-btn" />
-												<String fx:value="minimize" />
-											</styleClass>
-											<HBox.margin>
-												<Insets left="12.0" />
-											</HBox.margin>
-										</JFXButton>
-										<JFXButton fx:id="toggleMaximizeButton" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" layoutX="1154.0" layoutY="10.0" maxHeight="1.7976931348623157E308" ripplerFill="#ffffff00" styleClass="app-screen-header-ctrl-btn" text="Toggle Minimze">
-											<graphic>
-												<SVGPath content="M16.19 2H7.81C4.17 2 2 4.17 2 7.81v8.37C2 19.83 4.17 22 7.81 22h8.37c3.64 0 5.81-2.17 5.81-5.81V7.81C22 4.17 19.83 2 16.19 2Zm2.31 14.4c0 1.5-.6 2.1-2.1 2.1h-3.8c-1.5 0-2.1-.6-2.1-2.1v-1.8c0-1.5.6-2.1 2.1-2.1h3.8c1.5 0 2.1.6 2.1 2.1v1.8Z" fill="WHITE" nodeOrientation="RIGHT_TO_LEFT" styleClass="icon" />
-											</graphic>
-										</JFXButton>
-										<JFXButton fx:id="closeWindowButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" layoutX="1154.0" layoutY="10.0" maxHeight="1.7976931348623157E308" ripplerFill="#ffffff00" text="Close screen">
-											<graphic>
-												<SVGPath content="M16.19 2H7.81C4.17 2 2 4.17 2 7.81v8.37C2 19.83 4.17 22 7.81 22h8.37c3.64 0 5.81-2.17 5.81-5.81V7.81C22 4.17 19.83 2 16.19 2Zm-.83 12.3c.29.29.29.77 0 1.06-.15.15-.34.22-.53.22s-.38-.07-.53-.22l-2.3-2.3-2.3 2.3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22a.754.754 0 0 1 0-1.06l2.3-2.3-2.3-2.3a.754.754 0 0 1 0-1.06c.29-.29.77-.29 1.06 0l2.3 2.3 2.3-2.3c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06l-2.3 2.3 2.3 2.3Z" fill="WHITE" styleClass="icon" />
-											</graphic>
-											<styleClass>
-												<String fx:value="app-screen-header-ctrl-btn" />
-												<String fx:value="close" />
-											</styleClass>
-										</JFXButton>
-									</children>
-								</HBox>
-								<AnchorPane fx:id="viewportContainer" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-							</children>
-						</VBox>
+                  <AnchorPane>
+                     <children>
+      						<VBox layoutY="3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      							<children>
+      								<HBox fx:id="dragArea" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" styleClass="app-screen-header">
+      									<children>
+      										<HBox alignment="CENTER_LEFT" prefWidth="758.0" styleClass="app-screen-header-tab-ctn" HBox.hgrow="ALWAYS">
+      											<children>
+      												<JFXButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" ripplerFill="BLACK" styleClass="app-screen-header-tab-btn-long" text="User">
+      													<graphic>
+      														<HBox alignment="CENTER_LEFT" styleClass="app-screen-header-tab-btn-long-ctn">
+      															<children>
+      																<Circle radius="18.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+      																<Label fx:id="nameLabel" text="Roody ">
+      																	<font>
+      																		<Font name="Arial Bold" size="16.0" />
+      																	</font>
+      																</Label>
+      															</children>
+      														</HBox>
+      													</graphic>
+      												</JFXButton>
+      												<JFXButton graphicTextGap="12.0" maxHeight="1.7976931348623157E308" text="Notificaties">
+      													<graphic>
+      														<SVGPath content="m20.19 14.06-1.13-1.88c-.25-.41-.47-1.2-.47-1.68V8.63c0-3.63-2.95-6.58-6.57-6.58C8.39 2.06 5.44 5 5.44 8.63v1.86c0 .48-.22 1.27-.46 1.68l-1.13 1.88c-.43.73-.53 1.56-.26 2.28.27.73.88 1.31 1.68 1.57 1.08.36 2.17.62 3.28.81.11.02.22.03.33.05l.44.06c.26.04.52.07.79.09a20.187 20.187 0 0 0 3.79 0c.23-.02.46-.04.68-.07.18-.02.36-.04.54-.07.11-.01.22-.03.33-.05 1.12-.18 2.23-.46 3.31-.82a2.65 2.65 0 0 0 1.64-1.58c.28-.75.2-1.57-.21-2.26ZM12.75 10a.76.76 0 1 1-1.52 0V6.9a.76.76 0 1 1 1.52 0V10ZM14.83 20.01A3.014 3.014 0 0 1 12 22c-.79 0-1.57-.32-2.12-.89-.32-.3-.56-.7-.7-1.11.13.02.26.03.4.05.23.03.47.06.71.08.57.05 1.15.08 1.73.08.57 0 1.14-.03 1.7-.08.21-.02.42-.03.62-.06l.49-.06Z" styleClass="icon" />
+      													</graphic>
+      													<styleClass>
+      														<String fx:value="app-screen-header-tab-btn" />
+      														<String fx:value="yellow" />
+      													</styleClass>
+      													<font>
+      														<Font name="Arial Bold" size="12.0" />
+      													</font>
+      												</JFXButton>
+      											</children>
+      										</HBox>
+      										<JFXButton fx:id="toggleMinimizeButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="1.7976931348623157E308" ripplerFill="#ffffff00" text="Minimize" textFill="WHITE">
+      											<graphic>
+      												<SVGPath content="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8" fill="WHITE" styleClass="icon" />
+      											</graphic>
+      											<styleClass>
+      												<String fx:value="app-screen-header-ctrl-btn" />
+      												<String fx:value="minimize" />
+      											</styleClass>
+      											<HBox.margin>
+      												<Insets left="12.0" />
+      											</HBox.margin>
+      										</JFXButton>
+      										<JFXButton fx:id="toggleMaximizeButton" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" layoutX="1154.0" layoutY="10.0" maxHeight="1.7976931348623157E308" ripplerFill="#ffffff00" styleClass="app-screen-header-ctrl-btn" text="Toggle Minimze">
+      											<graphic>
+      												<SVGPath content="M16.19 2H7.81C4.17 2 2 4.17 2 7.81v8.37C2 19.83 4.17 22 7.81 22h8.37c3.64 0 5.81-2.17 5.81-5.81V7.81C22 4.17 19.83 2 16.19 2Zm2.31 14.4c0 1.5-.6 2.1-2.1 2.1h-3.8c-1.5 0-2.1-.6-2.1-2.1v-1.8c0-1.5.6-2.1 2.1-2.1h3.8c1.5 0 2.1.6 2.1 2.1v1.8Z" fill="WHITE" nodeOrientation="RIGHT_TO_LEFT" styleClass="icon" />
+      											</graphic>
+      										</JFXButton>
+      										<JFXButton fx:id="closeWindowButton" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" layoutX="1154.0" layoutY="10.0" maxHeight="1.7976931348623157E308" ripplerFill="#ffffff00" text="Close screen">
+      											<graphic>
+      												<SVGPath content="M16.19 2H7.81C4.17 2 2 4.17 2 7.81v8.37C2 19.83 4.17 22 7.81 22h8.37c3.64 0 5.81-2.17 5.81-5.81V7.81C22 4.17 19.83 2 16.19 2Zm-.83 12.3c.29.29.29.77 0 1.06-.15.15-.34.22-.53.22s-.38-.07-.53-.22l-2.3-2.3-2.3 2.3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22a.754.754 0 0 1 0-1.06l2.3-2.3-2.3-2.3a.754.754 0 0 1 0-1.06c.29-.29.77-.29 1.06 0l2.3 2.3 2.3-2.3c.29-.29.77-.29 1.06 0 .29.29.29.77 0 1.06l-2.3 2.3 2.3 2.3Z" fill="WHITE" styleClass="icon" />
+      											</graphic>
+      											<styleClass>
+      												<String fx:value="app-screen-header-ctrl-btn" />
+      												<String fx:value="close" />
+      											</styleClass>
+      										</JFXButton>
+      									</children>
+      								</HBox>
+      								<AnchorPane fx:id="viewportContainer" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+      							</children>
+      						</VBox>
+                        <AnchorPane mouseTransparent="true" pickOnBounds="false" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <VBox fx:id="dialogContainer" alignment="CENTER" fillWidth="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <JFXButton fx:id="dialogButton" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" ripplerFill="BLACK" style="-fx-background-color: white; -fx-padding: 12 18;" text="User" visible="false">
+                                       <graphic>
+                                          <HBox alignment="CENTER" styleClass="app-screen-header-tab-btn-long-ctn">
+                                             <children>
+                                                <SVGPath content="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2" />
+                                                <Label fx:id="dialogLabel" text="Account aanmaken">
+                                                   <font>
+                                                      <Font name="Arial Bold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                       </graphic>
+                                       <VBox.margin>
+                                          <Insets bottom="12.0" />
+                                       </VBox.margin>
+                                       <styleClass>
+                                          <String fx:value="app-screen-header-tab-btn-long" />
+                                          <String fx:value="yellow" />
+                                       </styleClass>
+                                    </JFXButton>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
 					</center>
 				</BorderPane>
 			</children>

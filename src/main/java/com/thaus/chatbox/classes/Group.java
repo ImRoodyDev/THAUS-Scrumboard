@@ -1,113 +1,76 @@
 package com.thaus.chatbox.classes;
 
-import com.thaus.chatbox.types.ChatboxType;
+import com.thaus.chatbox.types.GroupType;
+import com.thaus.chatbox.utils.DateUtils;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Group {
+
 	// Class properties to assign to UI
 	private String groupId;
-	private String chatName;
-	private String createdAt;
-	private int unreadCount;
+	private Date createdAt;
+	private GroupType type;
 	private boolean isOwner;
-	private ChatboxType type;
+	private boolean isInitialized = false;
 
 	// Observable lists for messages, features, sprints, and members
+	private StringProperty name = new javafx.beans.property.SimpleStringProperty();
 	private ObservableList<Message> messages = FXCollections.observableArrayList();
 	private ObservableList<Feature> features = FXCollections.observableArrayList();
 	private ObservableList<Sprint> sprints = FXCollections.observableArrayList();
 	private ObservableList<Member> members = FXCollections.observableArrayList();
 
-	public Group(String chatName, ChatboxType type) {
-		this.chatName = chatName;
-		this.type = type;
 
-		/*features.addListener((ListChangeListener<Feature>) change -> {
-					while (change.next()) {
-						if (change.wasAdded()) {
-							System.out.println("Items added: " + change.getAddedSubList());
-						}
-						if (change.wasRemoved()) {
-							System.out.println("Items removed: " + change.getRemoved());
-						}
-						if (change.wasUpdated()) {
-							System.out.println("Items updated.");
-						}
-						if (change.wasPermutated()) {
-							System.out.println("Items permutated.");
-						}
-					}
-				}
-		);*/
-	}
-
-	public Group(String groupId, String chatName, boolean isOwner, String createdAt) {
+	public Group(String groupId, String name, boolean isOwner, Date createdAt, GroupType type) {
 		this.groupId = groupId;
-		this.chatName = chatName;
 		this.isOwner = isOwner;
 		this.createdAt = createdAt;
-		this.messages = FXCollections.observableArrayList();
+		this.type = type;
+
+		// Set name
+		this.name.set(name);
 	}
 
-	public void initializeChat(ArrayList<Message> messages) {
-		this.messages = FXCollections.observableArrayList(messages);
+	public boolean isInitialized() {
+		return isInitialized;
 	}
 
-	public void initializeFeatures(ArrayList<Feature> features) {
-		this.features = FXCollections.observableArrayList(features);
+	public String getId() {
+		return groupId;
 	}
 
-	public void initializeSprints(ArrayList<Sprint> sprints) {
-		this.sprints = FXCollections.observableArrayList(sprints);
+	public GroupType getType() {
+		return type;
 	}
 
-	public void createSprint() {
-		Sprint sprint = new Sprint();
-		sprints.add(sprint);
-	}
-
-	public void createFeature(String featureName) {
-		Feature feature = new Feature(this.groupId, featureName);
-		features.add(feature);
-	}
-
-	public void addMessage(Message message) {
-		messages.add(message);
-	}
-
-	public void addMember(Member member) {
-		members.add(member);
-	}
-
-	public void setUnreadCount(int unreadCount) {
-		this.unreadCount = unreadCount;
-	}
-
-	public void deleteSprint(Sprint sprint) {
-		sprints.remove(sprint);
-	}
-
-	public void removeFeature(Feature feature) {
-		features.remove(feature);
+	public StringProperty getName() {
+		return name;
 	}
 
 	public boolean isOwner() {
 		return isOwner;
 	}
 
-	public ChatboxType getType() {
-		return type;
+	public String getCreatedAt() {
+		return DateUtils.formatDate(createdAt);
 	}
 
-	public String getChatName() {
-		return chatName;
+	public Sprint getSprintById(String id) {
+		for (Sprint sprint : sprints) {
+			if (sprint.getId().equals(id)) {
+				return sprint;
+			}
+		}
+		return null;
 	}
 
-	public int getUnreadCount() {
-		return unreadCount;
+	public ObservableList<Member> getMembers() {
+		return members;
 	}
 
 	public ObservableList<Sprint> getSprints() {
@@ -122,4 +85,61 @@ public class Group {
 		return features;
 	}
 
+
+	public void setInitialized(boolean initialized) {
+		isInitialized = initialized;
+	}
+
+	public void addFeature(Feature feature) {
+		features.add(feature);
+	}
+
+	public void addFeatures(ArrayList<Feature> features) {
+		this.features.addAll(features);
+	}
+
+	public void removeFeature(Feature feature) {
+		features.remove(feature);
+	}
+
+	public void addSprint(Sprint sprint) {
+		sprints.add(sprint);
+	}
+
+	public void addSprints(ArrayList<Sprint> sprints) {
+		this.sprints.addAll(sprints);
+	}
+
+	public void deleteSprint(Sprint sprint) {
+		sprints.remove(sprint);
+	}
+
+	public void addMessage(Message message) {
+		messages.add(message);
+	}
+
+	public void addMessages(ArrayList<Message> messages) {
+		this.messages.addAll(0, messages);
+	}
+
+	public void addMember(Member member) {
+		members.add(member);
+	}
+
+	public void addMembers(ArrayList<Member> members) {
+		this.members.addAll(members);
+	}
+
+	public void removeMember(Member member) {
+		members.remove(member);
+	}
+
+	public void cleanup() {
+		// Remove listeners or clear resources associated with this group
+		name.unbind(); // Example: Unbind any bindings on the name property
+		messages.clear(); // Clear messages if necessary
+		features.clear(); // Clear features if necessary
+		sprints.clear(); // Clear sprints if necessary
+		members.clear(); // Clear members if necessary
+	}
 }

@@ -3,7 +3,7 @@ package com.thaus.chatbox.components.tabs;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.thaus.chatbox.interfaces.ICustomNode;
-import com.thaus.chatbox.types.ChatboxType;
+import com.thaus.chatbox.types.GroupType;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -28,7 +28,7 @@ public class GroupCreate extends VBox implements ICustomNode {
 	private JFXButton cancelBt;
 
 	// Component controllers
-	private ChatboxType chatType;
+	private GroupType chatType;
 	private OnActionSubmitHandler onActionSubmit;
 	private Runnable onCancelAction;
 
@@ -39,32 +39,31 @@ public class GroupCreate extends VBox implements ICustomNode {
 	@FXML
 	public void initialize() {
 		// Initialize combo box
-		ChatboxType[] types = ChatboxType.values();
+		GroupType[] types = GroupType.values();
 
 		if (chatTypeCombo != null) {
-			for (ChatboxType type : types) {
+			for (GroupType type : types) {
+				if (type == GroupType.UNKOWN) continue;
 				chatTypeCombo.getItems().add(type.getName());
 			}
 
 			// Set default selection to TEAM
-			chatTypeCombo.getSelectionModel().select(ChatboxType.TEAM.getName());
-			enableGroupField(ChatboxType.TEAM);
+			chatTypeCombo.getSelectionModel().select(GroupType.TEAM.getName());
+			enableGroupField(GroupType.TEAM);
 
 			chatTypeCombo.setOnAction(_ -> {
 				String selectedItem = chatTypeCombo.getSelectionModel().getSelectedItem();
-				ChatboxType type = ChatboxType.fromName(chatTypeCombo.getSelectionModel().getSelectedItem());
+				GroupType type = GroupType.fromName(chatTypeCombo.getSelectionModel().getSelectedItem());
 				enableGroupField(type);
 			});
 		}
-
-
 	}
 
 	// Set on submit
 	public void setOnActionSubmit(OnActionSubmitHandler handler) {
 		this.onActionSubmit = handler;
 		createBt.setOnAction(_ -> {
-					String name = ChatboxType.TEAM == chatType ? groupNameField.getText() : userNameField.getText();
+					String name = GroupType.TEAM == chatType ? groupNameField.getText() : userNameField.getText();
 					onActionSubmit.handle(chatType, name);
 				}
 		);
@@ -77,9 +76,9 @@ public class GroupCreate extends VBox implements ICustomNode {
 	}
 
 	// Enable group form
-	private void enableGroupField(ChatboxType type) {
+	private void enableGroupField(GroupType type) {
 		chatType = type;
-		if (ChatboxType.TEAM == type) {
+		if (GroupType.TEAM == type) {
 			// Show group name field, hide username field
 			children.get(groupNameFieldIndex).setVisible(true);
 			children.get(userNameFieldIndex).setVisible(false);
@@ -98,6 +97,6 @@ public class GroupCreate extends VBox implements ICustomNode {
 
 	//  Create Chat handler
 	public interface OnActionSubmitHandler {
-		void handle(ChatboxType type, String name);
+		void handle(GroupType type, String name);
 	}
 }
