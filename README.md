@@ -1,7 +1,7 @@
-<h1 align="center">🗨️ Chatbox</h1>
+<h1 align="center">🗨️ THAUS Scrumboard Managment Application</h1>
 
 <p align="center">
-  <b>Chatbox</b> is a Java-based desktop application designed to <b>simplify the SCRUM process</b> inside an organization. <br />
+  <b>Scrumboard Managment</b> is a Java-based desktop application designed to <b>simplify the SCRUM process</b> inside an organization. <br />
   It helps teams streamline agile workflows, sprint planning, and communication.
 </p>
 
@@ -75,7 +75,7 @@ This project follows a standard Maven project layout. Here's a breakdown of the 
 - **`lib/`**  
   Third-party `.jar` libraries manually included in the project.
 
-- c*o*`components/views/`\*\*  
+- **`components/views/`**  
   FXML layout files for full screens and views (e.g., dashboard, sprint board, etc.).
 
 ## 🌟 Features
@@ -96,6 +96,12 @@ cd chatbox
 ./mvnw clean install
 ./mvnw javafx:run
 ```
+
+## 🔗 Related Repositories
+
+This project works in conjunction with a backend server:
+
+- [**Chatbox Server**](https://github.com/ImRoodyDev/THAUS-Scrumboard-Server.git) - Backend server component that handles data persistence, authentication, and real-time communication.
 
 ## 🔧 Troubleshooting
 
