@@ -42,7 +42,7 @@ public class StoryButton extends HBox implements ICustomNode {
 
 	public StoryButton(Story story) {
 		initializeFXML("/components/interactive/user-story.fxml");
-		// this.story = story; // Store reference to story
+		this.storyId = story.getId();
 		initialize(story);
 	}
 
