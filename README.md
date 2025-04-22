@@ -5,7 +5,28 @@
   It helps teams streamline agile workflows, sprint planning, and communication.
 </p>
 
+<div align="center">
+  
+  ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+  ![JavaFX](https://img.shields.io/badge/JavaFX-007396?style=for-the-badge&logo=java&logoColor=white)
+  ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
+  
+</div>
+
 ---
+
+## 🎬 Demo Video
+
+<div align="center">
+    <!-- Option 1: GitHub-hosted video (if your video is in your repo) -->
+  ![Demo Video](path/to/your/video.mp4)
+  
+  <!-- Option 2: Link with thumbnail to YouTube -->
+  [![Chatbox Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+  
+  <!-- Option 3: Animated GIF -->
+  <!-- ![Demo](path/to/demo.gif) -->
+ </div>
 
 ## 📁 Project Structure
 
@@ -31,13 +52,11 @@ This project follows a standard Maven project layout. Here's a breakdown of the 
 - **`utils/`**  
   Utility and helper classes — might include constants, formatters, and general-purpose methods.
 
-- **`HelloApplication.java`**  
+- **`App.js`**  
   Main entry point of the JavaFX application. Responsible for launching the app.
 
 - **`module-info.java`**  
   Defines the Java module system structure — specifies exported packages and required modules.
-
----
 
 ### 📂 `src/main/resources`
 
@@ -47,8 +66,8 @@ This project follows a standard Maven project layout. Here's a breakdown of the 
 - **`css/`**  
   Stylesheets used for theming and customizing UI with JavaFX CSS.
 
-- **`icons/`**  
-  Icons used across the app — for menus, buttons, and indicators.
+- **`fonts/`**  
+  Custom fonts used within the application.
 
 - **`images/`**  
   Image assets like logos, backgrounds, illustrations, etc.
@@ -56,10 +75,16 @@ This project follows a standard Maven project layout. Here's a breakdown of the 
 - **`lib/`**  
   Third-party `.jar` libraries manually included in the project.
 
-- **`views/`**  
+- c*o*`components/views/`\*\*  
   FXML layout files for full screens and views (e.g., dashboard, sprint board, etc.).
 
----
+## 🌟 Features
+
+- **Agile Workflow Management**: Easily manage sprints, user stories, and tasks
+- **Team Communication**: Built-in chat for team discussions
+- **Sprint Planning**: Tools for planning and tracking sprints
+- **User-Friendly Interface**: Clean, intuitive JavaFX-based UI
+- **Cross-Platform**: Works on Windows, macOS, and Linux
 
 ## 🚀 Getting Started
 
@@ -72,14 +97,27 @@ cd chatbox
 ./mvnw javafx:run
 ```
 
-## Resolving JFoenix Compatibility Issues: Module Access Restrictions
+## 🔧 Troubleshooting
 
-If you encounter errors related to module access restrictions and JFoenix compatibility, you can resolve this by adding specific JVM arguments to your runtime configuration. This grants the necessary reflection permissions for JFoenix to function correctly.
+### Resolving JFoenix Compatibility Issues: Module Access Restrictions
 
-### Solution 1: Adding VM Arguments
+If you encounter errors related to module access restrictions and JFoenix compatibility, you can resolve this by adding specific JVM arguments to your runtime configuration.
 
-To address this issue, add the following JVM arguments to your runtime configuration:
+#### Solution: Adding VM Arguments
+
+Add the following JVM arguments to your runtime configuration:
 
 ```bash
 --add-opens java.base/java.lang.reflect=com.jfoenix
 --add-opens javafx.controls/javafx.scene.control=com.jfoenix
+```
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ by your team name</sub>
+</div>
