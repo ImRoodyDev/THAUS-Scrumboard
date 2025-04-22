@@ -22,7 +22,7 @@
   ![Demo Video](path/to/your/video.mp4)
   
   <!-- Option 2: Link with thumbnail to YouTube -->
-  [![Chatbox Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+  [![Chatbox Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)]([https://www.youtube.com/watch?v=YOUR_VIDEO_ID](https://github.com/ImRoodyDev/THAUS-Scrumboard/blob/master/demo/bandicam%202025-04-22%2020-00-05-647.mp4))
   
   <!-- Option 3: Animated GIF -->
   <!-- ![Demo](path/to/demo.gif) -->
