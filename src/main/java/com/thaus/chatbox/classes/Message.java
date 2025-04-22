@@ -9,10 +9,12 @@ public class Message {
 	private String content;
 	private String timestamp;
 	private boolean isMine;
+	private Date date;
 
 	public Message(String username, String content, Date timestamp, boolean you) {
 		this.username = username;
 		this.content = content;
+		this.date = timestamp;
 		this.timestamp = DateUtils.formatDate(timestamp);
 		this.isMine = you;
 	}
@@ -25,6 +27,10 @@ public class Message {
 
 	public String getContent() {
 		return content;
+	}
+
+	public Date getDate() {
+		return date;
 	}
 
 	public String getTimestamp() {

@@ -3,6 +3,7 @@ package com.thaus.chatbox.components.tabs;
 import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Epic;
 import com.thaus.chatbox.classes.Feature;
+import com.thaus.chatbox.classes.Sprint;
 import com.thaus.chatbox.classes.Story;
 import com.thaus.chatbox.components.interactive.buttons.StoryButton;
 import com.thaus.chatbox.controllers.UserController;
@@ -52,7 +53,7 @@ public class GroupStories extends VBox implements ICustomNode {
 					// Remove the feature from the view container
 					viewContainer.getChildren().removeIf(node -> {
 						if (node instanceof StoryButton storyButton) {
-							return storyButton.getStory().equals(story);
+							return storyButton.getStoryId().equals(story.getId());
 						}
 						return false;
 					});
@@ -60,6 +61,7 @@ public class GroupStories extends VBox implements ICustomNode {
 			}
 		}
 	};
+
 
 	// Constructor
 	public GroupStories() {
@@ -158,22 +160,55 @@ public class GroupStories extends VBox implements ICustomNode {
 		);
 
 		if (response == null || response.getInt("statusCode") > 203) {
+			System.out.println("Failed to delete story" + response.getString("message"));
 			return;
 		} else {
 			Epic storyEpic = UserController.getChatController().currentEpic();
 			storyEpic.getStories().remove(story);
+			// Remove it to in the added sprint
+			Sprint storySprint = UserController.getChatController().currentGroup().getSprintById(story.getSprintId().get());
+			if (storySprint != null) {
+				storySprint.removeUserStory(story);
+			}
+		}
+	}
+
+	public void addToSprint(Story story, Sprint sprint) {
+		// Check if the sprint ID is null
+		if (sprint == null) {
+			return;
+		}
+
+		// Get the selected story
+		String storyId = story.getId();
+		String groupId = UserController.getChatController().currentGroup().getId();
+		JSONObject response = UserController.linkStoryToSprint(
+				groupId,
+				sprint.getId(),
+				storyId);
+
+		if (response == null || response.getInt("statusCode") > 203) {
+			System.out.println("Failed to link story to sprint");
+			return;
+		} else {
+			System.out.println("Story linked to sprint");
+			story.setSprintId(sprint.getId());
+			sprint.addUserStory(story);
 		}
 	}
 
 	private void createStoryComponent(Story story) {
 		viewContainer.getChildren().remove(dialog);
 		StoryButton storyButton = new StoryButton(story);
+
+		// Set button handlers
 		storyButton.handleOnClick(() -> {
 			if (onStoryClickHandler != null) {
 				onStoryClickHandler.onUserStoryClick(story);
 			}
 		});
 		storyButton.handleOnDelete(() -> deleteStory(story));
+		storyButton.handleOnSprintClick((sprint) -> addToSprint(story, sprint));
 		viewContainer.getChildren().add(storyButton);
 	}
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<fx:root alignment="CENTER" fillHeight="false" maxWidth="1.7976931348623157E308" prefWidth="627.0" styleClass="feature-btn-ptn" type="HBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+	<stylesheets>
+		<URL value="@../../css/views.css" />
+		<URL value="@../../css/default.css" />
+	</stylesheets>
+	<children>
+		<JFXButton fx:id="button" contentDisplay="GRAPHIC_ONLY" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" ripplerFill="BLACK" styleClass="feature-btn" text="Feature" HBox.hgrow="ALWAYS">
+			<graphic>
+				<HBox alignment="CENTER_LEFT" fillHeight="false" styleClass="feature-btn-ctn">
+					<children>
+						<VBox alignment="CENTER" styleClass="icon-ptn">
+							<children>
+								<SVGPath content="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1z" fill="WHITE">
+									<styleClass>
+										<String fx:value="icon" />
+										<String fx:value="docs" />
+									</styleClass>
+								</SVGPath>
+							</children>
+						</VBox>
+						<VBox HBox.hgrow="ALWAYS">
+							<children>
+								<Label fx:id="nameLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="text" text="User story 1" wrapText="true">
+									<font>
+										<Font name="Arial Bold" size="14.0" />
+									</font>
+								</Label>
+								<Label fx:id="dateLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-font-size: 14; -fx-text-fill: #10b981;" text="Ended at" wrapText="true">
+									<font>
+										<Font name="Arial" size="10.0" />
+									</font>
+								</Label>
+							</children>
+						</VBox>
+						<Label fx:id="statusLabel" graphicTextGap="0.0" layoutX="359.0" layoutY="23.0" style="-fx-background-color: #fbbf24;" text="In progress">
+							<font>
+								<Font name="System Bold" size="10.0" />
+							</font>
+							<styleClass>
+								<String fx:value="rounded-label" />
+								<String fx:value="sprint" />
+							</styleClass>
+						</Label>
+						<Label fx:id="userLabel" graphicTextGap="0.0" style="-fx-background-color: #fbbf24;" text="In progress">
+							<font>
+								<Font name="System Bold" size="10.0" />
+							</font>
+							<styleClass>
+								<String fx:value="rounded-label" />
+								<String fx:value="sprint" />
+							</styleClass>
+						</Label>
+						<JFXButton fx:id="doneButton" buttonType="RAISED" styleClass="custom-button" text="Mark as Done">
+							<font>
+								<Font size="10.0" />
+							</font>
+						</JFXButton>
+					</children>
+				</HBox>
+			</graphic>
+		</JFXButton>
+	</children>
+</fx:root>

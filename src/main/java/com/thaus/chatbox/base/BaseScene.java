@@ -22,6 +22,8 @@ public abstract class BaseScene implements IBaseScene {
 	private double yOffset = 0;
 	// Scene FXML Elements
 	@FXML
+	private JFXButton logoutButton;
+	@FXML
 	private AnchorPane root;
 	@FXML
 	private HBox dragArea;
@@ -83,6 +85,13 @@ public abstract class BaseScene implements IBaseScene {
 		if (dialogButton != null) {
 			dialogButton.setVisible(false);
 			dialogButton.setOnAction(_ -> dialogButton.setDisable(true));
+		}
+
+		if (logoutButton != null) {
+			logoutButton.setOnAction(_ -> {
+				UserController.logout();
+				SceneController.switchStage(ScreenName.Authentication);
+			});
 		}
 	}
 

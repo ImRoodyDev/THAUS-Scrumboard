@@ -134,8 +134,10 @@ public class SceneController {
 						SceneController.primaryStage.show();
 
 						// Notify that view is opened
-						if (sceneBaseController != null)
+						if (sceneBaseController != null) {
+							sceneBaseController.initialize();
 							sceneBaseController.onOpen();
+						}
 
 
 					} catch (Exception e) {

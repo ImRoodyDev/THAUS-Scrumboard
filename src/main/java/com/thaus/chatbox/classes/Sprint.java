@@ -10,6 +10,7 @@ import java.util.Date;
 
 public class Sprint {
 	private String id;
+	private Date createdAt;
 
 	// Observable properties
 	private boolean messageInitialized = false;
@@ -26,6 +27,17 @@ public class Sprint {
 			this.startedAt.set(DateUtils.formatDate(startedAt));
 		if (endAt != null)
 			this.endAt.set(DateUtils.formatDate(endAt));
+		this.createdAt = new Date();
+	}
+
+	public Sprint(String name, String id, Date startedAt, Date endAt, Date createdAt) {
+		this.id = id;
+		this.name.set(name);
+		if (startedAt != null)
+			this.startedAt.set(DateUtils.formatDate(startedAt));
+		if (endAt != null)
+			this.endAt.set(DateUtils.formatDate(endAt));
+		this.createdAt = createdAt;
 	}
 
 	public String getId() {
@@ -36,6 +48,10 @@ public class Sprint {
 		return name;
 	}
 
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
 	public StringProperty getStartedAt() {
 		return startedAt;
 	}
@@ -44,7 +60,7 @@ public class Sprint {
 		return endAt;
 	}
 
-	public ObservableList<Story> getUserStories() {
+	public ObservableList<Story> getStories() {
 		return userStories;
 	}
 
@@ -64,6 +80,14 @@ public class Sprint {
 		this.name.set(name);
 	}
 
+	public void setStartedAt(Date startedAt) {
+		this.startedAt.set(DateUtils.formatDate(startedAt));
+	}
+
+	public void setEndAt(Date endAt) {
+		this.endAt.set(DateUtils.formatDate(endAt));
+	}
+
 	public void addMessage(Message message) {
 		this.messages.add(message);
 	}
@@ -80,9 +104,26 @@ public class Sprint {
 		this.userStories.remove(story);
 	}
 
-	public void updateDates(Date startedAt, Date endAt) {
-		this.startedAt.set(DateUtils.formatDate(startedAt));
-		this.endAt.set(DateUtils.formatDate(endAt));
+	public void updateStoryStatus(Story story, String userId, boolean isEnded) {
+		// Handle starting a story sprint
+		if (isEnded) {
+			story.setUserId(userId);
+			story.updateEndAt(new Date());
+
+			// When all stories are ended set sprint endedAt
+			if (userStories.stream().allMatch(s -> s.getUserId() != null)) {
+				this.endAt.set(DateUtils.formatDate(new Date()));
+			}
+		} else {
+			story.setUserId(userId);
+			story.updateStartedAt(new Date());
+		}
 	}
 
+	public void unlinkStories() {
+		for (Story story : userStories) {
+			story.setSprintId(null);
+		}
+		userStories.clear();
+	}
 }

@@ -437,3 +437,17 @@
     -fx-scale-x: 0.8;
     -fx-scale-y: 0.8;
 }
+
+
+.custom-button {
+    -fx-padding: 10 12;
+    -fx-background-radius: 9999;
+    -fx-background-color: -theme-color;
+    -fx-font-size: 10 !important;
+    -fx-text-fill: black;
+    -fx-fill: black;
+}
+
+.custom-button .text {
+    -fx-font-size: 14 !important;
+}

@@ -41,15 +41,32 @@
 						<String fx:value="epic" />
 					</styleClass>
 				</HBox>
+            <HBox layoutX="595.0" layoutY="10.0">
+               <children>
+                  <VBox alignment="CENTER" styleClass="icon-ptn">
+                     <children>
+                        <SVGPath content="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1z" fill="WHITE" styleClass="icon" />
+                     </children>
+                  </VBox>
+                  <Label fx:id="storyLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="text" text="User Stories" wrapText="true">
+                     <font>
+                        <Font name="Arial Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+               <styleClass>
+                  <String fx:value="rounded-label-ft" />
+                  <String fx:value="story" />
+               </styleClass>
+            </HBox>
 			</children>
 			<VBox.margin>
 				<Insets top="6.0" />
 			</VBox.margin>
 		</HBox>
-		<AnchorPane fx:id="dynamicContainer" />
 		<AnchorPane fx:id="windowContainer" layoutX="10.0" layoutY="52.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
 			<children>
-				<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="app-chat-general" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+				<VBox fx:id="messageTabContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="app-chat-general" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 					<children>
 						<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="142.0" prefWidth="432.0" styleClass="messages-scroll" VBox.vgrow="ALWAYS">
 							<content>
@@ -378,6 +395,14 @@
 						<URL value="@../../css/views.css" />
 					</stylesheets>
 				</VBox>
+            <VBox fx:id="storiesContainer" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="app-chat-general" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <padding>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </padding>
+               <children>
+                  <Label text="Test Test" textFill="WHITE" />
+               </children>
+            </VBox>
 			</children>
 		</AnchorPane>
 	</children>

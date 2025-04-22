@@ -40,7 +40,7 @@ public class SidebarComponent extends AnchorPane implements ICustomNode {
 
 	// Default constructor needed for JavaFX
 	public SidebarComponent() {
-		initializeFXML("/components/interactive/sidebar.fxml");
+		initializeFXML("/components/tabs/sidebar.fxml");
 	}
 
 	@FXML

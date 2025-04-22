@@ -55,7 +55,6 @@ public class ChatWindowController extends VBox implements ICustomNode {
 	}
 
 	public void changeChatWindow(Group group) {
-		System.out.println("Changing chat window to: " + group.getName().get());
 
 		if (currentWindowType != TabType.GENERAL) {
 			switchWindow(TabType.GENERAL);
@@ -214,7 +213,7 @@ public class ChatWindowController extends VBox implements ICustomNode {
 
 		} catch (Exception e) {
 			System.out.println("Failed to switch window: " + windowType.getName());
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 

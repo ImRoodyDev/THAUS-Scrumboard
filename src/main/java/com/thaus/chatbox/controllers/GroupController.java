@@ -91,22 +91,21 @@ public class GroupController {
 
 				// Initialize members
 				ArrayList<Member> memberList = initializeMembers(members);
+				group.addMembers(memberList);
 
 				// Initialize sprints
 				ArrayList<Sprint> sprintList = initializeSprints(sprints);
+				group.addSprints(sprintList);
 
 				// Initialize features
 				ArrayList<Feature> featureList = initializeFeatures(features);
+				group.addFeatures(featureList);
 
 				// Initialize messages
 				ArrayList<Message> messageList = initializeMessages(messages);
-
+				group.addMessages(messageList);
 
 				group.setInitialized(true);
-				group.addMembers(memberList);
-				group.addSprints(sprintList);
-				group.addFeatures(featureList);
-				group.addMessages(messageList);
 			}
 		}
 
@@ -173,7 +172,9 @@ public class GroupController {
 	}
 
 	public void cleanup() {
-
+		deselectCurrentGroup();
+		if (chatWindowController != null)
+			chatWindowController.cleanup();
 	}
 
 	// Create array of selected group members
@@ -208,14 +209,29 @@ public class GroupController {
 			String sprintId = sprint.getString("id");
 			String startDate = sprint.isNull("startDate") ? null : sprint.getString("startDate");
 			String endDate = sprint.isNull("endDate") ? null : sprint.getString("endDate");
+			String createdAt = sprint.getString("createdAt");
 
 			// Add sprint to group
 			sprintList.add(new Sprint(
 					"Sprint " + (i + 1),
 					sprintId,
 					DateUtils.parseAndFormatDate(startDate),
-					DateUtils.parseAndFormatDate(endDate)
+					DateUtils.parseAndFormatDate(endDate),
+					DateUtils.parseAndFormatDate(createdAt)
 			));
+		}
+
+		// Sort sprints by created date from oldest to newest
+		sprintList.sort((s1, s2) -> {
+			if (s1.getCreatedAt() == null || s2.getCreatedAt() == null) {
+				return 0;
+			}
+			return s1.getCreatedAt().compareTo(s2.getCreatedAt());
+		});
+
+		// Set name base on index
+		for (int i = 0; i < sprintList.size(); i++) {
+			sprintList.get(i).getName().set("Sprint " + (i + 1));
 		}
 
 		return sprintList;
@@ -251,20 +267,31 @@ public class GroupController {
 					String startDate = !story.isNull("startDate") ? story.getString("startDate") : null;
 					String endDate = !story.isNull("endDate") ? story.getString("endDate") : null;
 
-					// Create user story
-					storyList.add(new Story(
+					// Get current Sprint
+					Story newStory = new Story(
 							storyId,
 							storyName,
 							storyDescription,
 							sprintId,
 							storyUserId
-					));
+					);
+
+					// Create user story
+					storyList.add(newStory);
 
 					// Initialize dates
 					storyList.get(s).updateDates(
 							DateUtils.parseAndFormatDate(startDate),
 							DateUtils.parseAndFormatDate(endDate)
 					);
+
+					// Add to sprint if exists
+					if (sprintId != null) {
+						Sprint storySprint = currentGroup().getSprintById(sprintId);
+						if (storySprint != null) {
+							storySprint.addUserStory(newStory);
+						}
+					}
 				}
 
 				// Add stories to epic
@@ -293,7 +320,7 @@ public class GroupController {
 			String createdAt = message.getString("createdAt");
 			String senderId = message.getString("userId");
 			String senderName = message.getString("username");
-			boolean isYours = UserController.getCurrentUser().getUserId().equals(senderId);
+			boolean isYours = UserController.getCurrentUser().getId().equals(senderId);
 
 			messageList.add(new Message(
 					senderName,
@@ -302,6 +329,14 @@ public class GroupController {
 					isYours
 			));
 		}
+
+		// Sort messages by date from oldest to newest
+		messageList.sort((m1, m2) -> {
+			if (m1.getDate() == null || m2.getDate() == null) {
+				return 0;
+			}
+			return m1.getDate().compareTo(m2.getDate());
+		});
 
 		return messageList;
 	}

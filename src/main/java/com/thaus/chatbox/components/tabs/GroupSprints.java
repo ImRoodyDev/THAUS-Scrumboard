@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.json.JSONObject;
 
+import java.util.Date;
+
 public class GroupSprints extends VBox implements ICustomNode {
 	@FXML
 	private JFXButton createButton;
@@ -22,8 +24,10 @@ public class GroupSprints extends VBox implements ICustomNode {
 	@FXML
 	private VBox viewContainer;
 
+
 	// Observable properties
 	private String groupId;
+
 	private OnSprintClickHandler onSprintClickHandler;
 	private final ListChangeListener<Sprint> sprintListChangeListener = change -> {
 		while (change.next()) {
@@ -123,6 +127,16 @@ public class GroupSprints extends VBox implements ICustomNode {
 		}
 	}
 
+	private void startSprint(Sprint sprint) {
+		JSONObject response = UserController.startSprint(groupId, sprint.getId());
+		if (response == null || response.getInt("statusCode") > 203) {
+			System.out.println("Failed to start sprint: " + response.getString("message"));
+		} else {
+			sprint.setStartedAt(new Date());
+		}
+	}
+
+
 	private void createSprintComponent(Sprint sprint) {
 		if (viewContainer.getChildren().contains(dialog)) {
 			viewContainer.getChildren().remove(dialog);
@@ -136,6 +150,7 @@ public class GroupSprints extends VBox implements ICustomNode {
 			}
 		});
 		sprintButton.handleSprintDelete(() -> deleteSprint(sprint));
+		sprintButton.handleSprintStart(_ -> startSprint(sprint));
 		viewContainer.getChildren().add(sprintButton);
 	}
 

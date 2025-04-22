@@ -48,8 +48,6 @@ public class MemberAdd extends VBox implements ICustomNode {
 				memberType = type;
 			});
 		}
-
-
 	}
 
 	// Set on submit

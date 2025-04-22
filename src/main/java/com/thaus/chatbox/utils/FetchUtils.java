@@ -16,7 +16,7 @@ public class FetchUtils {
 		return connection;
 	}
 
-	public static JSONObject post(String url, Map<String, String> data, String accessToken, String refreshToken) throws Exception {
+	public static JSONObject post(String url, Map<String, Object> data, String accessToken, String refreshToken) throws Exception {
 		URL endpoint = new URL(url);
 		HttpURLConnection connection = configureConnection((HttpURLConnection) endpoint.openConnection());
 		connection.setRequestMethod("POST");
@@ -39,7 +39,7 @@ public class FetchUtils {
 
 		int statusCode = connection.getResponseCode();
 		String responseBody = readResponse(connection);
-		
+
 		JSONObject jsonResponse = new JSONObject(responseBody);
 		jsonResponse.put("statusCode", statusCode);
 
@@ -73,7 +73,7 @@ public class FetchUtils {
 		return jsonResponse;
 	}
 
-	private static String mapToJson(Map<String, String> data) {
+	private static String mapToJson(Map<String, Object> data) {
 		return new JSONObject(data).toString();
 	}
 

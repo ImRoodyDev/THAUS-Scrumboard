@@ -44,12 +44,16 @@ public class UserController {
 
 		// Check if the user is logged in
 		if (accessToken != null && refreshToken != null) {
-			JSONObject response = getUser();
-			if (response.getInt("statusCode") <= 203) {
-				createUser(response);
-				isLoggedIn = true;
-			} else {
-				TokenUtils.clearTokens();
+			try {
+				JSONObject response = getUser();
+				if (response.getInt("statusCode") <= 203) {
+					createUser(response);
+					isLoggedIn = true;
+				} else {
+					TokenUtils.clearTokens();
+				}
+			} catch (Exception e) {
+				System.out.println("Failed to get user data: " + e.getMessage());
 			}
 		}
 	}
@@ -167,14 +171,17 @@ public class UserController {
 	public static void logout() {
 		try {
 			TokenUtils.clearTokens();
+			groupController.cleanup();
 			currentUser.cleanup();
 			isLoggedIn = false;
 			currentUser = null;
-
-			// Switch window
+			groupController = null;
+			accessToken = null;
+			refreshToken = null;
 			SceneController.switchStage(ScreenName.Home);
 		} catch (Exception error) {
 			System.out.println("Failed to logout");
+			error.printStackTrace();
 		}
 	}
 
@@ -449,7 +456,7 @@ public class UserController {
 		JSONObject response = null;
 
 		try {
-			String query = String.format("?groupId=%s&featureId=%s&epicId=%s&userStoryId=%s", groupId, featureId, epicId, userStoryId);
+			String query = String.format("?groupId=%s&featureId=%s&epicId=%s&storyId=%s", groupId, featureId, epicId, userStoryId);
 			response = FetchUtils.get(
 					API + "/story/delete-story" + query,
 					accessToken,
@@ -538,12 +545,13 @@ public class UserController {
 
 		try {
 			response = FetchUtils.post(
-					API + "/sprint/link-storyW",
+					API + "/sprint/link-story",
 					Map.of("groupId", groupId, "sprintId", sprintId, "storyId", storyId),
 					accessToken,
 					refreshToken);
 		} catch (Exception error) {
 			System.out.println("Fetch error: " + error.getMessage());
+			error.printStackTrace();
 		}
 
 		return response;
@@ -571,7 +579,7 @@ public class UserController {
 		return response;
 	}
 
-	public static JSONObject updateStoryStatus(String groupId, String storyId, boolean isEnded) {
+	public static JSONObject updateStoryStatus(String sprintId, String storyId, boolean isEnded) {
 		if (!isLoggedIn) {
 			System.out.println("Not logged in");
 			return null;
@@ -584,10 +592,10 @@ public class UserController {
 			response = FetchUtils.post(
 					API + "/sprint/story-status",
 					Map.of(
-							"groupId", groupId,
+							"sprintId", sprintId,
 							"storyId", storyId,
-							"end", String.valueOf(isEnded),
-							"start", String.valueOf(!isEnded)
+							"end", isEnded,
+							"start", !isEnded
 					), accessToken,
 					refreshToken);
 		} catch (Exception error) {

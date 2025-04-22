@@ -19,7 +19,7 @@ public class User {
 		return username;
 	}
 
-	public String getUserId() {
+	public String getId() {
 		return userId;
 	}
 

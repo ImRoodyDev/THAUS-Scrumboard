@@ -28,11 +28,12 @@ public class MessageComponent extends HBox implements ICustomNode {
 	@FXML
 	public void initialize() {
 		if (message.isMine()) {
-			label.setText("You");
+			String labelText = String.format("%s   (%s)", "You", message.getTimestamp());
+			label.setText(labelText);
 			this.getStyleClass().add("from-me");
 		} else {
-			String labelText = String.format("%s (%s)   %s", message.getSenderName(), message.getSenderName(), message.getTimestamp());
-			label.setText(message.getSenderName());
+			String labelText = String.format("%s   (%s)", message.getSenderName(), message.getTimestamp());
+			label.setText(labelText);
 		}
 
 		// Set the message content

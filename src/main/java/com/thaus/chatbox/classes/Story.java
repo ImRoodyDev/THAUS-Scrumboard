@@ -20,6 +20,7 @@ public class Story {
 	private StringProperty endAt = new javafx.beans.property.SimpleStringProperty();
 	private ObservableList<Message> messages = javafx.collections.FXCollections.observableArrayList();
 
+
 	public Story(String id, String name, String description, String sprintId, String userId) {
 		this.id = id;
 		this.name.set(name);
@@ -30,6 +31,14 @@ public class Story {
 
 	public String getId() {
 		return id;
+	}
+
+	public StringProperty getStartedAt() {
+		return startedAt;
+	}
+
+	public StringProperty getEndAt() {
+		return endAt;
 	}
 
 	public StringProperty getName() {
@@ -68,8 +77,24 @@ public class Story {
 		this.messages.addAll(0, messages);
 	}
 
+	public void setSprintId(String sprintId) {
+		this.sprintId.setValue(sprintId);
+	}
+
+	public void setUserId(String userId) {
+		this.userId.setValue(userId);
+	}
+
 	public void updateDates(Date startedAt, Date endAt) {
 		this.startedAt.set(DateUtils.formatDate(startedAt));
+		this.endAt.set(DateUtils.formatDate(endAt));
+	}
+
+	public void updateStartedAt(Date startedAt) {
+		this.startedAt.set(DateUtils.formatDate(startedAt));
+	}
+
+	public void updateEndAt(Date endAt) {
 		this.endAt.set(DateUtils.formatDate(endAt));
 	}
 

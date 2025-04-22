@@ -111,6 +111,7 @@ public class Group {
 	}
 
 	public void deleteSprint(Sprint sprint) {
+		sprint.unlinkStories();
 		sprints.remove(sprint);
 	}
 

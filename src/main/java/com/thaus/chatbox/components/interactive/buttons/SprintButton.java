@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.thaus.chatbox.classes.Sprint;
 import com.thaus.chatbox.controllers.UserController;
 import com.thaus.chatbox.interfaces.ICustomNode;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
@@ -29,7 +30,6 @@ public class SprintButton extends HBox implements ICustomNode {
 	private JFXButton contextMenuButton;
 	@FXML
 	private ContextMenu contextMenu;
-
 
 	// Observable properties
 	private final String sprintId;
@@ -59,22 +59,56 @@ public class SprintButton extends HBox implements ICustomNode {
 
 	private void initializeLabels(Sprint sprint) {
 		nameLabel.textProperty().bind(sprint.getName());
-		userStoryLabel.setText("User stories: " + String.valueOf(sprint.getUserStories().size()));
+		userStoryLabel.textProperty().bind(
+				Bindings.createStringBinding(
+						() -> "User stories: " + sprint.getStories().size(),
+						sprint.getStories()
+				)
+		);
 
-		if (sprint.getStartedAt() != null && sprint.getEndAt() == null) {
-			statusLabel.setText("In progress");
-			statusLabel.getStyleClass().add("yellow");
-			dateLabel.setText("Started at: " + sprint.getStartedAt().get());
-		} else if (sprint.getEndAt() != null) {
-			statusLabel.setText("Completed");
-			statusLabel.getStyleClass().add("green");
-			dateLabel.setText("Completed at: " + sprint.getEndAt().get());
+		// Create bindings for status that update when start/end dates change
+		statusLabel.textProperty().bind(Bindings.createStringBinding(
+				() -> {
+					if (sprint.getStartedAt().get() != null && sprint.getEndAt().get() != null) {
+						return "Completed";
+					} else if (sprint.getStartedAt().get() != null) {
+						return "In progress";
+					} else {
+						return "Not started";
+					}
+				},
+				sprint.getStartedAt(), sprint.getEndAt()
+		));
 
-		} else {
-			statusLabel.setText("Not started");
-			statusLabel.getStyleClass().add("red");
-			dateLabel.setText("Not started");
-		}
+		// Clear previous style classes and bind style class
+		Bindings.createStringBinding(
+				() -> {
+					statusLabel.getStyleClass().removeAll("green", "yellow", "red");
+					if (sprint.getStartedAt().get() != null && sprint.getEndAt().get() != null) {
+						statusLabel.getStyleClass().add("green");
+					} else if (sprint.getStartedAt().get() != null) {
+						statusLabel.getStyleClass().add("yellow");
+					} else {
+						statusLabel.getStyleClass().add("red");
+					}
+					return "";
+				},
+				sprint.getStartedAt(), sprint.getEndAt()
+		).get();
+
+		// Bind date label text to sprint dates
+		dateLabel.textProperty().bind(Bindings.createStringBinding(
+				() -> {
+					if (sprint.getStartedAt().get() != null && sprint.getEndAt().get() != null) {
+						return "Completed at: " + sprint.getEndAt().get();
+					} else if (sprint.getStartedAt().get() != null) {
+						return "Started at: " + sprint.getStartedAt().get();
+					} else {
+						return "Not started";
+					}
+				},
+				sprint.getStartedAt(), sprint.getEndAt()
+		));
 	}
 
 	private void initializeMenu(Sprint sprint) {
@@ -88,13 +122,13 @@ public class SprintButton extends HBox implements ICustomNode {
 				}
 			});
 
-			if (sprint.getStartedAt() == null) {
+			if (sprint.getStartedAt().get() == null) {
 				MenuItem startItem = new MenuItem("Start sprint");
 				contextMenu.getItems().add(startItem);
 				startItem.setOnAction(e -> onSprintStartHandler.handle(sprint));
 			}
 
-			if (sprint.getStartedAt() != null && sprint.getEndAt() == null) {
+			if (sprint.getStartedAt().get() != null && sprint.getEndAt().get() == null) {
 				MenuItem endItem = new MenuItem("End sprint");
 				contextMenu.getItems().add(endItem);
 				endItem.setOnAction(e -> onSprintStopHandler.handle(sprint));
@@ -132,5 +166,5 @@ public class SprintButton extends HBox implements ICustomNode {
 	public interface OnSprintStopHandler {
 		void handle(Sprint sprint);
 	}
-	
+
 }
