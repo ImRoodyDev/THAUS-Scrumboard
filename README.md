@@ -18,11 +18,8 @@
 ## 🎬 Demo Video
 
 <div align="center">
-    <!-- Option 1: GitHub-hosted video (if your video is in your repo) -->
-  ![Demo Video](path/to/your/video.mp4)
-  
-  <!-- Option 2: Link with thumbnail to YouTube -->
-  [![Chatbox Demo](https://raw.githubusercontent.com/ImRoodyDev/THAUS-Scrumboard/master/demo/bandicam%202025-04-22%2020-00-05-647.mp4)
+  <!-- Option 1: GitHub-hosted video (if your video is in your repo) -->  
+  [![Demo Video](demo/bandicam%202025-04-22%2020-00-05-647.mp4)
   
   <!-- Option 3: Animated GIF -->
   <!-- ![Demo](path/to/demo.gif) -->
