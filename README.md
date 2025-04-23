@@ -1,9 +1,15 @@
-<h1 align="center">🗨️ THAUS Scrumboard Managment Application</h1>
+<div align="center" display="flex">
+<img src="https://github.com/user-attachments/assets/57e208d8-08a5-479e-8b75-1153c2b14759" alt="Image" height="100"/>
+<img src="https://github.com/user-attachments/assets/1891173a-1321-43ce-8e00-affdf127cdb3" alt="Image" width="400"/>
+</div>
+
+<h1 align="center">THAUS Scrumboard Managment Application</h1>
 
 <p align="center">
   <b>Scrumboard Managment</b> is a Java-based desktop application designed to <b>simplify the SCRUM process</b> inside an organization. <br />
   It helps teams streamline agile workflows, sprint planning, and communication.
 </p>
+
 
 <div align="center">
 
@@ -18,12 +24,9 @@
 ## 🎬 Demo Video
 
 <div align="center">
-  <!-- Option 1: GitHub-hosted video (if your video is in your repo) -->  
-  [![Demo Video](https://raw.githubusercontent.com/ImRoodyDev/THAUS-Scrumboard/master/demo/bandicam%202025-04-22%2020-00-05-647.mp4)
+<video width="500" height="300" controls  src="https://github.com/user-attachments/assets/2a9c5c6c-edd3-4dd2-9516-ebccbc016100" > </video>
 
-  <!-- Option 3: Animated GIF -->
-  <!-- ![Demo](path/to/demo.gif) -->
- </div>
+</div>
 
 ## 📁 Project Structure
 
