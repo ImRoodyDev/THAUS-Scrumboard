@@ -11,7 +11,7 @@
 		      AnchorPane.topAnchor="0.0">
 			<children>
 				<Text fill="#3f3f46" strokeType="OUTSIDE" strokeWidth="0.0"
-				      text="Creëer een chatbox of teamwerkplek om je scrumprocessen vlot te beheren"
+				      text="Creëer een project of teamwerkplek om je scrumprocessen vlot te beheren"
 				      textAlignment="CENTER" wrappingWidth="340.0">
 					<font>
 						<Font name="Arial Bold" size="16.0"/>

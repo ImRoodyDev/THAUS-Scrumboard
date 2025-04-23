@@ -6,11 +6,11 @@
 </p>
 
 <div align="center">
-  
-  ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
-  ![JavaFX](https://img.shields.io/badge/JavaFX-007396?style=for-the-badge&logo=java&logoColor=white)
-  ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
-  
+
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+![JavaFX](https://img.shields.io/badge/JavaFX-007396?style=for-the-badge&logo=java&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
+
 </div>
 
 ---
@@ -20,7 +20,7 @@
 <div align="center">
   <!-- Option 1: GitHub-hosted video (if your video is in your repo) -->  
   [![Demo Video](https://raw.githubusercontent.com/ImRoodyDev/THAUS-Scrumboard/master/demo/bandicam%202025-04-22%2020-00-05-647.mp4)
-  
+
   <!-- Option 3: Animated GIF -->
   <!-- ![Demo](path/to/demo.gif) -->
  </div>
@@ -98,13 +98,15 @@ cd chatbox
 
 This project works in conjunction with a backend server:
 
-- [**Chatbox Server**](https://github.com/ImRoodyDev/THAUS-Scrumboard-Server.git) - Backend server component that handles data persistence, authentication, and real-time communication.
+- [**Chatbox Server**](https://github.com/ImRoodyDev/THAUS-Scrumboard-Server.git) - Backend server component that
+  handles data persistence, authentication, and real-time communication.
 
 ## 🔧 Troubleshooting
 
 ### Resolving JFoenix Compatibility Issues: Module Access Restrictions
 
-If you encounter errors related to module access restrictions and JFoenix compatibility, you can resolve this by adding specific JVM arguments to your runtime configuration.
+If you encounter errors related to module access restrictions and JFoenix compatibility, you can resolve this by adding
+specific JVM arguments to your runtime configuration.
 
 #### Solution: Adding VM Arguments
 
@@ -117,7 +119,8 @@ Add the following JVM arguments to your runtime configuration:
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License - see
+the [LICENSE](LICENSE) file for details.
 
 ---
 

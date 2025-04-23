@@ -14,7 +14,7 @@
 <fx:root xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" fillWidth="false" styleClass="app-create-chat-ptn"
          type="VBox" xmlns="http://javafx.com/javafx/17.0.12">
 	<children>
-		<Label text="Create new chatbox" textFill="WHITE">
+		<Label text="Create new project" textFill="WHITE">
 			<font>
 				<Font name="Arial Bold" size="28.0"/>
 			</font>
@@ -22,7 +22,7 @@
 				<Insets bottom="12.0"/>
 			</VBox.margin>
 		</Label>
-		<JFXComboBox fx:id="chatTypeCombo" promptText="Chatbox type" styleClass="combo-bx" unFocusColor="BLACK"/>
+		<JFXComboBox fx:id="chatTypeCombo" promptText="Project type" styleClass="combo-bx" unFocusColor="BLACK"/>
 		<HBox alignment="CENTER">
 			<children>
 				<Group styleClass="icon-ptn">
@@ -69,7 +69,7 @@
 						      styleClass="circle-filed">
 							<children>
 								<SVGPath
-										content="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10ZM12 14.5c-5.01 0-9.09 3.36-9.09 7.5 0 .28.22.5.5.5h17.18c.28 0 .5-.22.5-.5 0-4.14-4.08-7.5-9.09-7.5Z"
+										content="M10.6 4.15c0 .19-.16.35-.35.35H9.12C6.96 4.5 5.2 6.26 5.2 8.42v9.23c0 .19-.16.35-.35.35h-.7C2.96 18 2 17.04 2 15.85V4.15C2 2.96 2.96 2 4.15 2h4.3c1.19 0 2.15.96 2.15 2.15ZM22 4.15v11.7c0 1.19-.96 2.15-2.15 2.15h-.63c-.19 0-.35-.16-.35-.35V8.42c0-2.16-1.76-3.92-3.92-3.92h-1.2c-.19 0-.35-.16-.35-.35 0-1.19.96-2.15 2.15-2.15h4.3C21.04 2 22 2.96 22 4.15ZM14.95 6H9.12C7.78 6 6.7 7.08 6.7 8.42v11.16C6.7 20.92 7.78 22 9.12 22h1.63c.28 0 .5-.22.5-.5V19c0-.41.34-.75.75-.75s.75.34.75.75v2.5c0 .28.22.5.5.5h1.71c1.33 0 2.41-1.08 2.41-2.41V8.42c0-1.34-1.08-2.42-2.42-2.42ZM14 14.75h-4c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h4c.41 0 .75.34.75.75s-.34.75-.75.75Zm0-3h-4c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h4c.41 0 .75.34.75.75s-.34.75-.75.75ZM10.6 4.15c0 .19-.16.35-.35.35H9.12C6.96 4.5 5.2 6.26 5.2 8.42v9.23c0 .19-.16.35-.35.35h-.7C2.96 18 2 17.04 2 15.85V4.15C2 2.96 2.96 2 4.15 2h4.3c1.19 0 2.15.96 2.15 2.15ZM22 4.15v11.7c0 1.19-.96 2.15-2.15 2.15h-.63c-.19 0-.35-.16-.35-.35V8.42c0-2.16-1.76-3.92-3.92-3.92h-1.2c-.19 0-.35-.16-.35-.35 0-1.19.96-2.15 2.15-2.15h4.3C21.04 2 22 2.96 22 4.15ZM14.95 6H9.12C7.78 6 6.7 7.08 6.7 8.42v11.16C6.7 20.92 7.78 22 9.12 22h1.63c.28 0 .5-.22.5-.5V19c0-.41.34-.75.75-.75s.75.34.75.75v2.5c0 .28.22.5.5.5h1.71c1.33 0 2.41-1.08 2.41-2.41V8.42c0-1.34-1.08-2.42-2.42-2.42ZM14 14.75h-4c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h4c.41 0 .75.34.75.75s-.34.75-.75.75Zm0-3h-4c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h4c.41 0 .75.34.75.75s-.34.75-.75.75Z"
 										strokeMiterLimit="1.0">
 									<styleClass>
 										<String fx:value="icon"/>
@@ -80,7 +80,7 @@
 						</VBox>
 					</children>
 				</Group>
-				<TextField fx:id="userNameField" promptText="User name"
+				<TextField fx:id="userNameField" promptText="Organisation name"
 				           style="-fx-background-insets: 0; -fx-border-insets: 0; -fx-opaque-insets: 0; -fx-border-image-insets: 0; -fx-font-family: Arial;"
 				           styleClass="field" HBox.hgrow="ALWAYS">
 					<font>
@@ -105,7 +105,7 @@
 						<Font name="Arial Bold" size="14.0"/>
 					</font>
 				</JFXButton>
-				<JFXButton fx:id="createBt" styleClass="btn" text="Create chat">
+				<JFXButton fx:id="createBt" styleClass="btn" text="Create project">
 					<font>
 						<Font name="Arial Bold" size="14.0"/>
 					</font>
